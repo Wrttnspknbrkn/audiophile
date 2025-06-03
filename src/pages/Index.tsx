@@ -74,28 +74,14 @@ const Index: React.FC = () => {
 
             {/* Hero Image */}
             <div className="text-center order-1 desktop:order-2 desktop:flex desktop:justify-center desktop:items-center">
-              <div className="relative desktop:w-full desktop:max-w-none">
-                {/* Mobile and Tablet - smaller centered image */}
-                <div className="desktop:hidden">
-                  <ResponsiveImage
-                    mobile="/assets/home/mobile/image-header.jpg"
-                    tablet="/assets/home/tablet/image-header.jpg"
-                    desktop="/assets/home/desktop/image-hero.jpg"
-                    alt="XX99 Mark II Headphones"
-                    className="w-full max-w-sm tablet:max-w-md mx-auto"
-                  />
-                </div>
-                
-                {/* Desktop - large image that can extend beyond container */}
-                <div className="hidden desktop:block desktop:relative desktop:h-full desktop:min-h-[700px] desktop:flex desktop:items-center desktop:justify-center">
-                  <ResponsiveImage
-                    mobile="/assets/home/mobile/image-header.jpg"
-                    tablet="/assets/home/tablet/image-header.jpg"
-                    desktop="/assets/home/desktop/image-hero.jpg"
-                    alt="XX99 Mark II Headphones"
-                    className="desktop:w-auto desktop:h-full desktop:max-h-[600px] desktop:object-contain desktop:scale-110"
-                  />
-                </div>
+              <div className="relative">
+                <ResponsiveImage
+                  mobile="/assets/home/mobile/image-header.jpg"
+                  tablet="/assets/home/tablet/image-header.jpg"
+                  desktop="/assets/home/desktop/image-hero.jpg"
+                  alt="XX99 Mark II Headphones"
+                  className="w-full max-w-sm tablet:max-w-md desktop:max-w-lg mx-auto desktop:mx-0"
+                />
               </div>
             </div>
           </div>
