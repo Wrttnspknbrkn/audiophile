@@ -101,7 +101,6 @@ const Header: React.FC = () => {
               </div>
             </div>
           )}
-
         </div>
 
         {/* Mobile: Full-width underline */}
