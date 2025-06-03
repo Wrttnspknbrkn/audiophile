@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
@@ -55,9 +54,9 @@ const Index: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-audiophile-dark overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
-          <div className="grid grid-cols-1 desktop:grid-cols-2 desktop:gap-16 items-center min-h-[600px] tablet:min-h-[640px] desktop:min-h-[700px]">
+          <div className="grid grid-cols-1 desktop:grid-cols-2 desktop:gap-12 items-center min-h-[600px] tablet:min-h-[640px] desktop:min-h-[700px]">
             {/* Text Content */}
-            <div className="text-center desktop:text-left pt-28 pb-20 tablet:pt-32 tablet:pb-28 desktop:pt-0 desktop:pb-0 order-2 desktop:order-1">
+            <div className="text-center desktop:text-left pt-28 pb-20 tablet:pt-32 tablet:pb-28 desktop:pt-0 desktop:pb-0 order-2 desktop:order-1 desktop:pr-8">
               <p className="overline mb-4 tablet:mb-6 text-audiophile-white opacity-50">New Product</p>
               <h1 className="mb-6 text-white max-w-md mx-auto desktop:mx-0 text-4xl tablet:text-5xl desktop:text-h1 leading-tight tablet:leading-tight desktop:leading-tight">
                 XX99 Mark II<br />Headphones
@@ -74,15 +73,29 @@ const Index: React.FC = () => {
             </div>
 
             {/* Hero Image */}
-            <div className="text-center order-1 desktop:order-2 desktop:flex desktop:justify-end">
-              <div className="relative">
-                <ResponsiveImage
-                  mobile="/assets/home/mobile/image-header.jpg"
-                  tablet="/assets/home/tablet/image-header.jpg"
-                  desktop="/assets/home/desktop/image-hero.jpg"
-                  alt="XX99 Mark II Headphones"
-                  className="w-full max-w-sm tablet:max-w-md desktop:max-w-lg mx-auto desktop:mx-0"
-                />
+            <div className="text-center order-1 desktop:order-2 desktop:flex desktop:justify-center desktop:items-center">
+              <div className="relative desktop:w-full desktop:max-w-none">
+                {/* Mobile and Tablet - smaller centered image */}
+                <div className="desktop:hidden">
+                  <ResponsiveImage
+                    mobile="/assets/home/mobile/image-header.jpg"
+                    tablet="/assets/home/tablet/image-header.jpg"
+                    desktop="/assets/home/desktop/image-hero.jpg"
+                    alt="XX99 Mark II Headphones"
+                    className="w-full max-w-sm tablet:max-w-md mx-auto"
+                  />
+                </div>
+                
+                {/* Desktop - large image that can extend beyond container */}
+                <div className="hidden desktop:block desktop:relative desktop:h-full desktop:min-h-[700px] desktop:flex desktop:items-center desktop:justify-center">
+                  <ResponsiveImage
+                    mobile="/assets/home/mobile/image-header.jpg"
+                    tablet="/assets/home/tablet/image-header.jpg"
+                    desktop="/assets/home/desktop/image-hero.jpg"
+                    alt="XX99 Mark II Headphones"
+                    className="desktop:w-auto desktop:h-full desktop:max-h-[600px] desktop:object-contain desktop:scale-110"
+                  />
+                </div>
               </div>
             </div>
           </div>
