@@ -21,9 +21,10 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-audiophile-dark">
-        <div className="max-w-7xl mx-auto container-padding">
-          <div className="flex justify-between items-center h-24 border-b border-white border-opacity-20">
+      <header className="bg-audiophile-dark relative">
+        {/* Main header content */}
+        <div className="max-w-7xl mx-auto relative">
+          <div className="flex justify-between items-center h-24 px-6 tablet:px-10 desktop:px-40">
             {/* Mobile menu button */}
             <button
               className="tablet:hidden text-white"
@@ -33,7 +34,7 @@ const Header: React.FC = () => {
             </button>
 
             {/* Logo */}
-            <Link to="/" className="flex-shrink-0">
+            <Link to="/" className="flex-shrink-0 tablet:absolute tablet:left-1/2 tablet:transform tablet:-translate-x-1/2 desktop:relative desktop:left-auto desktop:transform-none">
               <img
                 src="/assets/shared/desktop/logo.svg"
                 alt="Audiophile"
@@ -42,7 +43,7 @@ const Header: React.FC = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden desktop:flex space-x-8">
+            <nav className="hidden desktop:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -71,8 +72,8 @@ const Header: React.FC = () => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <div className="tablet:hidden py-8 bg-white absolute left-0 right-0 top-24 z-40 rounded-b-lg">
-              <div className="container-padding">
-                <div className="grid grid-cols-1 tablet:grid-cols-3 gap-16">
+              <div className="px-6">
+                <div className="grid grid-cols-1 gap-16">
                   {['headphones', 'speakers', 'earphones'].map((cat) => (
                     <div key={cat} className="text-center group">
                       <div className="category-thumbnail mb-4 relative pt-20 pb-8">
@@ -102,6 +103,9 @@ const Header: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* Full-width underline */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white opacity-20"></div>
       </header>
 
       {/* Cart Component */}

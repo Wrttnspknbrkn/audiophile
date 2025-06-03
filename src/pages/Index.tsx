@@ -54,12 +54,13 @@ const Index: React.FC = () => {
       
       {/* Hero Section */}
       <section className="bg-audiophile-dark overflow-hidden">
-        <div className="max-w-7xl mx-auto container-padding">
-          <div className="grid grid-cols-1 desktop:grid-cols-2 gap-8 desktop:gap-12 items-center py-20 tablet:py-25 desktop:py-32">
-            <div className="text-center desktop:text-left order-2 desktop:order-1">
+        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
+          <div className="grid grid-cols-1 desktop:grid-cols-2 desktop:gap-16 items-center min-h-[600px] tablet:min-h-[640px] desktop:min-h-[700px]">
+            {/* Text Content */}
+            <div className="text-center desktop:text-left pt-28 pb-20 tablet:pt-32 tablet:pb-28 desktop:pt-0 desktop:pb-0 order-2 desktop:order-1">
               <p className="overline mb-4 tablet:mb-6 text-audiophile-white opacity-50">New Product</p>
-              <h1 className="mb-6 text-white max-w-md mx-auto desktop:mx-0">
-                XX99 Mark II Headphones
+              <h1 className="mb-6 text-white max-w-md mx-auto desktop:mx-0 text-4xl tablet:text-5xl desktop:text-h1 leading-tight tablet:leading-tight desktop:leading-tight">
+                XX99 Mark II<br />Headphones
               </h1>
               <p className="text-white opacity-75 text-body mb-8 tablet:mb-10 max-w-sm mx-auto desktop:mx-0">
                 Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
@@ -71,22 +72,26 @@ const Index: React.FC = () => {
                 See Product
               </Link>
             </div>
-            <div className="text-center order-1 desktop:order-2">
-              <ResponsiveImage
-                mobile="/assets/home/mobile/image-header.jpg"
-                tablet="/assets/home/tablet/image-header.jpg"
-                desktop="/assets/home/desktop/image-hero.jpg"
-                alt="XX99 Mark II Headphones"
-                className="w-full h-64 tablet:h-80 desktop:h-auto max-w-md tablet:max-w-lg mx-auto desktop:max-w-none"
-              />
+
+            {/* Hero Image */}
+            <div className="text-center order-1 desktop:order-2 desktop:flex desktop:justify-end">
+              <div className="relative">
+                <ResponsiveImage
+                  mobile="/assets/home/mobile/image-header.jpg"
+                  tablet="/assets/home/tablet/image-header.jpg"
+                  desktop="/assets/home/desktop/image-hero.jpg"
+                  alt="XX99 Mark II Headphones"
+                  className="w-full max-w-sm tablet:max-w-md desktop:max-w-lg mx-auto desktop:mx-0"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section className="section-spacing">
-        <div className="max-w-7xl mx-auto container-padding">
+      <section className="py-20 tablet:py-24 desktop:py-40">
+        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
           <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6 tablet:gap-8 desktop:gap-8">
             {categories.map((category) => (
               <div key={category.name} className="text-center group">
@@ -118,8 +123,8 @@ const Index: React.FC = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="section-spacing">
-        <div className="max-w-7xl mx-auto container-padding space-y-12 tablet:space-y-16 desktop:space-y-20">
+      <section className="pb-20 tablet:pb-24 desktop:pb-40">
+        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40 space-y-12 tablet:space-y-16 desktop:space-y-20">
           {/* ZX9 Speaker */}
           <div className="bg-audiophile-orange rounded-lg overflow-hidden relative">
             <div className="absolute inset-0 opacity-20">
@@ -164,7 +169,7 @@ const Index: React.FC = () => {
               className="w-full h-80 desktop:h-96"
             />
             <div className="absolute inset-0 flex items-center">
-              <div className="container-padding w-full">
+              <div className="px-6 tablet:px-10 desktop:px-24 w-full">
                 <div className="max-w-md">
                   <h4 className="mb-8 text-audiophile-black">ZX7 Speaker</h4>
                   <Link
@@ -203,8 +208,8 @@ const Index: React.FC = () => {
       </section>
 
       {/* About Section */}
-      <section className="section-spacing">
-        <div className="max-w-7xl mx-auto container-padding">
+      <section className="pb-20 tablet:pb-24 desktop:pb-40">
+        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
           <div className="grid grid-cols-1 desktop:grid-cols-2 gap-8 tablet:gap-12 desktop:gap-20 items-center">
             <div className="desktop:order-2">
               <ResponsiveImage
