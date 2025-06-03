@@ -1,14 +1,13 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, ShoppingCart } from 'lucide-react';
+import { Menu, ShoppingCart, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Cart from '../cart/Cart';
 
 const Header: React.FC = () => {
-  const { state } = useCart();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { state } = useCart();
   
   const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -21,15 +20,15 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-audiophile-very-dark border-b border-audiophile-dark-gray">
-        <div className="max-w-7xl mx-auto container-padding">
-          <div className="flex items-center justify-between h-20 tablet:h-24">
+      <header className="bg-audiophile-dark border-b border-white border-opacity-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-24">
             {/* Mobile menu button */}
             <button
-              className="tablet:hidden text-white"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden text-white"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <Menu size={24} />
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
 
             {/* Logo */}
@@ -42,26 +41,26 @@ const Header: React.FC = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden desktop:flex space-x-8">
+            <nav className="hidden lg:flex space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-white hover:text-audiophile-orange transition-colors duration-300 text-subtitle uppercase tracking-wider"
+                  className="text-white text-subtitle uppercase tracking-wider hover:text-audiophile-orange transition-colors duration-300"
                 >
                   {item.name}
                 </Link>
               ))}
             </nav>
 
-            {/* Cart */}
+            {/* Cart button */}
             <button
-              className="relative text-white hover:text-audiophile-orange transition-colors duration-300"
-              onClick={() => setIsCartOpen(true)}
+              className="text-white relative hover:text-audiophile-orange transition-colors duration-300"
+              onClick={() => setIsCartOpen(!isCartOpen)}
             >
               <ShoppingCart size={24} />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-audiophile-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-audiophile-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -69,15 +68,15 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile Navigation */}
-          {isMobileMenuOpen && (
-            <div className="tablet:hidden py-4 border-t border-audiophile-dark-gray">
+          {isMenuOpen && (
+            <div className="lg:hidden py-4 border-t border-white border-opacity-20">
               <nav className="flex flex-col space-y-4">
                 {navigation.map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="text-white hover:text-audiophile-orange transition-colors duration-300 text-subtitle uppercase tracking-wider"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-white text-subtitle uppercase tracking-wider hover:text-audiophile-orange transition-colors duration-300"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
@@ -88,8 +87,15 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Cart Sidebar */}
-      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {/* Cart Overlay */}
+      {isCartOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden">
+          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsCartOpen(false)} />
+          <div className="absolute top-24 right-6 max-w-sm w-full">
+            <Cart onClose={() => setIsCartOpen(false)} />
+          </div>
+        </div>
+      )}
     </>
   );
 };
