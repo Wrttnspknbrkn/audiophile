@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, ShoppingCart, X } from 'lucide-react';
@@ -20,12 +21,12 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-audiophile-dark border-b border-white border-opacity-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
+      <header className="bg-audiophile-dark">
+        <div className="max-w-7xl mx-auto container-padding">
+          <div className="flex justify-between items-center h-24 border-b border-white border-opacity-20">
             {/* Mobile menu button */}
             <button
-              className="lg:hidden text-white"
+              className="tablet:hidden text-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -41,7 +42,7 @@ const Header: React.FC = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex space-x-8">
+            <nav className="hidden desktop:flex space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -69,33 +70,42 @@ const Header: React.FC = () => {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-white border-opacity-20">
-              <nav className="flex flex-col space-y-4">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="text-white text-subtitle uppercase tracking-wider hover:text-audiophile-orange transition-colors duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
+            <div className="tablet:hidden py-8 bg-white absolute left-0 right-0 top-24 z-40 rounded-b-lg">
+              <div className="container-padding">
+                <div className="grid grid-cols-1 tablet:grid-cols-3 gap-16">
+                  {['headphones', 'speakers', 'earphones'].map((cat) => (
+                    <div key={cat} className="text-center group">
+                      <div className="category-thumbnail mb-4 relative pt-20 pb-8">
+                        <img
+                          src={`/assets/shared/desktop/image-category-thumbnail-${cat}.png`}
+                          alt={cat}
+                          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-32 object-contain"
+                        />
+                      </div>
+                      <h6 className="mb-4 text-audiophile-black capitalize">{cat}</h6>
+                      <Link
+                        to={`/category/${cat}`}
+                        className="inline-flex items-center text-subtitle uppercase tracking-wider text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Shop
+                        <img
+                          src="/assets/shared/desktop/icon-arrow-right.svg"
+                          alt=""
+                          className="ml-3 w-2"
+                        />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
       </header>
 
-      {/* Cart Overlay */}
-      {isCartOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden">
-          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsCartOpen(false)} />
-          <div className="absolute top-24 right-6 max-w-sm w-full">
-            <Cart onClose={() => setIsCartOpen(false)} />
-          </div>
-        </div>
-      )}
+      {/* Cart Component */}
+      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 };

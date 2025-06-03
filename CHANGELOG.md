@@ -3,6 +3,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2025-01-03
+
+### Added
+- Exact Figma design replication across all components
+- Real product images integration from assets directory
+- Responsive image optimization and proper sizing
+- Mobile navigation with category thumbnails
+- Improved cart modal design matching Figma specifications
+- Enhanced product gallery with responsive image switching
+- Category page with proper product image integration
+- Product detail page with real gallery images
+
+### Changed
+- Fixed Header underline to stretch full screen width
+- Updated Cart component to match exact Figma design with proper positioning
+- Improved responsive breakpoints and spacing throughout
+- Enhanced mobile menu with category previews
+- Better image sizing and aspect ratios across all components
+- Updated typography and spacing to match Figma specifications precisely
+- Improved button styles and hover states
+- Enhanced grid layouts for better responsive behavior
+
+### Fixed
+- Cart modal positioning and styling issues
+- Image size problems causing layout breaks
+- Mobile navigation functionality and styling
+- Responsive image switching at correct breakpoints
+- Typography scaling across different screen sizes
+- Button and interactive element styling consistency
+
+### Technical Improvements
+- Better responsive image component with proper aspect ratios
+- Enhanced mobile-first design approach
+- Improved CSS class organization and utility usage
+- Better component prop handling and TypeScript integration
+- Optimized asset loading and image performance
+
+---
+
 ## [0.2.0] - 2025-01-03
 
 ### Added

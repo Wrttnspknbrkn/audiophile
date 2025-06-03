@@ -34,56 +34,54 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
         onClick={onClose}
       />
       
-      {/* Cart Sidebar */}
-      <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-xl z-50 p-6 overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-h6">Cart ({state.itemCount})</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <X size={24} />
-          </button>
+      {/* Cart Modal */}
+      <div className="fixed top-24 right-6 tablet:right-10 desktop:right-40 w-80 bg-white rounded-lg shadow-xl z-50 p-8">
+        <div className="flex justify-between items-center mb-8">
+          <h6 className="text-audiophile-black">Cart ({state.itemCount})</h6>
+          {state.items.length > 0 && (
+            <button
+              onClick={clearCart}
+              className="text-body underline hover:text-audiophile-orange transition-colors"
+            >
+              Remove all
+            </button>
+          )}
         </div>
 
         {state.items.length === 0 ? (
-          <p className="text-body">Your cart is empty</p>
+          <p className="text-body text-center py-8">Your cart is empty</p>
         ) : (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <button
-                onClick={clearCart}
-                className="text-body underline hover:text-audiophile-orange transition-colors"
-              >
-                Remove all
-              </button>
-            </div>
-
-            <div className="space-y-4 mb-6">
+            <div className="space-y-6 mb-8">
               {state.items.map((item) => (
-                <div key={item.id} className="flex items-center space-x-4">
+                <div key={item.id} className="flex items-center gap-4">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-16 h-16 rounded object-cover"
+                    className="w-16 h-16 rounded object-cover flex-shrink-0"
                   />
-                  <div className="flex-1">
-                    <h4 className="font-bold text-sm">{item.name}</h4>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-sm text-audiophile-black truncate">
+                      {item.name.replace(/headphones|speaker|earphones/gi, '').trim()}
+                    </h4>
                     <p className="text-body text-sm">${item.price.toLocaleString()}</p>
                   </div>
-                  <div className="flex items-center space-x-2 bg-audiophile-light-gray">
+                  <div className="flex items-center bg-audiophile-light-gray">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="p-2 hover:bg-gray-200 transition-colors"
+                      className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                      disabled={item.quantity <= 1}
                     >
-                      <Minus size={12} />
+                      <Minus size={12} className="text-audiophile-dark-gray" />
                     </button>
-                    <span className="px-2 font-bold text-sm">{item.quantity}</span>
+                    <span className="w-8 h-8 flex items-center justify-center font-bold text-sm text-audiophile-black">
+                      {item.quantity}
+                    </span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="p-2 hover:bg-gray-200 transition-colors"
+                      className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors"
                     >
-                      <Plus size={12} />
+                      <Plus size={12} className="text-audiophile-dark-gray" />
                     </button>
                   </div>
                 </div>
@@ -92,7 +90,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose }) => {
 
             <div className="flex justify-between items-center mb-6">
               <span className="text-body">Total</span>
-              <span className="text-h6">${state.total.toLocaleString()}</span>
+              <span className="text-h6 text-audiophile-black">${state.total.toLocaleString()}</span>
             </div>
 
             <Link
