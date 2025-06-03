@@ -53,14 +53,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Audiophile brand colors from Figma
+				// Audiophile brand colors from Figma design
 				'audiophile-orange': '#D87D4A',
-				'audiophile-dark': '#101010',
+				'audiophile-dark': '#191919',
 				'audiophile-light-orange': '#FBAF85',
 				'audiophile-black': '#000000',
 				'audiophile-white': '#FFFFFF',
 				'audiophile-light-gray': '#F1F1F1',
 				'audiophile-dark-gray': '#4C4C4C',
+				'audiophile-very-dark': '#101010',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -76,6 +77,7 @@ export default {
 				'manrope': ['Manrope', 'sans-serif'],
 			},
 			fontSize: {
+				// Exact Figma typography specifications
 				'h1': ['56px', { lineHeight: '58px', letterSpacing: '2px', fontWeight: '700' }],
 				'h2': ['40px', { lineHeight: '44px', letterSpacing: '1.5px', fontWeight: '700' }],
 				'h3': ['32px', { lineHeight: '36px', letterSpacing: '1.15px', fontWeight: '700' }],
@@ -87,9 +89,19 @@ export default {
 				'body': ['15px', { lineHeight: '25px', fontWeight: '500' }],
 			},
 			screens: {
+				// Exact Figma breakpoints
 				'mobile': '375px',
 				'tablet': '768px',
 				'desktop': '1440px',
+			},
+			spacing: {
+				// Common spacing values from Figma
+				'15': '60px',
+				'18': '72px',
+				'20': '80px',
+				'25': '100px',
+				'30': '120px',
+				'40': '160px',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
