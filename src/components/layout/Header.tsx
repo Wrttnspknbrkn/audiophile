@@ -101,17 +101,13 @@ const Header: React.FC = () => {
               </div>
             </div>
           )}
+
+          {/* Contained underline for tablet and desktop */}
+          <div className="hidden tablet:block absolute bottom-0 left-10 right-10 desktop:left-40 desktop:right-40 h-px bg-white opacity-20"></div>
         </div>
 
-        {/* Mobile: Full-width underline */}
+        {/* Full-width underline for mobile only */}
         <div className="tablet:hidden absolute bottom-0 left-0 right-0 h-px bg-white opacity-20"></div>
-        
-        {/* Tablet & Desktop: Contained underline matching content width */}
-        <div className="hidden tablet:block absolute bottom-0 left-0 right-0">
-          <div className="max-w-7xl mx-auto px-10 desktop:px-40">
-            <div className="h-px bg-white opacity-20"></div>
-          </div>
-        </div>
       </header>
 
       {/* Cart Component */}
