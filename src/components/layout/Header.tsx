@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, ShoppingCart, X } from 'lucide-react';
@@ -101,13 +102,10 @@ const Header: React.FC = () => {
               </div>
             </div>
           )}
-
-          {/* Contained underline for tablet and desktop */}
-          <div className="hidden tablet:block absolute bottom-0 left-10 right-10 desktop:left-40 desktop:right-40 h-px bg-white opacity-20"></div>
         </div>
 
-        {/* Full-width underline for mobile only */}
-        <div className="tablet:hidden absolute bottom-0 left-0 right-0 h-px bg-white opacity-20"></div>
+        {/* Full-width underline */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white opacity-20"></div>
       </header>
 
       {/* Cart Component */}

@@ -4,20 +4,8 @@ import { Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { ResponsiveImage } from '../components/ui/responsive-image';
-import { useCart } from '../context/CartContext';
-import productsData from '../data/products.json';
-import { Product } from '../types/product';
 
 const Index: React.FC = () => {
-  const { dispatch } = useCart();
-  const products = productsData as Product[];
-
-  // Featured products for homepage
-  const featuredProduct = products.find(p => p.slug === 'xx99-mark-two-headphones');
-  const zx9Speaker = products.find(p => p.slug === 'zx9-speaker');
-  const zx7Speaker = products.find(p => p.slug === 'zx7-speaker');
-  const yx1Earphones = products.find(p => p.slug === 'yx1-earphones');
-
   const categories = [
     {
       name: 'Headphones',
