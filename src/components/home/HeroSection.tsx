@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ResponsiveImage } from '../ui/responsive-image';
@@ -36,33 +35,30 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Desktop Hero - Two column layout */}
+      {/* Desktop Hero - Full width layout like old index.tsx */}
       <div className="hidden desktop:block">
-        <div className="max-w-[1110px] mx-auto">
-          <div className="grid grid-cols-2 items-center min-h-[729px]">
-            {/* Left Column - Text Content */}
-            <div className="pr-12">
-              <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">New Product</p>
-              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]">
-                XX99 Mark II<br />Headphones
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20">
+            <div className="text-center lg:text-left">
+              <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-4 text-audiophile-white opacity-50">New Product</p>
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6">
+                XX99 Mark II Headphones
               </h1>
-              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
+              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-8 max-w-md mx-auto lg:mx-0">
                 Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
               </p>
               <Link
                 to="/product/xx99-mark-two-headphones"
-                className="inline-block bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
+                className="inline-block bg-audiophile-orange text-audiophile-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
               >
                 See Product
               </Link>
             </div>
-
-            {/* Right Column - Hero Image */}
-            <div className="flex justify-end">
+            <div className="text-center">
               <img
                 src="/assets/home/desktop/image-hero.jpg"
                 alt="XX99 Mark II Headphones"
-                className="w-[410px] h-[729px] object-cover object-bottom"
+                className="w-full max-w-md mx-auto"
               />
             </div>
           </div>
