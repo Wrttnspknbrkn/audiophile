@@ -13,7 +13,7 @@ const FeaturedProductsSection: React.FC = () => {
             <img
               src="/assets/home/desktop/pattern-circles.svg"
               alt=""
-              className="absolute -top-[20px] left-1/2 transform -translate-x-1/2 w-[558px] h-[558px] opacity-[0.15] md:-top-[100px] lg:-top-[40px] lg:-left-[150px] lg:transform-none lg:w-[944px] lg:h-[944px] lg:opacity-[0.2]"
+              className="absolute -top-[20px] left-1/2 transform -translate-x-1/2 w-[558px] h-[558px] opacity-50 md:-top-[100px] lg:-top-[40px] lg:-left-[150px] lg:transform-none lg:w-[944px] lg:h-[944px] lg:opacity-30"
             />
           </div>
 
