@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
             tablet="/assets/home/tablet/image-header.jpg"
             desktop="/assets/home/desktop/image-hero.jpg"
             alt="XX99 Mark II Headphones"
-            className="w-full h-[600px] tablet:h-[729px] object-cover object-[center_40%]"
+            className="w-full h-[600px] tablet:h-[729px] object-cover object-[center_35%] tablet:object-center"
           />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-6 tablet:px-[197px] mt-8 tablet:mt-12">
