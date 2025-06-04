@@ -50,9 +50,9 @@ const FeaturedProductsSection: React.FC = () => {
             </div>
 
             {/* Desktop Layout - Side by Side */}
-            <div className="hidden desktop:grid desktop:grid-cols-2 desktop:h-full desktop:items-center">
+            <div className="hidden desktop:flex desktop:h-full">
               {/* Left Column - Speaker Image */}
-              <div className="flex justify-center items-end pb-[116px] pl-[117px]">
+              <div className="flex-1 flex justify-center items-end pb-[0px] pt-[0px]">
                 <ResponsiveImage
                   mobile="/assets/home/mobile/image-speaker-zx9.png"
                   tablet="/assets/home/tablet/image-speaker-zx9.png"
@@ -63,7 +63,7 @@ const FeaturedProductsSection: React.FC = () => {
               </div>
 
               {/* Right Column - Text Content */}
-              <div className="text-left pr-[95px] py-[133px]">
+              <div className="flex-1 flex flex-col justify-center text-left pr-[95px]">
                 <h1 className="text-white text-[56px] font-bold leading-[58px] tracking-[2px] uppercase mb-6">
                   ZX9<br />SPEAKER
                 </h1>
@@ -72,7 +72,7 @@ const FeaturedProductsSection: React.FC = () => {
                 </p>
                 <Link
                   to="/product/zx9-speaker"
-                  className="bg-audiophile-black text-white px-[31px] py-[15px] text-[13px] font-bold uppercase tracking-[1px] hover:bg-audiophile-dark-gray transition-all duration-300 inline-block"
+                  className="bg-audiophile-black text-white px-[31px] py-[15px] text-[13px] font-bold uppercase tracking-[1px] hover:bg-audiophile-dark-gray transition-all duration-300 inline-block w-fit"
                 >
                   See Product
                 </Link>
