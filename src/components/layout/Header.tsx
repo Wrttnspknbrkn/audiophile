@@ -21,34 +21,37 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-audiophile-dark relative">
+      <header className="bg-audiophile-dark relative z-50">
         {/* Main header content */}
-        <div className="max-w-7xl mx-auto relative">
-          <div className="flex justify-between items-center h-24 px-6 tablet:px-10 desktop:px-40">
+        <div className="max-w-[1110px] mx-auto relative">
+          <div className="flex justify-between items-center h-[90px] px-6 tablet:px-[39px] desktop:px-0">
             {/* Mobile menu button */}
             <button
-              className="tablet:hidden text-white"
+              className="desktop:hidden text-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
 
             {/* Logo */}
-            <Link to="/" className="flex-shrink-0 tablet:absolute tablet:left-1/2 tablet:transform tablet:-translate-x-1/2 desktop:relative desktop:left-auto desktop:transform-none">
+            <Link 
+              to="/" 
+              className="tablet:absolute tablet:left-1/2 tablet:transform tablet:-translate-x-1/2 desktop:relative desktop:left-auto desktop:transform-none"
+            >
               <img
                 src="/assets/shared/desktop/logo.svg"
                 alt="Audiophile"
-                className="h-6 w-auto"
+                className="h-[25px] w-[143px]"
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden desktop:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            <nav className="hidden desktop:flex space-x-[34px] absolute left-1/2 transform -translate-x-1/2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-white text-subtitle uppercase tracking-wider hover:text-audiophile-orange transition-colors duration-300"
+                  className="text-white text-[13px] font-bold leading-[25px] tracking-[2px] uppercase hover:text-audiophile-orange transition-colors duration-300"
                 >
                   {item.name}
                 </Link>
@@ -60,7 +63,7 @@ const Header: React.FC = () => {
               className="text-white relative hover:text-audiophile-orange transition-colors duration-300"
               onClick={() => setIsCartOpen(!isCartOpen)}
             >
-              <ShoppingCart size={24} />
+              <ShoppingCart size={23} />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-audiophile-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
@@ -69,43 +72,47 @@ const Header: React.FC = () => {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* Mobile Navigation Overlay */}
           {isMenuOpen && (
-            <div className="tablet:hidden py-8 bg-white absolute left-0 right-0 top-24 z-40 rounded-b-lg">
-              <div className="px-6">
-                <div className="grid grid-cols-1 gap-16">
-                  {['headphones', 'speakers', 'earphones'].map((cat) => (
-                    <div key={cat} className="text-center group">
-                      <div className="category-thumbnail mb-4 relative pt-20 pb-8">
-                        <img
-                          src={`/assets/shared/desktop/image-category-thumbnail-${cat}.png`}
-                          alt={cat}
-                          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-32 object-contain"
-                        />
+            <div className="desktop:hidden absolute left-0 right-0 top-[90px] z-40">
+              <div className="bg-white rounded-b-lg mx-6 tablet:mx-[39px]">
+                <div className="px-6 py-[84px]">
+                  <div className="grid grid-cols-1 gap-[68px]">
+                    {['headphones', 'speakers', 'earphones'].map((cat) => (
+                      <div key={cat} className="text-center group">
+                        <div className="relative pt-[88px] pb-[22px]">
+                          <img
+                            src={`/assets/shared/desktop/image-category-thumbnail-${cat}.png`}
+                            alt={cat}
+                            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[147px] h-[133px] object-contain"
+                          />
+                        </div>
+                        <h6 className="mb-[17px] text-[18px] font-bold leading-[24px] tracking-[1.29px] text-audiophile-black uppercase">{cat}</h6>
+                        <Link
+                          to={`/category/${cat}`}
+                          className="inline-flex items-center text-[13px] font-bold leading-[25px] tracking-[1px] uppercase text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Shop
+                          <img
+                            src="/assets/shared/desktop/icon-arrow-right.svg"
+                            alt=""
+                            className="ml-[13px] w-[5px] h-[10px]"
+                          />
+                        </Link>
                       </div>
-                      <h6 className="mb-4 text-audiophile-black capitalize">{cat}</h6>
-                      <Link
-                        to={`/category/${cat}`}
-                        className="inline-flex items-center text-subtitle uppercase tracking-wider text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Shop
-                        <img
-                          src="/assets/shared/desktop/icon-arrow-right.svg"
-                          alt=""
-                          className="ml-3 w-2"
-                        />
-                      </Link>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Full-width underline */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-white opacity-20"></div>
+        {/* Underline - contained within max-width for tablet/desktop */}
+        <div className="desktop:max-w-[1110px] tablet:max-w-[689px] desktop:mx-auto tablet:mx-auto">
+          <div className="h-[1px] bg-white opacity-20 mx-6 tablet:mx-[39px] desktop:mx-0"></div>
+        </div>
       </header>
 
       {/* Cart Component */}

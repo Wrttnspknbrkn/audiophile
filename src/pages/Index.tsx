@@ -54,34 +54,63 @@ const Index: React.FC = () => {
       
       {/* Hero Section */}
       <section className="bg-audiophile-dark overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
-          <div className="grid grid-cols-1 desktop:grid-cols-2 desktop:gap-16 items-center min-h-[600px] tablet:min-h-[640px] desktop:min-h-[700px]">
-            {/* Text Content */}
-            <div className="text-center desktop:text-left pt-28 pb-20 tablet:pt-32 tablet:pb-28 desktop:pt-0 desktop:pb-0 order-2 desktop:order-1">
-              <p className="overline mb-4 tablet:mb-6 text-audiophile-white opacity-50">New Product</p>
-              <h1 className="mb-6 text-white max-w-md mx-auto desktop:mx-0 text-4xl tablet:text-5xl desktop:text-h1 leading-tight tablet:leading-tight desktop:leading-tight">
-                XX99 Mark II<br />Headphones
-              </h1>
-              <p className="text-white opacity-75 text-body mb-8 tablet:mb-10 max-w-sm mx-auto desktop:mx-0">
-                Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
-              </p>
-              <Link
-                to="/product/xx99-mark-two-headphones"
-                className="btn-primary inline-block"
-              >
-                See Product
-              </Link>
+        {/* Mobile Hero */}
+        <div className="desktop:hidden">
+          <div className="relative">
+            <ResponsiveImage
+              mobile="/assets/home/mobile/image-header.jpg"
+              tablet="/assets/home/tablet/image-header.jpg"
+              desktop="/assets/home/desktop/image-hero.jpg"
+              alt="XX99 Mark II Headphones"
+              className="w-full h-[600px] tablet:h-[729px] object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center px-6 tablet:px-[197px]">
+                <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-4 tablet:mb-6 text-audiophile-white opacity-50">New Product</p>
+                <h1 className="text-[36px] tablet:text-[56px] font-bold leading-[40px] tablet:leading-[58px] tracking-[1.29px] tablet:tracking-[2px] uppercase text-white mb-6 max-w-[328px] tablet:max-w-[400px] mx-auto">
+                  XX99 Mark II<br />Headphones
+                </h1>
+                <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-[28px] tablet:mb-10 max-w-[328px] tablet:max-w-[349px] mx-auto">
+                  Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
+                </p>
+                <Link
+                  to="/product/xx99-mark-two-headphones"
+                  className="inline-block bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
+                >
+                  See Product
+                </Link>
+              </div>
             </div>
+          </div>
+        </div>
 
-            {/* Hero Image */}
-            <div className="text-center order-1 desktop:order-2 desktop:flex desktop:justify-end">
-              <div className="relative">
-                <ResponsiveImage
-                  mobile="/assets/home/mobile/image-header.jpg"
-                  tablet="/assets/home/tablet/image-header.jpg"
-                  desktop="/assets/home/desktop/image-hero.jpg"
+        {/* Desktop Hero */}
+        <div className="hidden desktop:block">
+          <div className="max-w-[1110px] mx-auto">
+            <div className="grid grid-cols-2 items-center min-h-[729px]">
+              {/* Text Content */}
+              <div>
+                <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">New Product</p>
+                <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]">
+                  XX99 Mark II<br />Headphones
+                </h1>
+                <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
+                  Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
+                </p>
+                <Link
+                  to="/product/xx99-mark-two-headphones"
+                  className="inline-block bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
+                >
+                  See Product
+                </Link>
+              </div>
+
+              {/* Hero Image */}
+              <div className="flex justify-end">
+                <img
+                  src="/assets/home/desktop/image-hero.jpg"
                   alt="XX99 Mark II Headphones"
-                  className="w-full max-w-sm tablet:max-w-md desktop:max-w-lg mx-auto desktop:mx-0"
+                  className="w-[410px] h-[729px] object-cover object-bottom"
                 />
               </div>
             </div>
@@ -90,30 +119,28 @@ const Index: React.FC = () => {
       </section>
 
       {/* Categories Section */}
-      <section className="py-20 tablet:py-24 desktop:py-40">
-        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
-          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-6 tablet:gap-8 desktop:gap-8">
+      <section className="py-[92px] tablet:py-[96px] desktop:py-[120px]">
+        <div className="max-w-[1110px] mx-auto px-6 tablet:px-[39px] desktop:px-0">
+          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-[68px] tablet:gap-[10px] desktop:gap-[30px]">
             {categories.map((category) => (
               <div key={category.name} className="text-center group">
-                <div className="category-thumbnail mb-8 relative pt-20 pb-8">
-                  <ResponsiveImage
-                    mobile={category.image.mobile}
-                    tablet={category.image.tablet}
-                    desktop={category.image.desktop}
+                <div className="relative pt-[88px] pb-[22px] bg-audiophile-light-gray rounded-lg mb-[45px] tablet:mb-[32px] desktop:mb-[48px]">
+                  <img
+                    src={category.image.desktop}
                     alt={category.name}
-                    className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-32 object-contain"
+                    className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[147px] tablet:w-[123px] desktop:w-[147px] h-[133px] tablet:h-[104px] desktop:h-[133px] object-contain"
                   />
                 </div>
-                <h6 className="mb-4 text-audiophile-black">{category.name}</h6>
+                <h6 className="mb-[17px] text-[18px] font-bold leading-[24px] tracking-[1.29px] text-audiophile-black uppercase">{category.name}</h6>
                 <Link
                   to={category.href}
-                  className="inline-flex items-center text-subtitle uppercase tracking-wider text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
+                  className="inline-flex items-center text-[13px] font-bold leading-[25px] tracking-[1px] uppercase text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
                 >
                   Shop
                   <img
                     src="/assets/shared/desktop/icon-arrow-right.svg"
                     alt=""
-                    className="ml-3 w-2"
+                    className="ml-[13px] w-[5px] h-[10px]"
                   />
                 </Link>
               </div>
@@ -123,8 +150,8 @@ const Index: React.FC = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="pb-20 tablet:pb-24 desktop:pb-40">
-        <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40 space-y-12 tablet:space-y-16 desktop:space-y-20">
+      <section className="pb-[120px] tablet:pb-[96px] desktop:pb-[200px]">
+        <div className="max-w-[1110px] mx-auto px-6 tablet:px-[39px] desktop:px-0 space-y-6 tablet:space-y-8 desktop:space-y-12">
           {/* ZX9 Speaker */}
           <div className="bg-audiophile-orange rounded-lg overflow-hidden relative">
             <div className="absolute inset-0 opacity-20">
