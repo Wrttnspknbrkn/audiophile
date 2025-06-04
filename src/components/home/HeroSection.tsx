@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ResponsiveImage } from '../ui/responsive-image';
@@ -36,17 +35,17 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Desktop Hero - Matching Figma exactly */}
+      {/* Desktop Hero - Perfect Figma match with 1110px container */}
       <div className="hidden lg:block">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-12 items-center min-h-[632px]">
-            {/* Left column - Text content */}
-            <div className="col-span-5 text-left pr-8">
+        <div className="max-w-[1110px] mx-auto px-0 relative">
+          <div className="grid grid-cols-12 items-center h-[632px]">
+            {/* Left column - Text content - 5 columns */}
+            <div className="col-span-5 text-left pl-0 pr-[95px]">
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">New Product</p>
-              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6">
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]">
                 XX99 Mark II<br />Headphones
               </h1>
-              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[350px]">
+              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
                 Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
               </p>
               <Link
@@ -57,16 +56,14 @@ const HeroSection: React.FC = () => {
               </Link>
             </div>
             
-            {/* Right column - Large headphones image matching Figma */}
-            <div className="col-span-7 relative h-[632px] flex items-center justify-start pl-8">
-              <div className="relative w-full h-full">
-                <img
-                  src="/assets/home/desktop/image-hero.jpg"
-                  alt="XX99 Mark II Headphones"
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 h-full w-auto object-contain scale-150 origin-center"
-                  style={{ maxWidth: 'none' }}
-                />
-              </div>
+            {/* Right column - Hero image - 7 columns */}
+            <div className="col-span-7 relative h-[632px] overflow-hidden">
+              <img
+                src="/assets/home/desktop/image-hero.jpg"
+                alt="XX99 Mark II Headphones"
+                className="absolute right-[-150px] top-1/2 transform -translate-y-1/2 h-full w-auto object-contain"
+                style={{ maxWidth: 'none' }}
+              />
             </div>
           </div>
         </div>
