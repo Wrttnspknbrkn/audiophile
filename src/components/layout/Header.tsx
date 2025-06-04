@@ -30,7 +30,15 @@ const Header: React.FC = () => {
               className="desktop:hidden text-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
+              {isMenuOpen ? (
+                <X size={16} />
+              ) : (
+                <img 
+                  src="/assets/shared/tablet/icon-hamburger.svg" 
+                  alt="Menu" 
+                  className="w-4 h-[15px]"
+                />
+              )}
             </button>
 
             {/* Logo */}
@@ -63,7 +71,11 @@ const Header: React.FC = () => {
               className="text-white relative hover:text-audiophile-orange transition-colors duration-300"
               onClick={() => setIsCartOpen(!isCartOpen)}
             >
-              <ShoppingCart size={23} />
+              <img 
+                src="/assets/shared/desktop/icon-cart.svg" 
+                alt="Cart" 
+                className="w-[23px] h-[20px]"
+              />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-audiophile-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {totalItems}
@@ -77,7 +89,7 @@ const Header: React.FC = () => {
             <div className="desktop:hidden absolute left-0 right-0 top-[90px] z-40">
               <div className="bg-white rounded-b-lg mx-6 tablet:mx-[39px]">
                 <div className="px-6 py-[84px]">
-                  <div className="grid grid-cols-1 gap-[68px]">
+                  <div className="grid grid-cols-1 tablet:grid-cols-3 gap-[68px] tablet:gap-[10px]">
                     {['headphones', 'speakers', 'earphones'].map((cat) => (
                       <div key={cat} className="text-center group">
                         <div className="relative pt-[88px] pb-[22px]">
@@ -109,9 +121,11 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        {/* Underline - contained within max-width for tablet/desktop */}
-        <div className="desktop:max-w-[1110px] tablet:max-w-[689px] desktop:mx-auto tablet:mx-auto">
-          <div className="h-[1px] bg-white opacity-20 mx-6 tablet:mx-[39px] desktop:mx-0"></div>
+        {/* Underline - Full width for mobile, contained within max-width for tablet/desktop */}
+        <div className="bg-white opacity-20 h-[1px] w-full">
+          <div className="desktop:max-w-[1110px] tablet:max-w-[689px] mx-auto">
+            <div className="h-[1px] bg-white opacity-20"></div>
+          </div>
         </div>
       </header>
 
