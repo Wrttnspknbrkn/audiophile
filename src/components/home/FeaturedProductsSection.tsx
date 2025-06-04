@@ -13,7 +13,7 @@ const FeaturedProductsSection: React.FC = () => {
             <img
               src="/assets/home/desktop/pattern-circles.svg"
               alt=""
-              className="absolute -top-[20px] left-1/2 transform -translate-x-1/2 w-[558px] h-[558px] opacity-50 md:-top-[100px] lg:-top-[40px] lg:-left-[150px] lg:transform-none lg:w-[944px] lg:h-[944px] lg:opacity-30"
+              className="absolute -top-[20px] left-1/2 transform -translate-x-1/2 w-[558px] h-[558px] opacity-80 md:-top-[100px] lg:-top-[40px] lg:-left-[150px] lg:transform-none lg:w-[944px] lg:h-[944px] lg:opacity-70"
             />
           </div>
 
@@ -61,7 +61,7 @@ const FeaturedProductsSection: React.FC = () => {
             </div>
 
             {/* Right Side - Text Content */}
-            <div className="flex-1 flex flex-col justify-center pr-[95px] relative z-10">
+            <div className="flex-1 flex flex-col justify-center pr-[95px] pl-[60px] relative z-10">
               <h1 className="text-white text-[56px] font-bold leading-[58px] tracking-[2px] uppercase mb-6">
                 ZX9
                 <br />
