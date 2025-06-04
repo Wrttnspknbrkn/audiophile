@@ -3,17 +3,17 @@ import { ResponsiveImage } from '../ui/responsive-image';
 
 const AboutSection: React.FC = () => {
   return (
-    <section className="pb-20 tablet:pb-24 desktop:pb-[200px]">
-      <div className="max-w-[1110px] mx-auto px-6 tablet:px-10 desktop:px-0">
+    <section className="pb-20 md:pb-24 lg:pb-48">
+      <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0">
         {/* Mobile and Tablet - Image first, then text */}
-        <div className="desktop:hidden">
-          <div className="mb-8 tablet:mb-12">
+        <div className="lg:hidden">
+          <div className="mb-8 md:mb-12">
             <ResponsiveImage
               mobile="/assets/shared/mobile/image-best-gear.jpg"
               tablet="/assets/shared/tablet/image-best-gear.jpg"
               desktop="/assets/shared/desktop/image-best-gear.jpg"
               alt="Person listening to music"
-              className="w-full h-80 tablet:h-96 rounded-lg"
+              className="w-full h-80 md:h-96 rounded-lg"
             />
           </div>
           <div className="text-center">
@@ -31,7 +31,7 @@ const AboutSection: React.FC = () => {
         </div>
 
         {/* Desktop - Two column layout: text left, image right */}
-        <div className="hidden desktop:grid desktop:grid-cols-2 desktop:gap-[125px] desktop:items-center">
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-32 lg:items-center">
           {/* Left column - Text content */}
           <div className="text-left">
             <h2 className="text-[40px] font-bold leading-[44px] tracking-[1.43px] uppercase text-audiophile-black mb-8">
