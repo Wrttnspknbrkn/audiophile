@@ -38,14 +38,14 @@ const CategoriesSection: React.FC = () => {
         <div className="grid grid-cols-1 tablet:grid-cols-3 gap-16 tablet:gap-[10px] desktop:gap-[30px]">
           {categories.map((category, index) => (
             <div key={category.name} className="group">
-              {/* Card Container */}
-              <div className="relative bg-gray-100 rounded-lg pt-[88px] pb-6 mb-9 tablet:mb-4 desktop:mb-12 overflow-hidden">
-                {/* Product Image */}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[-15px]">
+              {/* Card Container - Fixed height and positioning */}
+              <div className="relative bg-gray-100 rounded-lg pt-[56px] pb-[56px] mb-9 tablet:mb-4 desktop:mb-12 overflow-visible min-h-[165px] tablet:min-h-[140px] desktop:min-h-[165px]">
+                {/* Product Image - Positioned to be fully visible */}
+                <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2">
                   <img
                     src={category.image.desktop}
                     alt={category.name}
-                    className="w-[200px] tablet:w-[160px] desktop:w-[200px] h-auto object-contain drop-shadow-lg"
+                    className="w-[150px] tablet:w-[120px] desktop:w-[150px] h-auto object-contain drop-shadow-lg"
                   />
                 </div>
               </div>
@@ -56,7 +56,7 @@ const CategoriesSection: React.FC = () => {
                   {category.name}
                 </h6>
                 
-                {/* Shop Link */}
+                {/* Shop Link with React Router */}
                 <Link
                   to={category.href}
                   className="inline-flex items-center justify-center text-[13px] font-bold leading-[18px] tracking-[1px] uppercase text-black/50 hover:text-orange-500 transition-colors duration-200 group"
