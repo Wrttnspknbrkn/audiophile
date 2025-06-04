@@ -30,7 +30,7 @@ const AboutSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop - Perfect two column layout matching Figma */}
+        {/* Desktop - Two column layout: text left, image right */}
         <div className="hidden desktop:grid desktop:grid-cols-2 desktop:gap-[125px] desktop:items-center">
           {/* Left column - Text content */}
           <div className="text-left">
@@ -47,7 +47,7 @@ const AboutSection: React.FC = () => {
           </div>
           
           {/* Right column - Image */}
-          <div>
+          <div className="flex justify-center">
             <img
               src="/assets/shared/desktop/image-best-gear.jpg"
               alt="Person listening to music"
