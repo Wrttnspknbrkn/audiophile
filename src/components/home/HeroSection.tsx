@@ -61,7 +61,7 @@ const HeroSection: React.FC = () => {
               <img
                 src="/assets/home/desktop/image-hero.jpg"
                 alt="XX99 Mark II Headphones"
-                className="absolute right-[-200px] top-[40%] transform -translate-y-1/2 h-[115%] w-auto object-contain"
+                className="absolute right-[-220px] top-[40%] transform -translate-y-1/2 h-[115%] w-auto object-contain"
                 style={{ maxWidth: 'none' }}
               />
             </div>
