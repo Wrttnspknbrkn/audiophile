@@ -6,7 +6,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className="bg-audiophile-dark overflow-hidden">
       {/* Mobile and Tablet Hero - Image with overlay */}
-      <div className="lg:hidden">
+      <div className="desktop:hidden">
         <div className="relative">
           <ResponsiveImage
             mobile="/assets/home/mobile/image-header.jpg"
@@ -36,15 +36,15 @@ const HeroSection: React.FC = () => {
       </div>
 
       {/* Desktop Hero - Full width layout like old index.tsx */}
-      <div className="hidden lg:block">
+      <div className="hidden desktop:block">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-20 items-center py-20">
-            <div className="text-left pl-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-20">
+            <div className="text-center lg:text-left">
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-4 text-audiophile-white opacity-50">New Product</p>
               <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6">
                 XX99 Mark II Headphones
               </h1>
-              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-8 max-w-md">
+              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-8 max-w-md mx-auto lg:mx-0">
                 Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.
               </p>
               <Link
@@ -54,11 +54,11 @@ const HeroSection: React.FC = () => {
                 See Product
               </Link>
             </div>
-            <div className="text-center pr-8">
+            <div className="text-center">
               <img
                 src="/assets/home/desktop/image-hero.jpg"
                 alt="XX99 Mark II Headphones"
-                className="w-full h-[600px] lg:h-[700px] xl:h-[800px] object-cover object-center"
+                className="w-full max-w-md mx-auto"
               />
             </div>
           </div>
