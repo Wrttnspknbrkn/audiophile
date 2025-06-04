@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X } from 'lucide-react';
@@ -20,9 +21,9 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="bg-audiophile-dark border-b border-white border-opacity-20">
+      <header className="bg-audiophile-dark">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24">
+          <div className="flex justify-between items-center h-24 relative">
             {/* Mobile menu button */}
             <button
               className="lg:hidden text-white"
@@ -77,6 +78,9 @@ const Header: React.FC = () => {
                 </span>
               )}
             </button>
+
+            {/* Desktop underline - only from logo to cart */}
+            <div className="hidden lg:block absolute bottom-0 left-0 right-0 h-[1px] bg-white opacity-20"></div>
           </div>
 
           {/* Mobile Navigation Overlay */}
@@ -115,6 +119,9 @@ const Header: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* Mobile/Tablet full-width underline */}
+        <div className="lg:hidden border-b border-white border-opacity-20"></div>
       </header>
 
       {/* Cart Component */}
