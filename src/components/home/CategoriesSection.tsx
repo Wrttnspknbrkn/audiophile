@@ -6,29 +6,17 @@ const CategoriesSection: React.FC = () => {
   const categories = [
     {
       name: 'Headphones',
-      image: {
-        mobile: '/assets/shared/desktop/image-category-thumbnail-headphones.png',
-        tablet: '/assets/shared/desktop/image-category-thumbnail-headphones.png',
-        desktop: '/assets/shared/desktop/image-category-thumbnail-headphones.png'
-      },
+      image: '/assets/shared/desktop/image-category-thumbnail-headphones.png',
       href: '/category/headphones'
     },
     {
       name: 'Speakers', 
-      image: {
-        mobile: '/assets/shared/desktop/image-category-thumbnail-speakers.png',
-        tablet: '/assets/shared/desktop/image-category-thumbnail-speakers.png',
-        desktop: '/assets/shared/desktop/image-category-thumbnail-speakers.png'
-      },
+      image: '/assets/shared/desktop/image-category-thumbnail-speakers.png',
       href: '/category/speakers'
     },
     {
       name: 'Earphones',
-      image: {
-        mobile: '/assets/shared/desktop/image-category-thumbnail-earphones.png',
-        tablet: '/assets/shared/desktop/image-category-thumbnail-earphones.png',
-        desktop: '/assets/shared/desktop/image-category-thumbnail-earphones.png'
-      },
+      image: '/assets/shared/desktop/image-category-thumbnail-earphones.png',
       href: '/category/earphones'
     }
   ];
@@ -39,11 +27,11 @@ const CategoriesSection: React.FC = () => {
         <div className="grid grid-cols-1 tablet:grid-cols-3 gap-[68px] tablet:gap-[10px] desktop:gap-[30px]">
           {categories.map((category) => (
             <div key={category.name} className="text-center group">
-              <div className="relative pt-[88px] pb-[22px] bg-audiophile-light-gray rounded-lg mb-[45px] tablet:mb-[32px] desktop:mb-[48px]">
+              <div className="relative h-[204px] bg-audiophile-light-gray rounded-lg mb-[45px] tablet:mb-[32px] desktop:mb-[48px] flex items-end justify-center pb-0">
                 <img
-                  src={category.image.desktop}
+                  src={category.image}
                   alt={category.name}
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[147px] tablet:w-[123px] desktop:w-[147px] h-[133px] tablet:h-[104px] desktop:h-[133px] object-contain"
+                  className="w-[147px] tablet:w-[123px] desktop:w-[147px] h-auto object-contain transform translate-y-[15px]"
                 />
               </div>
               <h6 className="mb-[17px] text-[18px] font-bold leading-[24px] tracking-[1.29px] text-audiophile-black uppercase">{category.name}</h6>
