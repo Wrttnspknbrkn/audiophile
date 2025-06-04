@@ -45,7 +45,7 @@ const CategoriesSection: React.FC = () => {
                   <img
                     src={category.image.desktop}
                     alt={category.name}
-                    className="w-[200px] tablet:w-[160px] desktop:w-[200px] h-auto object-contain drop-shadow-lg"
+                    className="w-[220px] tablet:w-[180px] desktop:w-[220px] h-auto object-contain drop-shadow-lg"
                   />
                 </div>
               </div>
