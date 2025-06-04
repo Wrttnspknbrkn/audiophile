@@ -40,12 +40,12 @@ const CategoriesSection: React.FC = () => {
             <div key={category.name} className="group">
               {/* Card Container - Square-like proportions with proper height */}
               <div className="relative bg-gray-100 rounded-lg h-[180px] tablet:h-[165px] desktop:h-[180px] mb-9 tablet:mb-4 desktop:mb-12 overflow-visible">
-                {/* Product Image - Large on desktop/tablet, contained on mobile */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 tablet:top-0 tablet:-translate-y-[40%]">
+                {/* Product Image - Centered on mobile, overlapping on tablet/desktop */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:top-0 md:-translate-y-[40%]">
                   <img
                     src={category.image.desktop}
                     alt={category.name}
-                    className="w-[180px] tablet:w-[220px] desktop:w-[280px] h-auto object-contain drop-shadow-lg"
+                    className="w-[180px] md:w-[220px] lg:w-[280px] h-auto object-contain drop-shadow-lg"
                   />
                 </div>
               </div>
