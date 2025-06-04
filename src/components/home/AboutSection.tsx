@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { ResponsiveImage } from '../ui/responsive-image';
 
 const AboutSection: React.FC = () => {
   return (
-    <section className="pb-20 tablet:pb-24 desktop:pb-40">
-      <div className="max-w-7xl mx-auto px-6 tablet:px-10 desktop:px-40">
+    <section className="pb-20 tablet:pb-24 desktop:pb-[200px]">
+      <div className="max-w-[1110px] mx-auto px-6 tablet:px-10 desktop:px-0">
         {/* Mobile and Tablet - Image first, then text */}
         <div className="desktop:hidden">
           <div className="mb-8 tablet:mb-12">
@@ -31,11 +30,11 @@ const AboutSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop - Two column layout matching Figma */}
-        <div className="hidden desktop:grid desktop:grid-cols-12 desktop:gap-8 desktop:items-center">
+        {/* Desktop - Perfect two column layout matching Figma */}
+        <div className="hidden desktop:grid desktop:grid-cols-2 desktop:gap-[125px] desktop:items-center">
           {/* Left column - Text content */}
-          <div className="desktop:col-span-6 text-left pr-8">
-            <h2 className="mb-8 text-audiophile-black text-[40px] font-bold leading-[44px] tracking-[1.43px] uppercase">
+          <div className="text-left">
+            <h2 className="text-[40px] font-bold leading-[44px] tracking-[1.43px] uppercase text-audiophile-black mb-8">
               Bringing you the <span className="text-audiophile-orange">best</span> audio gear
             </h2>
             <p className="text-audiophile-black opacity-50 text-[15px] font-medium leading-[25px]">
@@ -46,13 +45,13 @@ const AboutSection: React.FC = () => {
               audio equipment.
             </p>
           </div>
-
+          
           {/* Right column - Image */}
-          <div className="desktop:col-span-6">
+          <div>
             <img
               src="/assets/shared/desktop/image-best-gear.jpg"
               alt="Person listening to music"
-              className="w-full h-[588px] object-cover rounded-lg"
+              className="w-[540px] h-[588px] object-cover rounded-lg"
             />
           </div>
         </div>
