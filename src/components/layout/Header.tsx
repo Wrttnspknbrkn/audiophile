@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, ShoppingCart, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Cart from '../cart/Cart';
 
@@ -25,7 +24,7 @@ const Header: React.FC = () => {
         {/* Main header content */}
         <div className="max-w-[1110px] mx-auto relative">
           <div className="flex justify-between items-center h-[90px] px-6 tablet:px-[39px] desktop:px-0">
-            {/* Mobile menu button */}
+            {/* Mobile menu button - only show on mobile/tablet */}
             <button
               className="desktop:hidden text-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -41,10 +40,52 @@ const Header: React.FC = () => {
               )}
             </button>
 
-            {/* Logo */}
+            {/* Desktop Layout: Logo on left, Nav in center, Cart on right */}
+            <div className="hidden desktop:flex items-center justify-between w-full">
+              {/* Logo - Left side */}
+              <Link to="/">
+                <img
+                  src="/assets/shared/desktop/logo.svg"
+                  alt="Audiophile"
+                  className="h-[25px] w-[143px]"
+                />
+              </Link>
+
+              {/* Navigation - Center */}
+              <nav className="flex space-x-[34px]">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="text-white text-[13px] font-bold leading-[25px] tracking-[2px] uppercase hover:text-audiophile-orange transition-colors duration-300"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+
+              {/* Cart button - Right side */}
+              <button
+                className="text-white relative hover:text-audiophile-orange transition-colors duration-300"
+                onClick={() => setIsCartOpen(!isCartOpen)}
+              >
+                <img 
+                  src="/assets/shared/desktop/icon-cart.svg" 
+                  alt="Cart" 
+                  className="w-[23px] h-[20px]"
+                />
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-audiophile-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Mobile/Tablet Layout: Logo centered, Cart on right */}
             <Link 
               to="/" 
-              className="tablet:absolute tablet:left-1/2 tablet:transform tablet:-translate-x-1/2 desktop:relative desktop:left-auto desktop:transform-none"
+              className="desktop:hidden tablet:absolute tablet:left-1/2 tablet:transform tablet:-translate-x-1/2"
             >
               <img
                 src="/assets/shared/desktop/logo.svg"
@@ -53,22 +94,9 @@ const Header: React.FC = () => {
               />
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden desktop:flex space-x-[34px] absolute left-1/2 transform -translate-x-1/2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-white text-[13px] font-bold leading-[25px] tracking-[2px] uppercase hover:text-audiophile-orange transition-colors duration-300"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Cart button */}
+            {/* Cart button for mobile/tablet */}
             <button
-              className="text-white relative hover:text-audiophile-orange transition-colors duration-300"
+              className="desktop:hidden text-white relative hover:text-audiophile-orange transition-colors duration-300"
               onClick={() => setIsCartOpen(!isCartOpen)}
             >
               <img 
@@ -121,11 +149,9 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        {/* Underline - Full width for mobile, contained within max-width for tablet/desktop */}
-        <div className="bg-white opacity-20 h-[1px] w-full">
-          <div className="desktop:max-w-[1110px] tablet:max-w-[689px] mx-auto">
-            <div className="h-[1px] bg-white opacity-20"></div>
-          </div>
+        {/* Underline - Properly contained within max-width */}
+        <div className="max-w-[1110px] mx-auto px-6 tablet:px-[39px] desktop:px-0">
+          <div className="h-[1px] bg-white opacity-20"></div>
         </div>
       </header>
 
