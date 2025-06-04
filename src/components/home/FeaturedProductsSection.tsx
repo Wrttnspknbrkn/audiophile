@@ -4,21 +4,21 @@ import { ResponsiveImage } from "../ui/responsive-image"
 
 const FeaturedProductsSection: React.FC = () => {
   return (
-    <section className="pb-[120px] tablet:pb-[96px] desktop:pb-[200px]">
-      <div className="max-w-[1110px] mx-auto px-6 tablet:px-[39px] desktop:px-0 space-y-6 tablet:space-y-8 desktop:space-y-12">
+    <section className="pb-[120px] md:pb-[96px] lg:pb-[200px]">
+      <div className="max-w-[1110px] mx-auto px-6 md:px-[39px] lg:px-0 space-y-6 md:space-y-8 lg:space-y-12">
         {/* ZX9 Speaker */}
-        <div className="bg-audiophile-orange rounded-lg overflow-hidden relative min-h-[600px] tablet:min-h-[720px] desktop:min-h-[560px]">
+        <div className="bg-audiophile-orange rounded-lg overflow-hidden relative min-h-[600px] md:min-h-[720px] lg:min-h-[560px]">
           {/* Background Pattern */}
           <div className="absolute inset-0 overflow-hidden">
             <img
               src="/assets/home/desktop/pattern-circles.svg"
               alt=""
-              className="absolute -top-[20px] left-1/2 transform -translate-x-1/2 w-[558px] h-[558px] opacity-[0.15] tablet:-top-[100px] desktop:-top-[40px] desktop:-left-[150px] desktop:transform-none desktop:w-[944px] desktop:h-[944px] desktop:opacity-[0.2]"
+              className="absolute -top-[20px] left-1/2 transform -translate-x-1/2 w-[558px] h-[558px] opacity-[0.15] md:-top-[100px] lg:-top-[40px] lg:-left-[150px] lg:transform-none lg:w-[944px] lg:h-[944px] lg:opacity-[0.2]"
             />
           </div>
 
           {/* Mobile & Tablet Layout - Stacked */}
-          <div className="desktop:hidden flex flex-col items-center text-center space-y-8 pt-[55px] pb-[55px] px-6 tablet:px-16 tablet:pt-[52px] tablet:pb-[64px] relative z-10">
+          <div className="lg:hidden flex flex-col items-center text-center space-y-8 pt-[55px] pb-[55px] px-6 md:px-16 md:pt-[52px] md:pb-[64px] relative z-10">
             <div className="flex justify-center">
               <ResponsiveImage
                 mobile="/assets/home/mobile/image-speaker-zx9.png"
@@ -30,7 +30,7 @@ const FeaturedProductsSection: React.FC = () => {
             </div>
 
             <div className="space-y-6">
-              <h1 className="text-white text-[36px] tablet:text-[56px] font-bold leading-[40px] tablet:leading-[58px] tracking-[1.29px] tablet:tracking-[2px] uppercase">
+              <h1 className="text-white text-[36px] md:text-[56px] font-bold leading-[40px] md:leading-[58px] tracking-[1.29px] md:tracking-[2px] uppercase">
                 ZX9
                 <br />
                 SPEAKER
@@ -47,32 +47,32 @@ const FeaturedProductsSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Layout - Side by Side */}
-          <div className="hidden desktop:flex desktop:items-center desktop:h-[560px] desktop:relative">
+          {/* Desktop Layout - Side by Side: Image Left, Text Right */}
+          <div className="hidden lg:flex lg:items-center lg:h-[560px] lg:relative">
             {/* Left Side - Speaker Image */}
-            <div className="desktop:flex-1 desktop:flex desktop:items-end desktop:justify-center desktop:h-full desktop:relative desktop:z-10">
+            <div className="flex-1 flex items-end justify-center h-full relative z-10">
               <ResponsiveImage
                 mobile="/assets/home/mobile/image-speaker-zx9.png"
                 tablet="/assets/home/tablet/image-speaker-zx9.png"
                 desktop="/assets/home/desktop/image-speaker-zx9.png"
                 alt="ZX9 Speaker"
-                className="desktop:w-[410px] desktop:h-[493px] desktop:object-contain desktop:mb-[-16px]"
+                className="w-[410px] h-[493px] object-contain mb-[-16px]"
               />
             </div>
 
             {/* Right Side - Text Content */}
-            <div className="desktop:flex-1 desktop:flex desktop:flex-col desktop:justify-center desktop:pr-[95px] desktop:relative desktop:z-10">
-              <h1 className="desktop:text-white desktop:text-[56px] desktop:font-bold desktop:leading-[58px] desktop:tracking-[2px] desktop:uppercase desktop:mb-6">
+            <div className="flex-1 flex flex-col justify-center pr-[95px] relative z-10">
+              <h1 className="text-white text-[56px] font-bold leading-[58px] tracking-[2px] uppercase mb-6">
                 ZX9
                 <br />
                 SPEAKER
               </h1>
-              <p className="desktop:text-white desktop:text-[15px] desktop:leading-[25px] desktop:opacity-75 desktop:mb-10 desktop:max-w-[349px]">
+              <p className="text-white text-[15px] leading-[25px] opacity-75 mb-10 max-w-[349px]">
                 Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
               </p>
               <Link
                 to="/product/zx9-speaker"
-                className="desktop:bg-audiophile-black desktop:text-white desktop:px-[31px] desktop:py-[15px] desktop:text-[13px] desktop:font-bold desktop:uppercase desktop:tracking-[1px] hover:desktop:bg-audiophile-dark-gray desktop:transition-all desktop:duration-300 desktop:inline-block desktop:no-underline desktop:w-fit"
+                className="bg-audiophile-black text-white px-[31px] py-[15px] text-[13px] font-bold uppercase tracking-[1px] hover:bg-audiophile-dark-gray transition-all duration-300 inline-block no-underline w-fit"
               >
                 SEE PRODUCT
               </Link>
@@ -81,16 +81,16 @@ const FeaturedProductsSection: React.FC = () => {
         </div>
 
         {/* ZX7 Speaker */}
-        <div className="rounded-lg overflow-hidden relative min-h-[320px] desktop:min-h-[320px]">
+        <div className="rounded-lg overflow-hidden relative min-h-[320px] lg:min-h-[320px]">
           <ResponsiveImage
             mobile="/assets/home/mobile/image-speaker-zx7.jpg"
             tablet="/assets/home/tablet/image-speaker-zx7.jpg"
             desktop="/assets/home/desktop/image-speaker-zx7.jpg"
             alt="ZX7 Speaker"
-            className="w-full h-[320px] desktop:h-[320px] object-cover"
+            className="w-full h-[320px] lg:h-[320px] object-cover"
           />
           <div className="absolute inset-0 flex items-center">
-            <div className="px-6 tablet:px-[62px] desktop:px-[95px] w-full">
+            <div className="px-6 md:px-[62px] lg:px-[95px] w-full">
               <div className="max-w-md">
                 <h4 className="text-audiophile-black text-[28px] font-bold leading-[33px] tracking-[2px] uppercase mb-8">
                   ZX7 Speaker
@@ -107,18 +107,18 @@ const FeaturedProductsSection: React.FC = () => {
         </div>
 
         {/* YX1 Earphones */}
-        <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6 tablet:gap-[11px] desktop:gap-[30px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-[11px] lg:gap-[30px]">
           <div className="rounded-lg overflow-hidden">
             <ResponsiveImage
               mobile="/assets/home/mobile/image-earphones-yx1.jpg"
               tablet="/assets/home/tablet/image-earphones-yx1.jpg"
               desktop="/assets/home/desktop/image-earphones-yx1.jpg"
               alt="YX1 Earphones"
-              className="w-full h-[200px] tablet:h-[320px] desktop:h-[320px] object-cover"
+              className="w-full h-[200px] md:h-[320px] lg:h-[320px] object-cover"
             />
           </div>
 
-          <div className="bg-audiophile-light-gray rounded-lg px-6 py-[41px] tablet:px-[41px] tablet:py-[101px] desktop:px-[95px] desktop:py-[101px] flex flex-col justify-center">
+          <div className="bg-audiophile-light-gray rounded-lg px-6 py-[41px] md:px-[41px] md:py-[101px] lg:px-[95px] lg:py-[101px] flex flex-col justify-center">
             <h4 className="text-audiophile-black text-[28px] font-bold leading-[33px] tracking-[2px] uppercase mb-8">
               YX1 Earphones
             </h4>
