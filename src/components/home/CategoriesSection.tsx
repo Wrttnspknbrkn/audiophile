@@ -38,14 +38,14 @@ const CategoriesSection: React.FC = () => {
         <div className="grid grid-cols-1 tablet:grid-cols-3 gap-16 tablet:gap-[10px] desktop:gap-[30px]">
           {categories.map((category, index) => (
             <div key={category.name} className="group">
-              {/* Card Container - Fixed height and positioning */}
-              <div className="relative bg-gray-100 rounded-lg pt-[56px] pb-[56px] mb-9 tablet:mb-4 desktop:mb-12 overflow-visible min-h-[165px] tablet:min-h-[140px] desktop:min-h-[165px]">
-                {/* Product Image - Positioned to be fully visible */}
-                <div className="absolute bottom-[20px] left-1/2 transform -translate-x-1/2">
+              {/* Card Container - Increased height to prevent image cutoff */}
+              <div className="relative bg-gray-100 rounded-lg pt-[120px] tablet:pt-[100px] desktop:pt-[120px] pb-6 mb-9 tablet:mb-4 desktop:mb-12 overflow-visible">
+                {/* Product Image - Positioned on top edge of card */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-[15px]">
                   <img
                     src={category.image.desktop}
                     alt={category.name}
-                    className="w-[150px] tablet:w-[120px] desktop:w-[150px] h-auto object-contain drop-shadow-lg"
+                    className="w-[200px] tablet:w-[160px] desktop:w-[200px] h-auto object-contain drop-shadow-lg"
                   />
                 </div>
               </div>
