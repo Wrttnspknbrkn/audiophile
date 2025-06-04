@@ -38,42 +38,42 @@ const CategoriesSection: React.FC = () => {
         <div className="grid grid-cols-1 tablet:grid-cols-3 gap-16 tablet:gap-[10px] desktop:gap-[30px]">
           {categories.map((category, index) => (
             <div key={category.name} className="group">
-              {/* Card Container - Square-like proportions with proper height */}
-              <div className="relative bg-gray-100 rounded-lg h-[180px] tablet:h-[165px] desktop:h-[180px] mb-9 tablet:mb-4 desktop:mb-12 overflow-visible">
-                {/* Product Image - Centered on mobile, overlapping on tablet/desktop */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:top-0 md:-translate-y-[40%]">
+              {/* Card Container with content inside */}
+              <div className="relative bg-gray-100 rounded-lg h-[240px] tablet:h-[220px] desktop:h-[240px] overflow-visible flex flex-col">
+                {/* Product Image - Positioned at top */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-[20%]">
                   <img
                     src={category.image.desktop}
                     alt={category.name}
-                    className="w-[180px] md:w-[220px] lg:w-[280px] h-auto object-contain drop-shadow-lg"
+                    className="w-[140px] tablet:w-[160px] desktop:w-[180px] h-auto object-contain drop-shadow-lg"
                   />
                 </div>
-              </div>
-              
-              {/* Category Info */}
-              <div className="text-center">
-                <h6 className="text-[15px] tablet:text-[18px] font-bold leading-tight tracking-[1.07px] tablet:tracking-[1.29px] text-black uppercase mb-4">
-                  {category.name}
-                </h6>
                 
-                {/* Shop Link with React Router */}
-                <Link
-                  to={category.href}
-                  className="inline-flex items-center justify-center text-[13px] font-bold leading-[18px] tracking-[1px] uppercase text-black/50 hover:text-orange-500 transition-colors duration-200 group"
-                >
-                  SHOP
-                  <svg 
-                    className="ml-3 w-[5px] h-[10px] group-hover:translate-x-1 transition-transform duration-200" 
-                    viewBox="0 0 8 12" 
-                    fill="none"
+                {/* Category Info - Positioned at bottom of card */}
+                <div className="text-center mt-auto pb-8 tablet:pb-6 desktop:pb-8">
+                  <h6 className="text-[15px] tablet:text-[18px] font-bold leading-tight tracking-[1.07px] tablet:tracking-[1.29px] text-black uppercase mb-4">
+                    {category.name}
+                  </h6>
+                  
+                  {/* Shop Link with React Router */}
+                  <Link
+                    to={category.href}
+                    className="inline-flex items-center justify-center text-[13px] font-bold leading-[18px] tracking-[1px] uppercase text-black/50 hover:text-orange-500 transition-colors duration-200 group"
                   >
-                    <path 
-                      d="M1.322 1L6.156 6L1.322 11" 
-                      stroke="currentColor" 
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </Link>
+                    SHOP
+                    <svg 
+                      className="ml-3 w-[5px] h-[10px] group-hover:translate-x-1 transition-transform duration-200" 
+                      viewBox="0 0 8 12" 
+                      fill="none"
+                    >
+                      <path 
+                        d="M1.322 1L6.156 6L1.322 11" 
+                        stroke="currentColor" 
+                        strokeWidth="2"
+                      />
+                    </svg>
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
