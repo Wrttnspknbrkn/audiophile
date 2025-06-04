@@ -36,12 +36,12 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Desktop Hero - Two column layout matching Figma */}
+      {/* Desktop Hero - Matching Figma exactly */}
       <div className="hidden lg:block">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-12 gap-8 items-center min-h-[600px] py-20">
+          <div className="grid grid-cols-12 items-center min-h-[632px]">
             {/* Left column - Text content */}
-            <div className="col-span-5 text-left">
+            <div className="col-span-5 text-left pr-8">
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">New Product</p>
               <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6">
                 XX99 Mark II<br />Headphones
@@ -57,13 +57,14 @@ const HeroSection: React.FC = () => {
               </Link>
             </div>
             
-            {/* Right column - Large headphones image */}
-            <div className="col-span-7 flex justify-center items-center">
-              <div className="relative w-full max-w-[600px] h-[500px] flex items-center justify-center">
+            {/* Right column - Large headphones image matching Figma */}
+            <div className="col-span-7 relative h-[632px] flex items-center justify-start pl-8">
+              <div className="relative w-full h-full">
                 <img
                   src="/assets/home/desktop/image-hero.jpg"
                   alt="XX99 Mark II Headphones"
-                  className="w-full h-full object-contain object-center scale-125"
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 h-full w-auto object-contain scale-150 origin-center"
+                  style={{ maxWidth: 'none' }}
                 />
               </div>
             </div>
