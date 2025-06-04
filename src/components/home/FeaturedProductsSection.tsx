@@ -7,32 +7,21 @@ const FeaturedProductsSection: React.FC = () => {
     <section className="pb-[120px] tablet:pb-[96px] desktop:pb-[200px]">
       <div className="max-w-[1110px] mx-auto px-6 tablet:px-[39px] desktop:px-0 space-y-6 tablet:space-y-8 desktop:space-y-12">
         {/* ZX9 Speaker */}
-        <div className="bg-audiophile-orange rounded-lg overflow-hidden relative min-h-[560px] tablet:min-h-[720px] desktop:min-h-[560px]">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-20">
+        <div className="bg-audiophile-orange rounded-lg overflow-hidden relative min-h-[600px] tablet:min-h-[720px] desktop:min-h-[560px]">
+          {/* Background Pattern - visible and positioned correctly */}
+          <div className="absolute inset-0">
             <img
               src="/assets/home/desktop/pattern-circles.svg"
               alt=""
-              className="absolute -top-[158px] -right-[158px] tablet:-top-[400px] tablet:-right-[400px] desktop:-top-[40px] desktop:-right-[158px] w-[944px] h-[944px] object-contain"
+              className="absolute -top-[100px] left-1/2 transform -translate-x-1/2 tablet:-top-[200px] desktop:-top-[50px] desktop:left-[50px] desktop:transform-none w-[800px] h-[800px] desktop:w-[944px] desktop:h-[944px] object-contain opacity-10"
             />
           </div>
           
           {/* Content Grid */}
-          <div className="relative h-full grid grid-cols-1 desktop:grid-cols-2 items-center desktop:items-end">
-            {/* Speaker Image */}
-            <div className="flex justify-center items-end pt-[55px] tablet:pt-[52px] desktop:pt-0 desktop:pb-0 order-2 desktop:order-1">
-              <ResponsiveImage
-                mobile="/assets/home/mobile/image-speaker-zx9.png"
-                tablet="/assets/home/tablet/image-speaker-zx9.png"
-                desktop="/assets/home/desktop/image-speaker-zx9.png"
-                alt="ZX9 Speaker"
-                className="w-[172px] h-[207px] tablet:w-[197px] tablet:h-[237px] desktop:w-[410px] desktop:h-[493px] object-contain"
-              />
-            </div>
-            
-            {/* Text Content */}
-            <div className="text-center desktop:text-left px-6 tablet:px-0 pb-[55px] tablet:pb-[64px] desktop:pb-[124px] desktop:pr-[95px] order-1 desktop:order-2">
-              <h1 className="text-white text-[36px] tablet:text-[56px] desktop:text-[56px] font-bold leading-[40px] tablet:leading-[58px] desktop:leading-[58px] tracking-[1.29px] tablet:tracking-[2px] desktop:tracking-[2px] uppercase mb-6 tablet:mb-6 desktop:mb-6 max-w-xs tablet:max-w-none mx-auto desktop:mx-0">
+          <div className="relative h-full grid grid-cols-1 desktop:grid-cols-2 items-center">
+            {/* Text Content - First on mobile/tablet, Second on desktop */}
+            <div className="text-center desktop:text-left px-6 tablet:px-16 desktop:px-0 pt-[55px] tablet:pt-[85px] desktop:pt-0 desktop:pl-[95px] order-1 desktop:order-2">
+              <h1 className="text-white text-[36px] tablet:text-[56px] desktop:text-[56px] font-bold leading-[40px] tablet:leading-[58px] desktop:leading-[58px] tracking-[1.29px] tablet:tracking-[2px] desktop:tracking-[2px] uppercase mb-6 tablet:mb-6 desktop:mb-6">
                 ZX9<br />SPEAKER
               </h1>
               <p className="text-white text-[15px] leading-[25px] opacity-75 mb-6 tablet:mb-10 desktop:mb-10 max-w-[349px] mx-auto desktop:mx-0">
@@ -44,6 +33,17 @@ const FeaturedProductsSection: React.FC = () => {
               >
                 See Product
               </Link>
+            </div>
+            
+            {/* Speaker Image - Second on mobile/tablet, First on desktop */}
+            <div className="flex justify-center items-end pb-[55px] tablet:pb-[64px] desktop:pb-[116px] desktop:pl-[117px] order-2 desktop:order-1">
+              <ResponsiveImage
+                mobile="/assets/home/mobile/image-speaker-zx9.png"
+                tablet="/assets/home/tablet/image-speaker-zx9.png"
+                desktop="/assets/home/desktop/image-speaker-zx9.png"
+                alt="ZX9 Speaker"
+                className="w-[172px] h-[207px] tablet:w-[172px] tablet:h-[207px] desktop:w-[410px] desktop:h-[493px] object-contain"
+              />
             </div>
           </div>
         </div>
