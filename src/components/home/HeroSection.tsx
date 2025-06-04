@@ -5,7 +5,6 @@ import { ResponsiveImage } from '../ui/responsive-image';
 const HeroSection: React.FC = () => {
   return (
     <section className="bg-audiophile-dark overflow-hidden">
-      {/* Mobile and Tablet Hero - Image with overlay */}
       <div className="lg:hidden">
         <div className="relative">
           <ResponsiveImage
@@ -13,7 +12,7 @@ const HeroSection: React.FC = () => {
             tablet="/assets/home/tablet/image-header.jpg"
             desktop="/assets/home/desktop/image-hero.jpg"
             alt="XX99 Mark II Headphones"
-            className="w-full h-[600px] tablet:h-[729px] object-cover"
+            className="w-full h-[600px] tablet:h-[729px] object-cover object-[center_40%]"
           />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-6 tablet:px-[197px] mt-8 tablet:mt-12">
@@ -35,11 +34,9 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Desktop Hero - Perfect Figma match with 1110px container */}
       <div className="hidden lg:block">
         <div className="max-w-[1110px] mx-auto px-0 relative">
           <div className="grid grid-cols-12 items-center h-[700px]">
-            {/* Left column - Text content - 5 columns */}
             <div className="col-span-5 text-left pl-0 pr-[95px]">
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">New Product</p>
               <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 whitespace-nowrap">
@@ -56,7 +53,6 @@ const HeroSection: React.FC = () => {
               </Link>
             </div>
             
-            {/* Right column - Hero image - 7 columns */}
             <div className="col-span-7 relative h-[700px] overflow-hidden">
               <img
                 src="/assets/home/desktop/image-hero.jpg"
