@@ -115,6 +115,10 @@ const Header: React.FC = () => {
             </div>
           )}
         </div>
+        
+        {/* Underline - Full width on mobile, contained with padding on tablet/desktop */}
+        <div className="h-[1px] bg-white opacity-20 md:mx-6 lg:mx-8"></div>
+        </div>
       </header>
 
       {/* Cart Component */}
