@@ -10,7 +10,7 @@ interface CMSEditorProps {
 
 const CMSEditor: React.FC<CMSEditorProps> = ({ isVisible, onClose }) => {
   const { content, updateContent } = useCMS();
-  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'categories' | 'products'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'categories' | 'featuredProducts'>('hero');
   const [editingContent, setEditingContent] = useState(content);
 
   const handleSave = () => {
@@ -34,7 +34,7 @@ const CMSEditor: React.FC<CMSEditorProps> = ({ isVisible, onClose }) => {
           {/* Sidebar */}
           <div className="w-48 bg-gray-50 border-r">
             <nav className="p-4">
-              {(['hero', 'about', 'categories', 'products'] as const).map((tab) => (
+              {(['hero', 'about', 'categories', 'featuredProducts'] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -44,7 +44,7 @@ const CMSEditor: React.FC<CMSEditorProps> = ({ isVisible, onClose }) => {
                       : 'hover:bg-gray-200'
                   }`}
                 >
-                  {tab}
+                  {tab === 'featuredProducts' ? 'Products' : tab}
                 </button>
               ))}
             </nav>
