@@ -33,70 +33,71 @@ const CheckoutPage: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
   const [isOrderComplete, setIsOrderComplete] = useState(false);
 
-  const validateField = (name: string, value: string): string | undefined => {
-    switch (name) {
-      case 'name':
-        return !value.trim() ? 'Name is required' : undefined;
-      case 'email':
-        if (!value.trim()) return 'Email is required';
-        return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'Wrong format' : undefined;
-      case 'phone':
-        if (!value.trim()) return 'Phone number is required';
-        return !/^\+?[\d\s\-()]+$/.test(value) ? 'Wrong format' : undefined;
-      case 'address':
-        return !value.trim() ? 'Address is required' : undefined;
-      case 'zipCode':
-        return !value.trim() ? 'ZIP Code is required' : undefined;
-      case 'city':
-        return !value.trim() ? 'City is required' : undefined;
-      case 'country':
-        return !value.trim() ? 'Country is required' : undefined;
-      case 'eMoneyNumber':
-        return formData.paymentMethod === 'e-money' && !value.trim() ? 'e-Money Number is required' : undefined;
-      case 'eMoneyPin':
-        return formData.paymentMethod === 'e-money' && !value.trim() ? 'e-Money PIN is required' : undefined;
-      default:
-        return undefined;
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
     }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Wrong format';
+    }
+
+    // Phone validation
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\+?[\d\s\-()]+$/.test(formData.phone)) {
+      newErrors.phone = 'Wrong format';
+    }
+
+    // Address validation
+    if (!formData.address.trim()) {
+      newErrors.address = 'Address is required';
+    }
+
+    // ZIP Code validation
+    if (!formData.zipCode.trim()) {
+      newErrors.zipCode = 'ZIP Code is required';
+    }
+
+    // City validation
+    if (!formData.city.trim()) {
+      newErrors.city = 'City is required';
+    }
+
+    // Country validation
+    if (!formData.country.trim()) {
+      newErrors.country = 'Country is required';
+    }
+
+    // e-Money validation
+    if (formData.paymentMethod === 'e-money') {
+      if (!formData.eMoneyNumber.trim()) {
+        newErrors.eMoneyNumber = 'e-Money Number is required';
+      }
+      if (!formData.eMoneyPin.trim()) {
+        newErrors.eMoneyPin = 'e-Money PIN is required';
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Real-time validation for touched fields
-    if (touchedFields.has(name)) {
-      const error = validateField(name, value);
-      setErrors(prev => ({ ...prev, [name]: error }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
     }
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTouchedFields(prev => new Set(prev).add(name));
-    
-    const error = validateField(name, value);
-    setErrors(prev => ({ ...prev, [name]: error }));
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-    const fieldsToValidate = ['name', 'email', 'phone', 'address', 'zipCode', 'city', 'country'];
-    
-    if (formData.paymentMethod === 'e-money') {
-      fieldsToValidate.push('eMoneyNumber', 'eMoneyPin');
-    }
-
-    fieldsToValidate.forEach(field => {
-      const error = validateField(field, formData[field as keyof typeof formData] as string);
-      if (error) newErrors[field as keyof FormErrors] = error;
-    });
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const vatAmount = state.total * 0.2;
@@ -205,7 +206,6 @@ const CheckoutPage: React.FC = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.name ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="Alexei Ward"
                     />
@@ -220,7 +220,6 @@ const CheckoutPage: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.email ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="alexei@mail.com"
                     />
@@ -235,7 +234,6 @@ const CheckoutPage: React.FC = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.phone ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="+1 202-555-0136"
                     />
@@ -257,7 +255,6 @@ const CheckoutPage: React.FC = () => {
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.address ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="1137 Williams Avenue"
                     />
@@ -272,7 +269,6 @@ const CheckoutPage: React.FC = () => {
                       name="zipCode"
                       value={formData.zipCode}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.zipCode ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="10001"
                     />
@@ -287,7 +283,6 @@ const CheckoutPage: React.FC = () => {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.city ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="New York"
                     />
@@ -302,7 +297,6 @@ const CheckoutPage: React.FC = () => {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      onBlur={handleBlur}
                       className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.country ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="United States"
                     />
@@ -353,7 +347,6 @@ const CheckoutPage: React.FC = () => {
                           name="eMoneyNumber"
                           value={formData.eMoneyNumber}
                           onChange={handleInputChange}
-                          onBlur={handleBlur}
                           className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.eMoneyNumber ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                           placeholder="238521993"
                         />
@@ -368,7 +361,6 @@ const CheckoutPage: React.FC = () => {
                           name="eMoneyPin"
                           value={formData.eMoneyPin}
                           onChange={handleInputChange}
-                          onBlur={handleBlur}
                           className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.eMoneyPin ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                           placeholder="6891"
                         />
@@ -385,6 +377,10 @@ const CheckoutPage: React.FC = () => {
                   )}
                 </div>
               </div>
+
+              <button type="submit" className="bg-[#D87D4A] text-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 w-full md:w-auto">
+                Continue & Pay
+              </button>
             </form>
           </div>
 
@@ -411,7 +407,7 @@ const CheckoutPage: React.FC = () => {
               ))}
             </div>
 
-            <div className="space-y-2 mb-8">
+            <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-[15px] font-medium leading-[25px] text-black/50 uppercase">Total</span>
                 <span className="text-[18px] font-bold leading-[25px] text-black">${state.total.toLocaleString()}</span>
@@ -429,13 +425,6 @@ const CheckoutPage: React.FC = () => {
                 <span className="text-[18px] font-bold leading-[25px] text-[#D87D4A]">${Math.round(grandTotal).toLocaleString()}</span>
               </div>
             </div>
-
-            <button 
-              onClick={handleSubmit}
-              className="bg-[#D87D4A] text-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 w-full"
-            >
-              Continue & Pay
-            </button>
           </div>
         </div>
       </div>
