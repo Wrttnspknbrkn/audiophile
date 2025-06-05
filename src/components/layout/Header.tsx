@@ -1,131 +1,143 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import Cart from '../cart/Cart';
+import CMSEditor from '../cms/CMSEditor';
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const { state } = useCart();
-  
-  const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
-
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Headphones', href: '/category/headphones' },
-    { name: 'Speakers', href: '/category/speakers' },
-    { name: 'Earphones', href: '/category/earphones' },
-  ];
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCMSOpen, setIsCMSOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <>
-      <header className="bg-audiophile-dark">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-24 relative">
-            {/* Mobile menu button */}
-            <button
-              className="lg:hidden text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+      <header className="bg-[#191919] border-b border-[#979797]/20">
+        <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0">
+          <div className="flex items-center justify-between h-[90px] md:h-[97px]">
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMenuOpen ? (
-                <X size={16} />
-              ) : (
-                <img 
-                  src="/assets/shared/tablet/icon-hamburger.svg" 
-                  alt="Menu" 
-                  className="w-4 h-[15px]"
-                />
-              )}
+              <img src="/assets/shared/tablet/icon-hamburger.svg" alt="Menu" className="w-4 h-4" />
             </button>
 
             {/* Logo */}
             <Link to="/" className="flex-shrink-0">
-              <img
-                src="/assets/shared/desktop/logo.svg"
-                alt="Audiophile"
-                className="h-[25px] w-[143px]"
-              />
+              <img src="/assets/shared/desktop/logo.svg" alt="Audiophile" className="h-6" />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-white text-[13px] font-bold leading-[25px] tracking-[2px] uppercase hover:text-audiophile-orange transition-colors duration-300"
-                >
-                  {item.name}
-                </Link>
-              ))}
+            <nav className="hidden md:flex items-center space-x-[34px]">
+              <Link 
+                to="/" 
+                className="text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-white hover:text-[#D87D4A] transition-colors"
+              >
+                Home
+              </Link>
+              <Link 
+                to="/category/headphones" 
+                className="text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-white hover:text-[#D87D4A] transition-colors"
+              >
+                Headphones
+              </Link>
+              <Link 
+                to="/category/speakers" 
+                className="text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-white hover:text-[#D87D4A] transition-colors"
+              >
+                Speakers
+              </Link>
+              <Link 
+                to="/category/earphones" 
+                className="text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-white hover:text-[#D87D4A] transition-colors"
+              >
+                Earphones
+              </Link>
             </nav>
 
-            {/* Cart button */}
-            <button
-              className="text-white relative hover:text-audiophile-orange transition-colors duration-300"
-              onClick={() => setIsCartOpen(!isCartOpen)}
-            >
-              <img 
-                src="/assets/shared/desktop/icon-cart.svg" 
-                alt="Cart" 
-                className="w-[23px] h-[20px]"
-              />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-audiophile-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {totalItems}
-                </span>
+            {/* Right Side Actions */}
+            <div className="flex items-center space-x-4">
+              {/* CMS Button - only show in development */}
+              {process.env.NODE_ENV === 'development' && (
+                <button
+                  onClick={() => setIsCMSOpen(true)}
+                  className="text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-white hover:text-[#D87D4A] transition-colors"
+                >
+                  CMS
+                </button>
               )}
-            </button>
-
-            {/* Desktop underline - only from logo to cart */}
-            <div className="hidden lg:block absolute bottom-0 left-0 right-0 h-[1px] bg-white opacity-20"></div>
+              
+              {/* Cart */}
+              <button 
+                className="relative"
+                onClick={() => setIsCartOpen(true)}
+              >
+                <img src="/assets/shared/desktop/icon-cart.svg" alt="Cart" className="w-6 h-6" />
+                {state.itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#D87D4A] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {state.itemCount}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Navigation Overlay */}
-          {isMenuOpen && (
-            <div className="lg:hidden absolute left-0 right-0 top-24 z-40">
-              <div className="bg-white rounded-b-lg mx-6">
-                <div className="px-6 py-[84px]">
-                  <div className="grid grid-cols-1 gap-[68px]">
-                    {['headphones', 'speakers', 'earphones'].map((cat) => (
-                      <div key={cat} className="text-center group">
-                        <div className="relative pt-[88px] pb-[22px]">
-                          <img
-                            src={`/assets/shared/desktop/image-category-thumbnail-${cat}.png`}
-                            alt={cat}
-                            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[147px] h-[133px] object-contain"
-                          />
-                        </div>
-                        <h6 className="mb-[17px] text-[18px] font-bold leading-[24px] tracking-[1.29px] text-audiophile-black uppercase">{cat}</h6>
-                        <Link
-                          to={`/category/${cat}`}
-                          className="inline-flex items-center text-[13px] font-bold leading-[25px] tracking-[1px] uppercase text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Shop
-                          <img
-                            src="/assets/shared/desktop/icon-arrow-right.svg"
-                            alt=""
-                            className="ml-[13px] w-[5px] h-[10px]"
-                          />
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden absolute top-[90px] left-0 right-0 bg-white z-50 px-6 py-8 shadow-lg">
+              <nav className="space-y-4">
+                <Link 
+                  to="/" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-black hover:text-[#D87D4A] transition-colors"
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/category/headphones" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-black hover:text-[#D87D4A] transition-colors"
+                >
+                  Headphones
+                </Link>
+                <Link 
+                  to="/category/speakers" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-black hover:text-[#D87D4A] transition-colors"
+                >
+                  Speakers
+                </Link>
+                <Link 
+                  to="/category/earphones" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-black hover:text-[#D87D4A] transition-colors"
+                >
+                  Earphones
+                </Link>
+                {process.env.NODE_ENV === 'development' && (
+                  <button
+                    onClick={() => {
+                      setIsCMSOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-black hover:text-[#D87D4A] transition-colors"
+                  >
+                    CMS
+                  </button>
+                )}
+              </nav>
             </div>
           )}
         </div>
-
-        {/* Mobile/Tablet full-width underline */}
-        <div className="lg:hidden border-b border-white border-opacity-20"></div>
       </header>
 
-      {/* Cart Component */}
+      {/* Cart Overlay */}
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* CMS Editor */}
+      <CMSEditor isVisible={isCMSOpen} onClose={() => setIsCMSOpen(false)} />
     </>
   );
 };
