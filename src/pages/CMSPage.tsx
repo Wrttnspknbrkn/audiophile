@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../components/cms/CMSProvider';
@@ -9,7 +8,7 @@ import { Product } from '../types/product';
 
 const CMSPage: React.FC = () => {
   const { content, updateContent } = useCMS();
-  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'categories' | 'products'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'categories' | 'featuredProducts'>('hero');
   const [editingContent, setEditingContent] = useState(content);
   const [products, setProducts] = useState<Product[]>(() => {
     const savedProducts = localStorage.getItem('cms-products');
@@ -19,7 +18,7 @@ const CMSPage: React.FC = () => {
 
   const handleSave = () => {
     updateContent(activeTab, editingContent[activeTab]);
-    if (activeTab === 'products') {
+    if (activeTab === 'featuredProducts') {
       localStorage.setItem('cms-products', JSON.stringify(products));
     }
   };
@@ -61,7 +60,7 @@ const CMSPage: React.FC = () => {
             {/* Sidebar */}
             <div className="w-64 bg-gray-50 border-r min-h-[600px]">
               <nav className="p-4">
-                {(['hero', 'about', 'categories', 'products'] as const).map((tab) => (
+                {(['hero', 'about', 'categories', 'featuredProducts'] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -71,7 +70,7 @@ const CMSPage: React.FC = () => {
                         : 'hover:bg-gray-200'
                     }`}
                   >
-                    {tab}
+                    {tab === 'featuredProducts' ? 'Products' : tab}
                   </button>
                 ))}
               </nav>
@@ -205,7 +204,7 @@ const CMSPage: React.FC = () => {
                 </div>
               )}
 
-              {activeTab === 'products' && (
+              {activeTab === 'featuredProducts' && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold">Products</h3>
