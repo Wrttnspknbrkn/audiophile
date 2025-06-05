@@ -83,12 +83,41 @@ const Header: React.FC = () => {
             <div className="hidden lg:block absolute bottom-0 left-0 right-0 h-[1px] bg-white opacity-20"></div>
           </div>
 
-          {/* Mobile Navigation Overlay */}
+          {/* Mobile/Tablet Navigation Overlay */}
           {isMenuOpen && (
-            <div className="lg:hidden absolute left-0 right-0 top-24 z-40">
-              <div className="bg-white rounded-b-lg mx-6">
-                <div className="px-6 py-[84px]">
-                  <div className="grid grid-cols-1 gap-[68px]">
+            <div className="lg:hidden fixed left-0 right-0 top-24 z-40 w-full">
+              <div className="bg-white w-full">
+                <div className="px-6 py-[68px] tablet:py-[56px]">
+                  {/* Mobile: Categories Grid (Vertical) */}
+                  <div className="tablet:hidden grid grid-cols-1 gap-[68px]">
+                    {['headphones', 'speakers', 'earphones'].map((cat) => (
+                      <div key={cat} className="text-center group">
+                        <div className="relative pt-[88px] pb-[22px]">
+                          <img
+                            src={`/assets/shared/desktop/image-category-thumbnail-${cat}.png`}
+                            alt={cat}
+                            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[147px] h-[133px] object-contain"
+                          />
+                        </div>
+                        <h6 className="mb-[17px] text-[18px] font-bold leading-[24px] tracking-[1.29px] text-audiophile-black uppercase">{cat}</h6>
+                        <Link
+                          to={`/category/${cat}`}
+                          className="inline-flex items-center text-[13px] font-bold leading-[25px] tracking-[1px] uppercase text-audiophile-black opacity-50 hover:text-audiophile-orange hover:opacity-100 transition-all duration-300"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Shop
+                          <img
+                            src="/assets/shared/desktop/icon-arrow-right.svg"
+                            alt=""
+                            className="ml-[13px] w-[5px] h-[10px]"
+                          />
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Tablet: Categories Grid (Horizontal) */}
+                  <div className="hidden tablet:grid lg:hidden grid-cols-3 gap-[10px]">
                     {['headphones', 'speakers', 'earphones'].map((cat) => (
                       <div key={cat} className="text-center group">
                         <div className="relative pt-[88px] pb-[22px]">
