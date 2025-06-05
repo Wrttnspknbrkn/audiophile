@@ -6,6 +6,28 @@ All notable changes to the Audiophile E-commerce Website will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-01-03
+
+### Changed
+- Updated all page layouts to use proper Tailwind responsive classes (sm:, md:, lg:) instead of custom breakpoints
+- Fixed ProductPage layout to match Figma design exactly across all screen sizes
+- Updated CategoryPage responsive grid and spacing to match Figma specifications
+- Corrected CheckoutPage form layout and styling for pixel-perfect Figma compliance
+- Replaced all custom color values with exact Figma color specifications (#D87D4A, #FBAF85, etc.)
+- Updated spacing, padding, and typography to match Figma design system precisely
+
+### Improved
+- Better responsive behavior across desktop (1440px+), tablet (768px+), and mobile (375px+)
+- Enhanced form validation styling with proper error states
+- Consistent component spacing and alignment throughout all pages
+- Improved image sizing and aspect ratios for all responsive breakpoints
+
+### Technical
+- Migrated from custom responsive breakpoints to standard Tailwind classes
+- Enhanced TypeScript interfaces for better type safety
+- Updated all components to use exact Figma color palette
+- Improved component structure and maintainability
+
 ## [2.0.0] - 2025-01-03
 
 ### Added

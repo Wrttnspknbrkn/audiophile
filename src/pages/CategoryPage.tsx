@@ -20,42 +20,46 @@ const CategoryPage: React.FC = () => {
   const categoryName = category?.charAt(0).toUpperCase() + category?.slice(1);
 
   return (
-    <div className="min-h-screen bg-audiophile-white">
+    <div className="min-h-screen bg-white">
       <Header />
       
       {/* Category Header */}
-      <section className="bg-audiophile-black py-[97px] tablet:py-[105px] desktop:py-[98px]">
-        <div className="max-w-[1110px] mx-auto px-6 tablet:px-[40px] desktop:px-0 text-center">
-          <h1 className="text-[28px] tablet:text-[40px] desktop:text-[40px] font-bold leading-[38px] tablet:leading-[44px] desktop:leading-[44px] tracking-[2px] tablet:tracking-[1.43px] desktop:tracking-[1.43px] uppercase text-white">{categoryName}</h1>
+      <section className="bg-[#191919] py-24 md:py-[105px] lg:py-[98px]">
+        <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0 text-center">
+          <h1 className="text-[28px] md:text-[40px] font-bold leading-[38px] md:leading-[44px] tracking-[2px] md:tracking-[1.43px] uppercase text-white">
+            {categoryName}
+          </h1>
         </div>
       </section>
 
       {/* Products */}      
-      <section className="py-16 tablet:py-[120px] desktop:py-[160px]">
-        <div className="max-w-[1110px] mx-auto px-6 tablet:px-[40px] desktop:px-0">
-          <div className="space-y-[120px] tablet:space-y-[120px] desktop:space-y-[160px]">
+      <section className="py-16 md:py-[120px] lg:py-[160px]">
+        <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0">
+          <div className="space-y-[120px] md:space-y-[120px] lg:space-y-[160px]">
             {categoryProducts.map((product, index) => (
-              <div key={product.id} className={`grid grid-cols-1 desktop:grid-cols-2 gap-8 tablet:gap-[52px] desktop:gap-[125px] items-center ${index % 2 === 1 ? 'desktop:[&>*:first-child]:order-2' : ''}`}>
+              <div key={product.id} className={`grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-[52px] lg:gap-[125px] items-center ${index % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
                 <div>
                   <ResponsiveImage
                     mobile={product.categoryImage.mobile}
                     tablet={product.categoryImage.tablet}
                     desktop={product.categoryImage.desktop}
                     alt={product.name}
-                    className="w-full h-[352px] tablet:h-[352px] desktop:h-[560px] rounded-lg object-cover"
+                    className="w-full h-[352px] md:h-[352px] lg:h-[560px] rounded-lg object-cover"
                   />
                 </div>
-                <div className="text-center desktop:text-left desktop:max-w-[445px]">
+                <div className="text-center lg:text-left lg:max-w-[445px]">
                   {product.new && (
-                    <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase text-audiophile-orange mb-6 tablet:mb-4 desktop:mb-4">New Product</p>
+                    <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase text-[#D87D4A] mb-6 md:mb-4 lg:mb-4">New Product</p>
                   )}
-                  <h2 className="text-[28px] tablet:text-[40px] desktop:text-[40px] font-bold leading-[32px] tablet:leading-[44px] desktop:leading-[44px] tracking-[1px] tablet:tracking-[1.43px] desktop:tracking-[1.43px] uppercase text-audiophile-black mb-6 tablet:mb-8 desktop:mb-8">{product.name}</h2>
-                  <p className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 mb-6 tablet:mb-10 desktop:mb-10">
+                  <h2 className="text-[28px] md:text-[40px] font-bold leading-[32px] md:leading-[44px] tracking-[1px] md:tracking-[1.43px] uppercase text-black mb-6 md:mb-8 lg:mb-8">
+                    {product.name}
+                  </h2>
+                  <p className="text-[15px] font-medium leading-[25px] text-black/50 mb-6 md:mb-10 lg:mb-10">
                     {product.description}
                   </p>
                   <Link
                     to={`/product/${product.slug}`}
-                    className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300 inline-block"
+                    className="bg-[#D87D4A] text-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 inline-block"
                   >
                     See Product
                   </Link>

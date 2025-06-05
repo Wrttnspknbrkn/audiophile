@@ -113,43 +113,47 @@ const CheckoutPage: React.FC = () => {
 
   if (isOrderComplete) {
     return (
-      <div className="min-h-screen bg-audiophile-white">
+      <div className="min-h-screen bg-white">
         <Header />
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-6 z-50">
-          <div className="bg-white p-8 tablet:p-12 rounded-lg max-w-[540px] w-full">
-            <div className="w-16 h-16 bg-audiophile-orange rounded-full flex items-center justify-center mb-[23px]">
+          <div className="bg-white p-8 md:p-12 rounded-lg max-w-[540px] w-full">
+            <div className="w-16 h-16 bg-[#D87D4A] rounded-full flex items-center justify-center mb-[23px]">
               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
               </svg>
             </div>
-            <h2 className="text-[24px] tablet:text-[32px] font-bold leading-[28px] tablet:leading-[36px] tracking-[0.86px] tablet:tracking-[1.14px] uppercase text-audiophile-black mb-4 tablet:mb-6">Thank you<br />for your order</h2>
-            <p className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 mb-6 tablet:mb-[33px]">You will receive an email confirmation shortly.</p>
+            <h2 className="text-[24px] md:text-[32px] font-bold leading-[28px] md:leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-4 md:mb-6">
+              Thank you<br />for your order
+            </h2>
+            <p className="text-[15px] font-medium leading-[25px] text-black/50 mb-6 md:mb-[33px]">
+              You will receive an email confirmation shortly.
+            </p>
             
-            <div className="flex flex-col tablet:flex-row rounded-lg overflow-hidden mb-6 tablet:mb-[46px]">
-              <div className="bg-audiophile-light-gray p-6 tablet:flex-1">
+            <div className="flex flex-col md:flex-row rounded-lg overflow-hidden mb-6 md:mb-[46px]">
+              <div className="bg-[#F1F1F1] p-6 md:flex-1">
                 {state.items.slice(0, 1).map(item => (
                   <div key={item.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <img src={item.image} alt={item.name} className="w-[50px] h-[50px] rounded object-cover" />
                       <div>
-                        <p className="text-[15px] font-bold leading-[25px] text-audiophile-black">{item.name.split(' ').slice(0, 2).join(' ')}</p>
-                        <p className="text-[14px] font-bold leading-[25px] text-audiophile-black opacity-50">${item.price.toLocaleString()}</p>
+                        <p className="text-[15px] font-bold leading-[25px] text-black">{item.name.split(' ').slice(0, 2).join(' ')}</p>
+                        <p className="text-[14px] font-bold leading-[25px] text-black/50">${item.price.toLocaleString()}</p>
                       </div>
                     </div>
-                    <span className="text-[15px] font-bold leading-[25px] text-audiophile-black opacity-50">x{item.quantity}</span>
+                    <span className="text-[15px] font-bold leading-[25px] text-black/50">x{item.quantity}</span>
                   </div>
                 ))}
                 {state.items.length > 1 && (
                   <>
-                    <hr className="my-3 border-audiophile-black opacity-8" />
-                    <p className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black opacity-50 text-center">
+                    <hr className="my-3 border-black/8" />
+                    <p className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black/50 text-center">
                       and {state.items.length - 1} other item{state.items.length > 2 ? 's' : ''}
                     </p>
                   </>
                 )}
               </div>
-              <div className="bg-audiophile-black p-6 tablet:w-[198px] flex flex-col justify-end">
-                <p className="text-[15px] font-medium leading-[25px] text-white opacity-50 mb-2">Grand Total</p>
+              <div className="bg-black p-6 md:w-[198px] flex flex-col justify-end">
+                <p className="text-[15px] font-medium leading-[25px] text-white/50 mb-2">Grand Total</p>
                 <p className="text-[18px] font-bold leading-[25px] text-white">${Math.round(grandTotal).toLocaleString()}</p>
               </div>
             </div>
@@ -157,7 +161,7 @@ const CheckoutPage: React.FC = () => {
             <Link
               to="/"
               onClick={() => dispatch({ type: 'CLEAR_CART' })}
-              className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300 w-full text-center block"
+              className="bg-[#D87D4A] text-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 w-full text-center block"
             >
               Back to Home
             </Link>
@@ -169,30 +173,32 @@ const CheckoutPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-audiophile-light-gray">
+    <div className="min-h-screen bg-[#F1F1F1]">
       <Header />
       
-      <div className="max-w-[1110px] mx-auto px-6 tablet:px-[40px] desktop:px-0 py-4 tablet:py-8 desktop:py-[79px]">
+      <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0 py-4 md:py-8 lg:py-[79px]">
         <Link
           to="/"
-          className="inline-flex items-center text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 hover:text-audiophile-orange transition-colors mb-6 tablet:mb-14 desktop:mb-14"
+          className="inline-flex items-center text-[15px] font-medium leading-[25px] text-black/50 hover:text-[#D87D4A] transition-colors mb-6 md:mb-14 lg:mb-14"
         >
           Go Back
         </Link>
 
-        <div className="grid grid-cols-1 desktop:grid-cols-3 gap-8 desktop:gap-[30px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-[30px]">
           {/* Checkout Form */}
-          <div className="desktop:col-span-2 bg-white p-6 tablet:p-[48px] rounded-lg">
-            <h1 className="text-[28px] tablet:text-[32px] font-bold leading-[32px] tablet:leading-[36px] tracking-[1px] tablet:tracking-[1.14px] uppercase text-audiophile-black mb-[41px] tablet:mb-[41px]">Checkout</h1>
+          <div className="lg:col-span-2 bg-white p-6 md:p-[48px] rounded-lg">
+            <h1 className="text-[28px] md:text-[32px] font-bold leading-[32px] md:leading-[36px] tracking-[1px] md:tracking-[1.14px] uppercase text-black mb-[41px] md:mb-[41px]">
+              Checkout
+            </h1>
             
             <form onSubmit={handleSubmit}>
               {/* Billing Details */}
               <div className="mb-[53px]">
-                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-audiophile-orange mb-4">Billing Details</h3>
-                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
+                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-[#D87D4A] mb-4">Billing Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Name</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">Name</label>
                       {errors.name && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.name}</span>}
                     </div>
                     <input
@@ -200,13 +206,13 @@ const CheckoutPage: React.FC = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.name ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.name ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="Alexei Ward"
                     />
                   </div>
                   <div>
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Email Address</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">Email Address</label>
                       {errors.email && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.email}</span>}
                     </div>
                     <input
@@ -214,13 +220,13 @@ const CheckoutPage: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.email ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.email ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="alexei@mail.com"
                     />
                   </div>
                   <div>
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Phone Number</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">Phone Number</label>
                       {errors.phone && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.phone}</span>}
                     </div>
                     <input
@@ -228,7 +234,7 @@ const CheckoutPage: React.FC = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.phone ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.phone ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="+1 202-555-0136"
                     />
                   </div>
@@ -237,11 +243,11 @@ const CheckoutPage: React.FC = () => {
 
               {/* Shipping Info */}
               <div className="mb-[53px]">
-                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-audiophile-orange mb-4">Shipping Info</h3>
-                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
-                  <div className="tablet:col-span-2">
+                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-[#D87D4A] mb-4">Shipping Info</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="md:col-span-2">
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Address</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">Address</label>
                       {errors.address && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.address}</span>}
                     </div>
                     <input
@@ -249,13 +255,13 @@ const CheckoutPage: React.FC = () => {
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.address ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.address ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="1137 Williams Avenue"
                     />
                   </div>
                   <div>
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">ZIP Code</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">ZIP Code</label>
                       {errors.zipCode && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.zipCode}</span>}
                     </div>
                     <input
@@ -263,13 +269,13 @@ const CheckoutPage: React.FC = () => {
                       name="zipCode"
                       value={formData.zipCode}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.zipCode ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.zipCode ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="10001"
                     />
                   </div>
                   <div>
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">City</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">City</label>
                       {errors.city && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.city}</span>}
                     </div>
                     <input
@@ -277,13 +283,13 @@ const CheckoutPage: React.FC = () => {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.city ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.city ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="New York"
                     />
                   </div>
                   <div>
                     <div className="flex justify-between mb-[9px]">
-                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Country</label>
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">Country</label>
                       {errors.country && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.country}</span>}
                     </div>
                     <input
@@ -291,7 +297,7 @@ const CheckoutPage: React.FC = () => {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.country ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.country ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                       placeholder="United States"
                     />
                   </div>
@@ -300,32 +306,32 @@ const CheckoutPage: React.FC = () => {
 
               {/* Payment Details */}
               <div className="mb-8">
-                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-audiophile-orange mb-4">Payment Details</h3>
-                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
+                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-[#D87D4A] mb-4">Payment Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black mb-[17px] block">Payment Method</label>
+                    <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black mb-[17px] block">Payment Method</label>
                     <div className="space-y-4">
-                      <label className={`flex items-center p-[18px] border-2 rounded-lg cursor-pointer transition-colors ${formData.paymentMethod === 'e-money' ? 'border-audiophile-orange' : 'border-[#CFCFCF]'}`}>
+                      <label className={`flex items-center p-[18px] border-2 rounded-lg cursor-pointer transition-colors ${formData.paymentMethod === 'e-money' ? 'border-[#D87D4A]' : 'border-[#CFCFCF]'}`}>
                         <input
                           type="radio"
                           name="paymentMethod"
                           value="e-money"
                           checked={formData.paymentMethod === 'e-money'}
                           onChange={handleInputChange}
-                          className="w-5 h-5 text-audiophile-orange bg-white border-[#CFCFCF] focus:ring-audiophile-orange focus:ring-2 mr-4"
+                          className="w-5 h-5 text-[#D87D4A] bg-white border-[#CFCFCF] focus:ring-[#D87D4A] focus:ring-2 mr-4"
                         />
-                        <span className="text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black">e-Money</span>
+                        <span className="text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black">e-Money</span>
                       </label>
-                      <label className={`flex items-center p-[18px] border-2 rounded-lg cursor-pointer transition-colors ${formData.paymentMethod === 'cash' ? 'border-audiophile-orange' : 'border-[#CFCFCF]'}`}>
+                      <label className={`flex items-center p-[18px] border-2 rounded-lg cursor-pointer transition-colors ${formData.paymentMethod === 'cash' ? 'border-[#D87D4A]' : 'border-[#CFCFCF]'}`}>
                         <input
                           type="radio"
                           name="paymentMethod"
                           value="cash"
                           checked={formData.paymentMethod === 'cash'}
                           onChange={handleInputChange}
-                          className="w-5 h-5 text-audiophile-orange bg-white border-[#CFCFCF] focus:ring-audiophile-orange focus:ring-2 mr-4"
+                          className="w-5 h-5 text-[#D87D4A] bg-white border-[#CFCFCF] focus:ring-[#D87D4A] focus:ring-2 mr-4"
                         />
-                        <span className="text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black">Cash on Delivery</span>
+                        <span className="text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black">Cash on Delivery</span>
                       </label>
                     </div>
                   </div>
@@ -333,7 +339,7 @@ const CheckoutPage: React.FC = () => {
                     <div className="space-y-6">
                       <div>
                         <div className="flex justify-between mb-[9px]">
-                          <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">e-Money Number</label>
+                          <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">e-Money Number</label>
                           {errors.eMoneyNumber && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.eMoneyNumber}</span>}
                         </div>
                         <input
@@ -341,13 +347,13 @@ const CheckoutPage: React.FC = () => {
                           name="eMoneyNumber"
                           value={formData.eMoneyNumber}
                           onChange={handleInputChange}
-                          className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.eMoneyNumber ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                          className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.eMoneyNumber ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                           placeholder="238521993"
                         />
                       </div>
                       <div>
                         <div className="flex justify-between mb-[9px]">
-                          <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">e-Money PIN</label>
+                          <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-black">e-Money PIN</label>
                           {errors.eMoneyPin && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.eMoneyPin}</span>}
                         </div>
                         <input
@@ -355,7 +361,7 @@ const CheckoutPage: React.FC = () => {
                           name="eMoneyPin"
                           value={formData.eMoneyPin}
                           onChange={handleInputChange}
-                          className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.eMoneyPin ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
+                          className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-black placeholder-black/40 focus:outline-none caret-[#D87D4A] ${errors.eMoneyPin ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-[#D87D4A]'}`}
                           placeholder="6891"
                         />
                       </div>
@@ -364,7 +370,7 @@ const CheckoutPage: React.FC = () => {
                   {formData.paymentMethod === 'cash' && (
                     <div className="flex items-start space-x-8">
                       <img src="/assets/checkout/icon-cash-on-delivery.svg" alt="Cash on delivery" className="w-12 h-12 mt-2" />
-                      <p className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50">
+                      <p className="text-[15px] font-medium leading-[25px] text-black/50">
                         The 'Cash on Delivery' option enables you to pay in cash when our delivery courier arrives at your residence. Just make sure your address is correct so that your order will not be cancelled.
                       </p>
                     </div>
@@ -372,15 +378,15 @@ const CheckoutPage: React.FC = () => {
                 </div>
               </div>
 
-              <button type="submit" className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300 w-full tablet:w-auto">
+              <button type="submit" className="bg-[#D87D4A] text-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 w-full md:w-auto">
                 Continue & Pay
               </button>
             </form>
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white p-6 tablet:p-8 rounded-lg h-fit">
-            <h3 className="text-[18px] font-bold leading-[25px] tracking-[1.29px] uppercase text-audiophile-black mb-[31px]">Summary</h3>
+          <div className="bg-white p-6 md:p-8 rounded-lg h-fit">
+            <h3 className="text-[18px] font-bold leading-[25px] tracking-[1.29px] uppercase text-black mb-[31px]">Summary</h3>
             
             <div className="space-y-6 mb-8">
               {state.items.map((item) => (
@@ -392,31 +398,31 @@ const CheckoutPage: React.FC = () => {
                       className="w-16 h-16 rounded object-cover"
                     />
                     <div>
-                      <h4 className="text-[15px] font-bold leading-[25px] text-audiophile-black">{item.name.split(' ').slice(0, 2).join(' ')}</h4>
-                      <p className="text-[14px] font-bold leading-[25px] text-audiophile-black opacity-50">${item.price.toLocaleString()}</p>
+                      <h4 className="text-[15px] font-bold leading-[25px] text-black">{item.name.split(' ').slice(0, 2).join(' ')}</h4>
+                      <p className="text-[14px] font-bold leading-[25px] text-black/50">${item.price.toLocaleString()}</p>
                     </div>
                   </div>
-                  <span className="text-[15px] font-bold leading-[25px] text-audiophile-black opacity-50">x{item.quantity}</span>
+                  <span className="text-[15px] font-bold leading-[25px] text-black/50">x{item.quantity}</span>
                 </div>
               ))}
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">Total</span>
-                <span className="text-[18px] font-bold leading-[25px] text-audiophile-black">${state.total.toLocaleString()}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-black/50 uppercase">Total</span>
+                <span className="text-[18px] font-bold leading-[25px] text-black">${state.total.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">Shipping</span>
-                <span className="text-[18px] font-bold leading-[25px] text-audiophile-black">${shipping}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-black/50 uppercase">Shipping</span>
+                <span className="text-[18px] font-bold leading-[25px] text-black">${shipping}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">VAT (Included)</span>
-                <span className="text-[18px] font-bold leading-[25px] text-audiophile-black">${Math.round(vatAmount).toLocaleString()}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-black/50 uppercase">VAT (Included)</span>
+                <span className="text-[18px] font-bold leading-[25px] text-black">${Math.round(vatAmount).toLocaleString()}</span>
               </div>
               <div className="flex justify-between pt-6">
-                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">Grand Total</span>
-                <span className="text-[18px] font-bold leading-[25px] text-audiophile-orange">${Math.round(grandTotal).toLocaleString()}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-black/50 uppercase">Grand Total</span>
+                <span className="text-[18px] font-bold leading-[25px] text-[#D87D4A]">${Math.round(grandTotal).toLocaleString()}</span>
               </div>
             </div>
           </div>

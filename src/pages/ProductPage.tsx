@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ChevronLeft, Plus, Minus } from 'lucide-react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { ResponsiveImage } from '../components/ui/responsive-image';
@@ -18,93 +17,87 @@ const ProductPage: React.FC = () => {
   
   const products = productsData as Product[];
   const product = products.find(p => p.slug === slug);
-
+  
   if (!product) {
-    return (
-      <div className="min-h-screen bg-audiophile-white">
-        <Header />
-        <div className="max-w-7xl mx-auto container-padding py-20 text-center">
-          <h1 className="text-audiophile-black">Product not found</h1>
-          <Link to="/" className="btn-primary mt-8">
-            Back to Home
-          </Link>
-        </div>
-        <Footer />
-      </div>
-    );
+    return <div>Product not found</div>;
   }
 
-  const addToCart = () => {
+  const handleAddToCart = () => {
     dispatch({
       type: 'ADD_ITEM',
       payload: {
         id: product.id,
         name: product.name,
         price: product.price,
-        quantity,
-        image: `/assets/cart/image-${product.slug}.jpg`,
-        slug: product.slug,
+        image: product.image.mobile,
+        quantity
       }
     });
-    setQuantity(1);
   };
 
-  const updateQuantity = (newQuantity: number) => {
-    setQuantity(Math.max(1, newQuantity));
-  };
+  const otherProducts = products
+    .filter(p => p.id !== product.id)
+    .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-audiophile-white">
+    <div className="min-h-screen bg-white">
       <Header />
       
-      <div className="max-w-[1110px] mx-auto px-6 tablet:px-[40px] desktop:px-0 py-4 tablet:py-8 desktop:py-[79px]">
-        {/* Back Button */}
+      {/* Go Back Button */}
+      <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0 py-4 md:py-8 lg:py-20">
         <Link
           to={`/category/${product.category}`}
-          className="inline-flex items-center text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 hover:text-audiophile-orange transition-colors mb-6 tablet:mb-14 desktop:mb-14"
+          className="inline-flex items-center text-[15px] font-medium leading-[25px] text-black/50 hover:text-[#D87D4A] transition-colors mb-6 md:mb-14 lg:mb-14"
         >
           Go Back
         </Link>
 
         {/* Product Details */}
-        <div className="grid grid-cols-1 desktop:grid-cols-2 gap-8 tablet:gap-[69px] desktop:gap-[125px] items-center mb-[88px] tablet:mb-[120px] desktop:mb-[160px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[125px] items-center mb-20 md:mb-24 lg:mb-40">
           <div>
             <ResponsiveImage
               mobile={product.image.mobile}
               tablet={product.image.tablet}
               desktop={product.image.desktop}
               alt={product.name}
-              className="w-full h-[327px] tablet:h-[480px] desktop:h-[560px] rounded-lg object-cover"
+              className="w-full h-80 md:h-96 lg:h-[560px] rounded-lg object-cover"
             />
           </div>
-          <div className="desktop:pl-0">
+          <div className="lg:max-w-[445px]">
             {product.new && (
-              <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase text-audiophile-orange mb-6 tablet:mb-4 desktop:mb-4">New Product</p>
+              <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase text-[#D87D4A] mb-4 lg:mb-4">New Product</p>
             )}
-            <h1 className="text-[28px] tablet:text-[40px] desktop:text-[40px] font-bold leading-[32px] tablet:leading-[44px] desktop:leading-[44px] tracking-[1px] tablet:tracking-[1.43px] desktop:tracking-[1.43px] uppercase text-audiophile-black mb-6 tablet:mb-8 desktop:mb-6">{product.name}</h1>
-            <p className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 mb-6 tablet:mb-8 desktop:mb-10">{product.description}</p>
-            <p className="text-[18px] font-bold leading-[25px] tracking-[1.29px] text-audiophile-black mb-[31px] tablet:mb-[47px] desktop:mb-[47px]">${product.price.toLocaleString()}</p>
+            <h1 className="text-[28px] md:text-[40px] font-bold leading-[32px] md:leading-[44px] tracking-[1px] md:tracking-[1.43px] uppercase text-black mb-6 md:mb-8">
+              {product.name}
+            </h1>
+            <p className="text-[15px] font-medium leading-[25px] text-black/50 mb-6 md:mb-8">
+              {product.description}
+            </p>
+            <p className="text-[18px] font-bold leading-[25px] tracking-[1.29px] text-black mb-8 md:mb-12">
+              ${product.price.toLocaleString()}
+            </p>
             
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center bg-audiophile-light-gray">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex items-center bg-[#F1F1F1]">
                 <button
-                  onClick={() => updateQuantity(quantity - 1)}
-                  className="w-12 h-12 flex items-center justify-center hover:bg-gray-200 transition-colors text-[13px] font-bold tracking-[1px] text-audiophile-black opacity-25 hover:text-audiophile-orange hover:opacity-100"
-                  disabled={quantity <= 1}
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="px-4 py-3 text-[13px] font-bold text-black/25 hover:text-[#D87D4A] transition-colors"
                 >
                   -
                 </button>
-                <span className="w-12 h-12 flex items-center justify-center text-[13px] font-bold tracking-[1px] text-audiophile-black">{quantity}</span>
+                <span className="px-4 py-3 text-[13px] font-bold text-black min-w-[50px] text-center">
+                  {quantity}
+                </span>
                 <button
-                  onClick={() => updateQuantity(quantity + 1)}
-                  className="w-12 h-12 flex items-center justify-center hover:bg-gray-200 transition-colors text-[13px] font-bold tracking-[1px] text-audiophile-black opacity-25 hover:text-audiophile-orange hover:opacity-100"
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="px-4 py-3 text-[13px] font-bold text-black/25 hover:text-[#D87D4A] transition-colors"
                 >
                   +
                 </button>
               </div>
               <button
-                onClick={addToCart}
-                className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
+                onClick={handleAddToCart}
+                className="bg-[#D87D4A] text-white px-8 py-3 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300"
               >
                 Add to Cart
               </button>
@@ -112,25 +105,31 @@ const ProductPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Features and In The Box */}
-        <div className="grid grid-cols-1 desktop:grid-cols-3 gap-[88px] tablet:gap-[120px] desktop:gap-[125px] mb-[88px] tablet:mb-[120px] desktop:mb-[160px]">
-          <div className="desktop:col-span-2">
-            <h3 className="text-[24px] tablet:text-[32px] desktop:text-[32px] font-bold leading-[36px] tablet:leading-[36px] desktop:leading-[36px] tracking-[0.86px] tablet:tracking-[1.14px] desktop:tracking-[1.14px] uppercase text-audiophile-black mb-6 tablet:mb-8 desktop:mb-8">Features</h3>
-            <div className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 space-y-6">
+        {/* Features and In the Box */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-[125px] mb-20 md:mb-24 lg:mb-40">
+          <div className="lg:col-span-2">
+            <h3 className="text-[24px] md:text-[32px] font-bold leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-6 md:mb-8">
+              Features
+            </h3>
+            <div className="text-[15px] font-medium leading-[25px] text-black/50 space-y-6">
               {product.features.split('\n\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
           </div>
           <div>
-            <h3 className="text-[24px] tablet:text-[32px] desktop:text-[32px] font-bold leading-[36px] tablet:leading-[36px] desktop:leading-[36px] tracking-[0.86px] tablet:tracking-[1.14px] desktop:tracking-[1.14px] uppercase text-audiophile-black mb-6 tablet:mb-8 desktop:mb-8">In The Box</h3>
+            <h3 className="text-[24px] md:text-[32px] font-bold leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-6 md:mb-8">
+              In the Box
+            </h3>
             <ul className="space-y-2">
               {product.includes.map((item, index) => (
-                <li key={index} className="flex">
-                  <span className="text-audiophile-orange text-[15px] font-bold leading-[25px] mr-6 min-w-[24px]">
+                <li key={index} className="flex items-start">
+                  <span className="text-[15px] font-bold leading-[25px] text-[#D87D4A] mr-6 min-w-[20px]">
                     {item.quantity}x
                   </span>
-                  <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50">{item.item}</span>
+                  <span className="text-[15px] font-medium leading-[25px] text-black/50">
+                    {item.item}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -138,58 +137,62 @@ const ProductPage: React.FC = () => {
         </div>
 
         {/* Gallery */}
-        <div className="grid grid-cols-1 tablet:grid-cols-2 desktop:grid-cols-3 gap-5 tablet:gap-[18px] desktop:gap-[30px] mb-[120px] tablet:mb-[120px] desktop:mb-[160px]">
-          <div className="space-y-5 tablet:space-y-[18px] desktop:space-y-[30px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-8 mb-20 md:mb-24 lg:mb-40">
+          <div className="md:col-span-1 lg:col-span-2 space-y-4 lg:space-y-8">
             <ResponsiveImage
               mobile={product.gallery.first.mobile}
               tablet={product.gallery.first.tablet}
               desktop={product.gallery.first.desktop}
-              alt={`${product.name} gallery 1`}
-              className="w-full h-[174px] tablet:h-[174px] desktop:h-[280px] rounded-lg object-cover"
+              alt="Product gallery"
+              className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
             />
             <ResponsiveImage
               mobile={product.gallery.second.mobile}
               tablet={product.gallery.second.tablet}
               desktop={product.gallery.second.desktop}
-              alt={`${product.name} gallery 2`}
-              className="w-full h-[174px] tablet:h-[174px] desktop:h-[280px] rounded-lg object-cover"
+              alt="Product gallery"
+              className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
             />
           </div>
-          <div className="tablet:col-span-1 desktop:col-span-2">
+          <div className="md:col-span-1 lg:col-span-3">
             <ResponsiveImage
               mobile={product.gallery.third.mobile}
               tablet={product.gallery.third.tablet}
               desktop={product.gallery.third.desktop}
-              alt={`${product.name} gallery 3`}
-              className="w-full h-[368px] tablet:h-[368px] desktop:h-[592px] rounded-lg object-cover"
+              alt="Product gallery"
+              className="w-full h-96 md:h-96 lg:h-[592px] rounded-lg object-cover"
             />
           </div>
         </div>
 
         {/* You May Also Like */}
-        <section className="mb-[120px] tablet:mb-[120px] desktop:mb-[160px]">
-          <h3 className="text-[24px] tablet:text-[32px] desktop:text-[32px] font-bold leading-[36px] tablet:leading-[36px] desktop:leading-[36px] tracking-[0.86px] tablet:tracking-[1.14px] desktop:tracking-[1.14px] uppercase text-audiophile-black text-center mb-10 tablet:mb-14 desktop:mb-16">You may also like</h3>
-          <div className="grid grid-cols-1 tablet:grid-cols-3 gap-14 tablet:gap-[11px] desktop:gap-[30px]">
-            {product.others.map((otherProduct) => (
-              <div key={otherProduct.slug} className="text-center">
+        <div className="text-center mb-16 md:mb-20 lg:mb-40">
+          <h3 className="text-[24px] md:text-[32px] font-bold leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-10 md:mb-16">
+            You may also like
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-6 lg:gap-8">
+            {product.others.map((item, index) => (
+              <div key={index} className="group">
                 <ResponsiveImage
-                  mobile={otherProduct.image.mobile}
-                  tablet={otherProduct.image.tablet}
-                  desktop={otherProduct.image.desktop}
-                  alt={otherProduct.name}
-                  className="w-full h-[120px] tablet:h-[318px] desktop:h-[318px] rounded-lg object-cover mb-8 tablet:mb-10 desktop:mb-10"
+                  mobile={item.image.mobile}
+                  tablet={item.image.tablet}
+                  desktop={item.image.desktop}
+                  alt={item.name}
+                  className="w-full h-40 md:h-80 lg:h-80 rounded-lg object-cover mb-8 md:mb-10"
                 />
-                <h5 className="text-[24px] font-bold leading-[33px] tracking-[1.7px] uppercase text-audiophile-black mb-8">{otherProduct.name}</h5>
+                <h4 className="text-[24px] font-bold leading-[33px] tracking-[1.71px] uppercase text-black mb-8">
+                  {item.name}
+                </h4>
                 <Link
-                  to={`/product/${otherProduct.slug}`}
-                  className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300 inline-block"
+                  to={`/product/${item.slug}`}
+                  className="bg-[#D87D4A] text-white px-8 py-3 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 inline-block"
                 >
                   See Product
                 </Link>
               </div>
             ))}
           </div>
-        </section>
+        </div>
       </div>
 
       {/* Categories Section */}
