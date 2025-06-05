@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import Cart from '../cart/Cart';
-import CMSEditor from '../cms/CMSEditor';
 
 const Header: React.FC = () => {
   const { state } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCMSOpen, setIsCMSOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -59,16 +57,6 @@ const Header: React.FC = () => {
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-4">
-              {/* CMS Button - only show in development */}
-              {process.env.NODE_ENV === 'development' && (
-                <button
-                  onClick={() => setIsCMSOpen(true)}
-                  className="text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-white hover:text-[#D87D4A] transition-colors"
-                >
-                  CMS
-                </button>
-              )}
-              
               {/* Cart */}
               <button 
                 className="relative"
@@ -116,17 +104,6 @@ const Header: React.FC = () => {
                 >
                   Earphones
                 </Link>
-                {process.env.NODE_ENV === 'development' && (
-                  <button
-                    onClick={() => {
-                      setIsCMSOpen(true);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block text-[13px] font-bold leading-[25px] tracking-[2px] uppercase text-black hover:text-[#D87D4A] transition-colors"
-                  >
-                    CMS
-                  </button>
-                )}
               </nav>
             </div>
           )}
@@ -135,9 +112,6 @@ const Header: React.FC = () => {
 
       {/* Cart Overlay */}
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-
-      {/* CMS Editor */}
-      <CMSEditor isVisible={isCMSOpen} onClose={() => setIsCMSOpen(false)} />
     </>
   );
 };
