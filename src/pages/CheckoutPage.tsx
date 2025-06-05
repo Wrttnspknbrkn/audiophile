@@ -1,10 +1,21 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { useCart } from '../context/CartContext';
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  zipCode?: string;
+  city?: string;
+  country?: string;
+  eMoneyNumber?: string;
+  eMoneyPin?: string;
+}
 
 const CheckoutPage: React.FC = () => {
   const { state, dispatch } = useCart();
@@ -21,11 +32,72 @@ const CheckoutPage: React.FC = () => {
     eMoneyPin: '',
   });
 
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isOrderComplete, setIsOrderComplete] = useState(false);
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Wrong format';
+    }
+
+    // Phone validation
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\+?[\d\s\-()]+$/.test(formData.phone)) {
+      newErrors.phone = 'Wrong format';
+    }
+
+    // Address validation
+    if (!formData.address.trim()) {
+      newErrors.address = 'Address is required';
+    }
+
+    // ZIP Code validation
+    if (!formData.zipCode.trim()) {
+      newErrors.zipCode = 'ZIP Code is required';
+    }
+
+    // City validation
+    if (!formData.city.trim()) {
+      newErrors.city = 'City is required';
+    }
+
+    // Country validation
+    if (!formData.country.trim()) {
+      newErrors.country = 'Country is required';
+    }
+
+    // e-Money validation
+    if (formData.paymentMethod === 'e-money') {
+      if (!formData.eMoneyNumber.trim()) {
+        newErrors.eMoneyNumber = 'e-Money Number is required';
+      }
+      if (!formData.eMoneyPin.trim()) {
+        newErrors.eMoneyPin = 'e-Money PIN is required';
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const vatAmount = state.total * 0.2;
@@ -34,51 +106,58 @@ const CheckoutPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsOrderComplete(true);
+    if (validateForm()) {
+      setIsOrderComplete(true);
+    }
   };
 
   if (isOrderComplete) {
     return (
       <div className="min-h-screen bg-audiophile-white">
         <Header />
-        <div className="max-w-md mx-auto px-6 py-20">
-          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-            <div className="w-16 h-16 bg-audiophile-orange rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-6 z-50">
+          <div className="bg-white p-8 tablet:p-12 rounded-lg max-w-[540px] w-full">
+            <div className="w-16 h-16 bg-audiophile-orange rounded-full flex items-center justify-center mb-[23px]">
+              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
               </svg>
             </div>
-            <h2 className="mb-4">Thank you for your order</h2>
-            <p className="body mb-8">You will receive an email confirmation shortly.</p>
-            <div className="bg-audiophile-light-gray p-4 rounded mb-6">
-              {state.items.slice(0, 1).map(item => (
-                <div key={item.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <img src={item.image} alt={item.name} className="w-12 h-12 rounded" />
-                    <div>
-                      <p className="font-bold text-sm">{item.name}</p>
-                      <p className="text-body text-xs">${item.price.toLocaleString()}</p>
+            <h2 className="text-[24px] tablet:text-[32px] font-bold leading-[28px] tablet:leading-[36px] tracking-[0.86px] tablet:tracking-[1.14px] uppercase text-audiophile-black mb-4 tablet:mb-6">Thank you<br />for your order</h2>
+            <p className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 mb-6 tablet:mb-[33px]">You will receive an email confirmation shortly.</p>
+            
+            <div className="flex flex-col tablet:flex-row rounded-lg overflow-hidden mb-6 tablet:mb-[46px]">
+              <div className="bg-audiophile-light-gray p-6 tablet:flex-1">
+                {state.items.slice(0, 1).map(item => (
+                  <div key={item.id} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <img src={item.image} alt={item.name} className="w-[50px] h-[50px] rounded object-cover" />
+                      <div>
+                        <p className="text-[15px] font-bold leading-[25px] text-audiophile-black">{item.name.split(' ').slice(0, 2).join(' ')}</p>
+                        <p className="text-[14px] font-bold leading-[25px] text-audiophile-black opacity-50">${item.price.toLocaleString()}</p>
+                      </div>
                     </div>
+                    <span className="text-[15px] font-bold leading-[25px] text-audiophile-black opacity-50">x{item.quantity}</span>
                   </div>
-                  <span className="text-body">x{item.quantity}</span>
-                </div>
-              ))}
-              {state.items.length > 1 && (
-                <p className="text-body text-center mt-4">
-                  and {state.items.length - 1} other item{state.items.length > 2 ? 's' : ''}
-                </p>
-              )}
+                ))}
+                {state.items.length > 1 && (
+                  <>
+                    <hr className="my-3 border-audiophile-black opacity-8" />
+                    <p className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black opacity-50 text-center">
+                      and {state.items.length - 1} other item{state.items.length > 2 ? 's' : ''}
+                    </p>
+                  </>
+                )}
+              </div>
+              <div className="bg-audiophile-black p-6 tablet:w-[198px] flex flex-col justify-end">
+                <p className="text-[15px] font-medium leading-[25px] text-white opacity-50 mb-2">Grand Total</p>
+                <p className="text-[18px] font-bold leading-[25px] text-white">${Math.round(grandTotal).toLocaleString()}</p>
+              </div>
             </div>
-            <div className="text-left mb-6">
-              <p className="flex justify-between mb-2">
-                <span className="text-body">Grand Total</span>
-                <span className="font-bold">${grandTotal.toLocaleString()}</span>
-              </p>
-            </div>
+            
             <Link
               to="/"
               onClick={() => dispatch({ type: 'CLEAR_CART' })}
-              className="btn-primary w-full"
+              className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300 w-full text-center block"
             >
               Back to Home
             </Link>
@@ -93,58 +172,63 @@ const CheckoutPage: React.FC = () => {
     <div className="min-h-screen bg-audiophile-light-gray">
       <Header />
       
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+      <div className="max-w-[1110px] mx-auto px-6 tablet:px-[40px] desktop:px-0 py-4 tablet:py-8 desktop:py-[79px]">
         <Link
           to="/"
-          className="flex items-center text-body hover:text-audiophile-orange transition-colors mb-12"
+          className="inline-flex items-center text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 hover:text-audiophile-orange transition-colors mb-6 tablet:mb-14 desktop:mb-14"
         >
-          <ChevronLeft size={20} className="mr-2" />
           Go Back
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 desktop:grid-cols-3 gap-8 desktop:gap-[30px]">
           {/* Checkout Form */}
-          <div className="lg:col-span-2 bg-white p-8 rounded-lg">
-            <h1 className="text-h3 mb-8">Checkout</h1>
+          <div className="desktop:col-span-2 bg-white p-6 tablet:p-[48px] rounded-lg">
+            <h1 className="text-[28px] tablet:text-[32px] font-bold leading-[32px] tablet:leading-[36px] tracking-[1px] tablet:tracking-[1.14px] uppercase text-audiophile-black mb-[41px] tablet:mb-[41px]">Checkout</h1>
             
             <form onSubmit={handleSubmit}>
               {/* Billing Details */}
-              <div className="mb-8">
-                <h3 className="subtitle mb-4">Billing Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-[53px]">
+                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-audiophile-orange mb-4">Billing Details</h3>
+                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold mb-2">Name</label>
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Name</label>
+                      {errors.name && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.name}</span>}
+                    </div>
                     <input
                       type="text"
                       name="name"
-                      required
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.name ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="Alexei Ward"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">Email Address</label>
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Email Address</label>
+                      {errors.email && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.email}</span>}
+                    </div>
                     <input
                       type="email"
                       name="email"
-                      required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.email ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="alexei@mail.com"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">Phone Number</label>
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Phone Number</label>
+                      {errors.phone && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.phone}</span>}
+                    </div>
                     <input
                       type="tel"
                       name="phone"
-                      required
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.phone ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="+1 202-555-0136"
                     />
                   </div>
@@ -152,54 +236,62 @@ const CheckoutPage: React.FC = () => {
               </div>
 
               {/* Shipping Info */}
-              <div className="mb-8">
-                <h3 className="subtitle mb-4">Shipping Info</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-bold mb-2">Address</label>
+              <div className="mb-[53px]">
+                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-audiophile-orange mb-4">Shipping Info</h3>
+                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
+                  <div className="tablet:col-span-2">
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Address</label>
+                      {errors.address && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.address}</span>}
+                    </div>
                     <input
                       type="text"
                       name="address"
-                      required
                       value={formData.address}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.address ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="1137 Williams Avenue"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">ZIP Code</label>
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">ZIP Code</label>
+                      {errors.zipCode && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.zipCode}</span>}
+                    </div>
                     <input
                       type="text"
                       name="zipCode"
-                      required
                       value={formData.zipCode}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.zipCode ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="10001"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">City</label>
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">City</label>
+                      {errors.city && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.city}</span>}
+                    </div>
                     <input
                       type="text"
                       name="city"
-                      required
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.city ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="New York"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">Country</label>
+                    <div className="flex justify-between mb-[9px]">
+                      <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">Country</label>
+                      {errors.country && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.country}</span>}
+                    </div>
                     <input
                       type="text"
                       name="country"
-                      required
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                      className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.country ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                       placeholder="United States"
                     />
                   </div>
@@ -208,75 +300,89 @@ const CheckoutPage: React.FC = () => {
 
               {/* Payment Details */}
               <div className="mb-8">
-                <h3 className="subtitle mb-4">Payment Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-[13px] font-bold leading-[25px] tracking-[0.93px] uppercase text-audiophile-orange mb-4">Payment Details</h3>
+                <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold mb-2">Payment Method</label>
-                    <div className="space-y-2">
-                      <label className="flex items-center">
+                    <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black mb-[17px] block">Payment Method</label>
+                    <div className="space-y-4">
+                      <label className={`flex items-center p-[18px] border-2 rounded-lg cursor-pointer transition-colors ${formData.paymentMethod === 'e-money' ? 'border-audiophile-orange' : 'border-[#CFCFCF]'}`}>
                         <input
                           type="radio"
                           name="paymentMethod"
                           value="e-money"
                           checked={formData.paymentMethod === 'e-money'}
                           onChange={handleInputChange}
-                          className="mr-3"
+                          className="w-5 h-5 text-audiophile-orange bg-white border-[#CFCFCF] focus:ring-audiophile-orange focus:ring-2 mr-4"
                         />
-                        e-Money
+                        <span className="text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black">e-Money</span>
                       </label>
-                      <label className="flex items-center">
+                      <label className={`flex items-center p-[18px] border-2 rounded-lg cursor-pointer transition-colors ${formData.paymentMethod === 'cash' ? 'border-audiophile-orange' : 'border-[#CFCFCF]'}`}>
                         <input
                           type="radio"
                           name="paymentMethod"
                           value="cash"
                           checked={formData.paymentMethod === 'cash'}
                           onChange={handleInputChange}
-                          className="mr-3"
+                          className="w-5 h-5 text-audiophile-orange bg-white border-[#CFCFCF] focus:ring-audiophile-orange focus:ring-2 mr-4"
                         />
-                        Cash on Delivery
+                        <span className="text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black">Cash on Delivery</span>
                       </label>
                     </div>
                   </div>
                   {formData.paymentMethod === 'e-money' && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div>
-                        <label className="block text-sm font-bold mb-2">e-Money Number</label>
+                        <div className="flex justify-between mb-[9px]">
+                          <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">e-Money Number</label>
+                          {errors.eMoneyNumber && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.eMoneyNumber}</span>}
+                        </div>
                         <input
                           type="text"
                           name="eMoneyNumber"
                           value={formData.eMoneyNumber}
                           onChange={handleInputChange}
-                          className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                          className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.eMoneyNumber ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                           placeholder="238521993"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold mb-2">e-Money PIN</label>
+                        <div className="flex justify-between mb-[9px]">
+                          <label className="text-[12px] font-bold leading-[16px] tracking-[-0.21px] text-audiophile-black">e-Money PIN</label>
+                          {errors.eMoneyPin && <span className="text-[12px] font-medium leading-[16px] tracking-[-0.21px] text-[#CD2C2C]">{errors.eMoneyPin}</span>}
+                        </div>
                         <input
                           type="text"
                           name="eMoneyPin"
                           value={formData.eMoneyPin}
                           onChange={handleInputChange}
-                          className="w-full p-4 border border-gray-300 rounded focus:border-audiophile-orange focus:outline-none"
+                          className={`w-full px-6 py-[18px] border-2 rounded-lg text-[14px] font-bold leading-[19px] tracking-[-0.25px] text-audiophile-black placeholder-audiophile-black placeholder-opacity-40 focus:outline-none caret-audiophile-orange ${errors.eMoneyPin ? 'border-[#CD2C2C]' : 'border-[#CFCFCF] focus:border-audiophile-orange'}`}
                           placeholder="6891"
                         />
                       </div>
                     </div>
                   )}
+                  {formData.paymentMethod === 'cash' && (
+                    <div className="flex items-start space-x-8">
+                      <img src="/assets/checkout/icon-cash-on-delivery.svg" alt="Cash on delivery" className="w-12 h-12 mt-2" />
+                      <p className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50">
+                        The 'Cash on Delivery' option enables you to pay in cash when our delivery courier arrives at your residence. Just make sure your address is correct so that your order will not be cancelled.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary w-full">
+              <button type="submit" className="bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300 w-full tablet:w-auto">
                 Continue & Pay
               </button>
             </form>
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white p-8 rounded-lg h-fit">
-            <h3 className="text-h6 mb-6">Summary</h3>
+          <div className="bg-white p-6 tablet:p-8 rounded-lg h-fit">
+            <h3 className="text-[18px] font-bold leading-[25px] tracking-[1.29px] uppercase text-audiophile-black mb-[31px]">Summary</h3>
             
-            <div className="space-y-4 mb-6">
+            <div className="space-y-6 mb-8">
               {state.items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
@@ -286,31 +392,31 @@ const CheckoutPage: React.FC = () => {
                       className="w-16 h-16 rounded object-cover"
                     />
                     <div>
-                      <h4 className="font-bold text-sm">{item.name}</h4>
-                      <p className="text-body text-sm">${item.price.toLocaleString()}</p>
+                      <h4 className="text-[15px] font-bold leading-[25px] text-audiophile-black">{item.name.split(' ').slice(0, 2).join(' ')}</h4>
+                      <p className="text-[14px] font-bold leading-[25px] text-audiophile-black opacity-50">${item.price.toLocaleString()}</p>
                     </div>
                   </div>
-                  <span className="text-body">x{item.quantity}</span>
+                  <span className="text-[15px] font-bold leading-[25px] text-audiophile-black opacity-50">x{item.quantity}</span>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-2 mb-6">
+            <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-body">Total</span>
-                <span className="font-bold">${state.total.toLocaleString()}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">Total</span>
+                <span className="text-[18px] font-bold leading-[25px] text-audiophile-black">${state.total.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-body">Shipping</span>
-                <span className="font-bold">${shipping}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">Shipping</span>
+                <span className="text-[18px] font-bold leading-[25px] text-audiophile-black">${shipping}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-body">VAT (Included)</span>
-                <span className="font-bold">${Math.round(vatAmount).toLocaleString()}</span>
+                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">VAT (Included)</span>
+                <span className="text-[18px] font-bold leading-[25px] text-audiophile-black">${Math.round(vatAmount).toLocaleString()}</span>
               </div>
-              <div className="flex justify-between pt-4 border-t">
-                <span className="text-body">Grand Total</span>
-                <span className="font-bold text-audiophile-orange">${Math.round(grandTotal).toLocaleString()}</span>
+              <div className="flex justify-between pt-6">
+                <span className="text-[15px] font-medium leading-[25px] text-audiophile-black opacity-50 uppercase">Grand Total</span>
+                <span className="text-[18px] font-bold leading-[25px] text-audiophile-orange">${Math.round(grandTotal).toLocaleString()}</span>
               </div>
             </div>
           </div>
