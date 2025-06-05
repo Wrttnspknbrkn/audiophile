@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
@@ -30,7 +29,8 @@ const ProductPage: React.FC = () => {
         name: product.name,
         price: product.price,
         image: product.image.mobile,
-        quantity
+        quantity,
+        slug: product.slug
       }
     });
   };
