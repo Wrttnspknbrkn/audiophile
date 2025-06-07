@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../components/cms/CMSProvider';
@@ -148,10 +149,10 @@ const CMSPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 w-full">
       {/* Standalone CMS Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-6xl mx-auto p-6">
+      <div className="bg-white shadow-sm border-b w-full">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
               <Link 
@@ -161,37 +162,39 @@ const CMSPage: React.FC = () => {
                 <ArrowLeft size={20} />
                 Back to Website
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900">Content Management System</h1>
-              <p className="text-gray-600 mt-2">Manage your website content, products, and images</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Content Management System</h1>
+              <p className="text-gray-600 mt-2 text-sm sm:text-base">Manage your website content, products, and images</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="flex">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full">
+          <div className="flex flex-col lg:flex-row">
             {/* Sidebar */}
-            <div className="w-64 bg-gray-50 border-r min-h-[600px]">
+            <div className="w-full lg:w-64 bg-gray-50 border-b lg:border-b-0 lg:border-r min-h-[200px] lg:min-h-[600px]">
               <nav className="p-4">
-                {(['hero', 'about', 'categories', 'products', 'images'] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`w-full text-left p-3 rounded mb-2 capitalize ${
-                      activeTab === tab
-                        ? 'bg-[#D87D4A] text-white'
-                        : 'hover:bg-gray-200 text-gray-700'
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
+                <div className="grid grid-cols-5 lg:grid-cols-1 gap-2">
+                  {(['hero', 'about', 'categories', 'products', 'images'] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`w-full text-left p-2 lg:p-3 rounded text-xs sm:text-sm lg:text-base capitalize ${
+                        activeTab === tab
+                          ? 'bg-[#D87D4A] text-white'
+                          : 'hover:bg-gray-200 text-gray-700'
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
               </nav>
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-4 sm:p-6">
               {activeTab === 'hero' && (
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold">Hero Section</h3>
@@ -276,7 +279,7 @@ const CMSPage: React.FC = () => {
 
               {activeTab === 'categories' && (
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <h3 className="text-lg font-semibold">Categories Management</h3>
                     <button
                       onClick={() => setEditingCategory({
@@ -285,7 +288,7 @@ const CMSPage: React.FC = () => {
                         image: '',
                         href: ''
                       })}
-                      className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2"
+                      className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2 text-sm"
                     >
                       <Plus size={16} />
                       Add Category
@@ -294,7 +297,7 @@ const CMSPage: React.FC = () => {
                   
                   <div className="space-y-4">
                     {editingContent.categories.map((category) => (
-                      <div key={category.id} className="border p-4 rounded flex justify-between items-center">
+                      <div key={category.id} className="border p-4 rounded flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                         <div className="flex items-center gap-4">
                           <img 
                             src={category.image} 
@@ -328,11 +331,11 @@ const CMSPage: React.FC = () => {
 
               {activeTab === 'products' && (
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">Products Management</h3>
                       <p className="text-sm text-gray-600 mt-1">
-                        Total products: {products.length} (includes static and CMS products)
+                        Total products: {products.length}
                       </p>
                     </div>
                     <button
@@ -355,7 +358,7 @@ const CMSPage: React.FC = () => {
                         },
                         others: []
                       })}
-                      className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2"
+                      className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2 text-sm"
                     >
                       <Plus size={16} />
                       Add Product
@@ -367,7 +370,7 @@ const CMSPage: React.FC = () => {
                   ) : (
                     <div className="space-y-4">
                       {products.map((product) => (
-                        <div key={product.id} className="border p-4 rounded flex justify-between items-center">
+                        <div key={product.id} className="border p-4 rounded flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                           <div className="flex items-center gap-4">
                             {product.image?.desktop && (
                               <img 
@@ -410,9 +413,9 @@ const CMSPage: React.FC = () => {
 
               {activeTab === 'images' && (
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                     <h3 className="text-lg font-semibold">Image Gallery</h3>
-                    <label className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2 cursor-pointer">
+                    <label className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2 cursor-pointer text-sm">
                       <Upload size={16} />
                       Upload Image
                       <input
@@ -427,7 +430,7 @@ const CMSPage: React.FC = () => {
                   {images.length === 0 ? (
                     <p className="text-gray-500 text-center py-8">No images uploaded yet. Upload your first image!</p>
                   ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {images.map((image) => (
                         <div key={image.id} className="border rounded p-2">
                           <img
@@ -563,7 +566,7 @@ const CMSPage: React.FC = () => {
               </button>
             </div>
             <div className="p-6 space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Name</label>
                   <input
@@ -584,7 +587,7 @@ const CMSPage: React.FC = () => {
                 </div>
               </div>
               
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Category</label>
                   <select
@@ -639,7 +642,7 @@ const CMSPage: React.FC = () => {
               {/* Image URLs */}
               <div className="space-y-4">
                 <h4 className="font-medium">Product Images</h4>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">Mobile Image</label>
                     <input

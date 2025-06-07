@@ -21,7 +21,7 @@ function App() {
       <CMSProvider>
         <CartProvider>
           <Router>
-            <div className="min-h-screen bg-white">
+            <div className="min-h-screen bg-white w-full">
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/category/:category" element={<CategoryPage />} />
