@@ -148,10 +148,10 @@ const CMSPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 w-full">
       {/* Standalone CMS Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-6xl mx-auto p-6">
+      <div className="bg-white shadow-sm border-b w-full">
+        <div className="w-full px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
               <Link 
@@ -168,8 +168,8 @@ const CMSPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="w-full px-6 py-6">
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full">
           <div className="flex">
             {/* Sidebar */}
             <div className="w-64 bg-gray-50 border-r min-h-[600px]">
@@ -194,7 +194,7 @@ const CMSPage: React.FC = () => {
             <div className="flex-1 p-6">
               {activeTab === 'hero' && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Hero Section</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">Hero Section</h3>
                   <div>
                     <label className="block text-sm font-medium mb-2">Subtitle</label>
                     <input
@@ -247,7 +247,7 @@ const CMSPage: React.FC = () => {
 
               {activeTab === 'about' && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">About Section</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">About Section</h3>
                   <div>
                     <label className="block text-sm font-medium mb-2">Title</label>
                     <input
@@ -277,7 +277,7 @@ const CMSPage: React.FC = () => {
               {activeTab === 'categories' && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold">Categories Management</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Categories Management</h3>
                     <button
                       onClick={() => setEditingCategory({
                         id: '',
@@ -332,7 +332,7 @@ const CMSPage: React.FC = () => {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">Products Management</h3>
                       <p className="text-sm text-gray-600 mt-1">
-                        Total products: {products.length} (includes static and CMS products)
+                        Total products: {products.length}
                       </p>
                     </div>
                     <button
@@ -411,7 +411,7 @@ const CMSPage: React.FC = () => {
               {activeTab === 'images' && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold">Image Gallery</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">Image Gallery</h3>
                     <label className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2 cursor-pointer">
                       <Upload size={16} />
                       Upload Image
