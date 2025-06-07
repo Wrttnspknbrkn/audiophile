@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../components/cms/CMSProvider';
-import { Save, ArrowLeft, Edit2, Plus, Trash2, Upload, X } from 'lucide-react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+import { Save, ArrowLeft, Edit2, Plus, Trash2, Upload, X, ImageIcon } from 'lucide-react';
 import { Product } from '../types/product';
+import { useToast } from '../hooks/use-toast';
 
 interface CMSImage {
   id: string;
@@ -15,6 +14,7 @@ interface CMSImage {
 
 const CMSPage: React.FC = () => {
   const { content, updateContent } = useCMS();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'categories' | 'products' | 'images'>('hero');
   const [editingContent, setEditingContent] = useState(content);
   
@@ -31,6 +31,9 @@ const CMSPage: React.FC = () => {
     return savedImages ? JSON.parse(savedImages) : [];
   });
 
+  // Category editing state
+  const [editingCategory, setEditingCategory] = useState<any>(null);
+
   // Update editingContent when content changes
   useEffect(() => {
     setEditingContent(content);
@@ -39,6 +42,10 @@ const CMSPage: React.FC = () => {
   const handleSave = () => {
     if (activeTab !== 'products' && activeTab !== 'images') {
       updateContent(activeTab, editingContent[activeTab]);
+      toast({
+        title: "Content saved successfully!",
+        description: `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} section has been updated.`,
+      });
     }
   };
 
@@ -50,12 +57,57 @@ const CMSPage: React.FC = () => {
     setProducts(updatedProducts);
     localStorage.setItem('cms-products', JSON.stringify(updatedProducts));
     setEditingProduct(null);
+    
+    toast({
+      title: "Product saved successfully!",
+      description: `${product.name} has been ${editingProduct && editingProduct.id ? 'updated' : 'created'}.`,
+    });
   };
 
   const handleProductDelete = (id: number) => {
     const updatedProducts = products.filter(p => p.id !== id);
     setProducts(updatedProducts);
     localStorage.setItem('cms-products', JSON.stringify(updatedProducts));
+    
+    toast({
+      title: "Product deleted",
+      description: "The product has been removed successfully.",
+      variant: "destructive",
+    });
+  };
+
+  const handleCategorySave = (category: any) => {
+    const updatedCategories = editingCategory && editingCategory.id
+      ? editingContent.categories.map(c => c.id === category.id ? category : c)
+      : [...editingContent.categories, { ...category, id: Date.now().toString() }];
+    
+    setEditingContent(prev => ({
+      ...prev,
+      categories: updatedCategories
+    }));
+    
+    updateContent('categories', updatedCategories);
+    setEditingCategory(null);
+    
+    toast({
+      title: "Category saved successfully!",
+      description: `${category.name} has been ${editingCategory && editingCategory.id ? 'updated' : 'created'}.`,
+    });
+  };
+
+  const handleCategoryDelete = (id: string) => {
+    const updatedCategories = editingContent.categories.filter(c => c.id !== id);
+    setEditingContent(prev => ({
+      ...prev,
+      categories: updatedCategories
+    }));
+    updateContent('categories', updatedCategories);
+    
+    toast({
+      title: "Category deleted",
+      description: "The category has been removed successfully.",
+      variant: "destructive",
+    });
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,6 +123,11 @@ const CMSPage: React.FC = () => {
         const updatedImages = [...images, newImage];
         setImages(updatedImages);
         localStorage.setItem('cms-images', JSON.stringify(updatedImages));
+        
+        toast({
+          title: "Image uploaded successfully!",
+          description: `${file.name} has been added to your gallery.`,
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -80,30 +137,44 @@ const CMSPage: React.FC = () => {
     const updatedImages = images.filter(img => img.id !== id);
     setImages(updatedImages);
     localStorage.setItem('cms-images', JSON.stringify(updatedImages));
+    
+    toast({
+      title: "Image deleted",
+      description: "The image has been removed from your gallery.",
+      variant: "destructive",
+    });
   };
 
   const copyImageUrl = (url: string) => {
     navigator.clipboard.writeText(url);
-    alert('Image URL copied to clipboard!');
+    toast({
+      title: "URL copied!",
+      description: "Image URL has been copied to your clipboard.",
+    });
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <div className="max-w-6xl mx-auto p-6">
-        <div className="mb-6">
-          <Link 
-            to="/" 
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-[#D87D4A] transition-colors"
-          >
-            <ArrowLeft size={20} />
-            Back to Home
-          </Link>
-          <h1 className="text-3xl font-bold mt-4">Content Management System</h1>
-          <p className="text-gray-600 mt-2">Manage your website content, products, and images</p>
+      {/* Standalone CMS Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-6xl mx-auto p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <Link 
+                to="/" 
+                className="inline-flex items-center gap-2 text-gray-600 hover:text-[#D87D4A] transition-colors mb-4"
+              >
+                <ArrowLeft size={20} />
+                Back to Website
+              </Link>
+              <h1 className="text-3xl font-bold text-gray-900">Content Management System</h1>
+              <p className="text-gray-600 mt-2">Manage your website content, products, and images</p>
+            </div>
+          </div>
         </div>
+      </div>
 
+      <div className="max-w-6xl mx-auto p-6">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="flex">
             {/* Sidebar */}
@@ -211,45 +282,53 @@ const CMSPage: React.FC = () => {
 
               {activeTab === 'categories' && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Categories</h3>
-                  {editingContent.categories.map((category, index) => (
-                    <div key={category.id} className="border p-4 rounded">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Name</label>
-                          <input
-                            type="text"
-                            value={category.name}
-                            onChange={(e) => {
-                              const newCategories = [...editingContent.categories];
-                              newCategories[index].name = e.target.value;
-                              setEditingContent(prev => ({
-                                ...prev,
-                                categories: newCategories
-                              }));
-                            }}
-                            className="w-full p-3 border rounded"
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-semibold">Categories Management</h3>
+                    <button
+                      onClick={() => setEditingCategory({
+                        id: '',
+                        name: '',
+                        image: '',
+                        href: ''
+                      })}
+                      className="bg-[#D87D4A] text-white px-4 py-2 rounded flex items-center gap-2"
+                    >
+                      <Plus size={16} />
+                      Add Category
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {editingContent.categories.map((category) => (
+                      <div key={category.id} className="border p-4 rounded flex justify-between items-center">
+                        <div className="flex items-center gap-4">
+                          <img 
+                            src={category.image} 
+                            alt={category.name}
+                            className="w-16 h-16 object-cover rounded"
                           />
+                          <div>
+                            <h4 className="font-medium">{category.name}</h4>
+                            <p className="text-sm text-gray-600">{category.href}</p>
+                          </div>
                         </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">Image URL</label>
-                          <input
-                            type="text"
-                            value={category.image}
-                            onChange={(e) => {
-                              const newCategories = [...editingContent.categories];
-                              newCategories[index].image = e.target.value;
-                              setEditingContent(prev => ({
-                                ...prev,
-                                categories: newCategories
-                              }));
-                            }}
-                            className="w-full p-3 border rounded"
-                          />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setEditingCategory(category)}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                          >
+                            <Edit2 size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleCategoryDelete(category.id)}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded"
+                          >
+                            <Trash2 size={16} />
+                          </button>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -365,7 +444,7 @@ const CMSPage: React.FC = () => {
                 </div>
               )}
 
-              {(activeTab !== 'products' && activeTab !== 'images') && (
+              {(activeTab !== 'products' && activeTab !== 'images' && activeTab !== 'categories') && (
                 <div className="flex justify-end gap-4 mt-8 pt-6 border-t">
                   <button
                     onClick={handleSave}
@@ -380,6 +459,80 @@ const CMSPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Category Edit Modal */}
+      {editingCategory && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b flex justify-between items-center">
+              <h3 className="text-lg font-semibold">
+                {editingCategory.id ? 'Edit Category' : 'Add New Category'}
+              </h3>
+              <button
+                onClick={() => setEditingCategory(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Category Name</label>
+                <input
+                  type="text"
+                  value={editingCategory.name || ''}
+                  onChange={(e) => setEditingCategory(prev => ({ ...prev!, name: e.target.value }))}
+                  className="w-full p-3 border rounded"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Category URL/Path</label>
+                <input
+                  type="text"
+                  value={editingCategory.href || ''}
+                  onChange={(e) => setEditingCategory(prev => ({ ...prev!, href: e.target.value }))}
+                  className="w-full p-3 border rounded"
+                  placeholder="/category/example"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Category Image URL</label>
+                <input
+                  type="text"
+                  value={editingCategory.image || ''}
+                  onChange={(e) => setEditingCategory(prev => ({ ...prev!, image: e.target.value }))}
+                  className="w-full p-3 border rounded"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+              {editingCategory.image && (
+                <div>
+                  <label className="block text-sm font-medium mb-2">Preview</label>
+                  <img 
+                    src={editingCategory.image} 
+                    alt="Category preview"
+                    className="w-32 h-32 object-cover rounded border"
+                  />
+                </div>
+              )}
+            </div>
+            <div className="flex justify-end gap-4 p-6 border-t">
+              <button
+                onClick={() => setEditingCategory(null)}
+                className="px-4 py-2 border rounded hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleCategorySave(editingCategory)}
+                className="px-4 py-2 bg-[#D87D4A] text-white rounded hover:bg-[#FBAF85]"
+              >
+                Save Category
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Product Edit Modal */}
       {editingProduct && (
@@ -531,8 +684,6 @@ const CMSPage: React.FC = () => {
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 };
