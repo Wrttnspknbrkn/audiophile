@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../components/cms/CMSProvider';
@@ -13,16 +12,12 @@ interface CMSImage {
 }
 
 const CMSPage: React.FC = () => {
-  const { content, updateContent } = useCMS();
+  const { content, updateContent, products, addProduct, updateProduct, deleteProduct } = useCMS();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'categories' | 'products' | 'images'>('hero');
   const [editingContent, setEditingContent] = useState(content);
   
   // Products state
-  const [products, setProducts] = useState<Product[]>(() => {
-    const savedProducts = localStorage.getItem('cms-products');
-    return savedProducts ? JSON.parse(savedProducts) : [];
-  });
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   // Images state
@@ -50,25 +45,24 @@ const CMSPage: React.FC = () => {
   };
 
   const handleProductSave = (product: Product) => {
-    const updatedProducts = editingProduct && editingProduct.id
-      ? products.map(p => p.id === product.id ? product : p)
-      : [...products, { ...product, id: Date.now() }];
-    
-    setProducts(updatedProducts);
-    localStorage.setItem('cms-products', JSON.stringify(updatedProducts));
+    if (editingProduct && editingProduct.id) {
+      updateProduct(product);
+      toast({
+        title: "Product updated successfully!",
+        description: `${product.name} has been updated.`,
+      });
+    } else {
+      addProduct(product);
+      toast({
+        title: "Product created successfully!",
+        description: `${product.name} has been created.`,
+      });
+    }
     setEditingProduct(null);
-    
-    toast({
-      title: "Product saved successfully!",
-      description: `${product.name} has been ${editingProduct && editingProduct.id ? 'updated' : 'created'}.`,
-    });
   };
 
   const handleProductDelete = (id: number) => {
-    const updatedProducts = products.filter(p => p.id !== id);
-    setProducts(updatedProducts);
-    localStorage.setItem('cms-products', JSON.stringify(updatedProducts));
-    
+    deleteProduct(id);
     toast({
       title: "Product deleted",
       description: "The product has been removed successfully.",
@@ -187,7 +181,7 @@ const CMSPage: React.FC = () => {
                     className={`w-full text-left p-3 rounded mb-2 capitalize ${
                       activeTab === tab
                         ? 'bg-[#D87D4A] text-white'
-                        : 'hover:bg-gray-200'
+                        : 'hover:bg-gray-200 text-gray-700'
                     }`}
                   >
                     {tab}
@@ -335,7 +329,12 @@ const CMSPage: React.FC = () => {
               {activeTab === 'products' && (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold">Products Management</h3>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">Products Management</h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        Total products: {products.length} (includes static and CMS products)
+                      </p>
+                    </div>
                     <button
                       onClick={() => setEditingProduct({
                         id: 0,
@@ -364,15 +363,29 @@ const CMSPage: React.FC = () => {
                   </div>
                   
                   {products.length === 0 ? (
-                    <p className="text-gray-500 text-center py-8">No products yet. Add your first product!</p>
+                    <p className="text-gray-500 text-center py-8">No products found. Add your first product!</p>
                   ) : (
                     <div className="space-y-4">
                       {products.map((product) => (
                         <div key={product.id} className="border p-4 rounded flex justify-between items-center">
-                          <div>
-                            <h4 className="font-medium">{product.name}</h4>
-                            <p className="text-sm text-gray-600">{product.category} - ${product.price}</p>
-                            <p className="text-xs text-gray-500">{product.slug}</p>
+                          <div className="flex items-center gap-4">
+                            {product.image?.desktop && (
+                              <img 
+                                src={product.image.desktop} 
+                                alt={product.name}
+                                className="w-16 h-16 object-cover rounded"
+                              />
+                            )}
+                            <div>
+                              <h4 className="font-medium text-gray-900">{product.name}</h4>
+                              <p className="text-sm text-gray-600">{product.category} - ${product.price}</p>
+                              <p className="text-xs text-gray-500">{product.slug}</p>
+                              {product.new && (
+                                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mt-1 inline-block">
+                                  New Product
+                                </span>
+                              )}
+                            </div>
                           </div>
                           <div className="flex gap-2">
                             <button
