@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
@@ -9,35 +8,17 @@ import productsData from '../data/products.json';
 import { Product } from '../types/product';
 import CategoriesSection from '../components/home/CategoriesSection';
 import AboutSection from '../components/home/AboutSection';
-import { useCMS } from '../components/cms/CMSProvider';
 
 const ProductPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const { dispatch } = useCart();
-  const { products: cmsProducts } = useCMS();
   const [quantity, setQuantity] = useState(1);
   
-  // Use CMS products if available, otherwise fallback to static data
-  const products = cmsProducts.length > 0 ? cmsProducts : (productsData as Product[]);
+  const products = productsData as Product[];
   const product = products.find(p => p.slug === slug);
   
   if (!product) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0 py-20 text-center">
-          <h1 className="text-2xl font-bold mb-4">Product not found</h1>
-          <p className="text-gray-600 mb-8">The product you're looking for doesn't exist.</p>
-          <Link
-            to="/"
-            className="bg-[#D87D4A] text-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 inline-block"
-          >
-            Go Home
-          </Link>
-        </div>
-        <Footer />
-      </div>
-    );
+    return <div>Product not found</div>;
   }
 
   const handleAddToCart = () => {
@@ -131,7 +112,7 @@ const ProductPage: React.FC = () => {
               Features
             </h3>
             <div className="text-[15px] font-medium leading-[25px] text-black/50 space-y-6">
-              {product.features && product.features.split('\n\n').map((paragraph, index) => (
+              {product.features.split('\n\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
@@ -141,7 +122,7 @@ const ProductPage: React.FC = () => {
               In the Box
             </h3>
             <ul className="space-y-2">
-              {product.includes && product.includes.map((item, index) => (
+              {product.includes.map((item, index) => (
                 <li key={index} className="flex items-start">
                   <span className="text-[15px] font-bold leading-[25px] text-[#D87D4A] mr-6 min-w-[20px]">
                     {item.quantity}x
@@ -156,66 +137,62 @@ const ProductPage: React.FC = () => {
         </div>
 
         {/* Gallery */}
-        {product.gallery && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-8 mb-20 md:mb-24 lg:mb-40">
-            <div className="md:col-span-1 lg:col-span-2 space-y-4 lg:space-y-8">
-              <ResponsiveImage
-                mobile={product.gallery.first.mobile}
-                tablet={product.gallery.first.tablet}
-                desktop={product.gallery.first.desktop}
-                alt="Product gallery"
-                className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
-              />
-              <ResponsiveImage
-                mobile={product.gallery.second.mobile}
-                tablet={product.gallery.second.tablet}
-                desktop={product.gallery.second.desktop}
-                alt="Product gallery"
-                className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
-              />
-            </div>
-            <div className="md:col-span-1 lg:col-span-3">
-              <ResponsiveImage
-                mobile={product.gallery.third.mobile}
-                tablet={product.gallery.third.tablet}
-                desktop={product.gallery.third.desktop}
-                alt="Product gallery"
-                className="w-full h-96 md:h-96 lg:h-[592px] rounded-lg object-cover"
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-8 mb-20 md:mb-24 lg:mb-40">
+          <div className="md:col-span-1 lg:col-span-2 space-y-4 lg:space-y-8">
+            <ResponsiveImage
+              mobile={product.gallery.first.mobile}
+              tablet={product.gallery.first.tablet}
+              desktop={product.gallery.first.desktop}
+              alt="Product gallery"
+              className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
+            />
+            <ResponsiveImage
+              mobile={product.gallery.second.mobile}
+              tablet={product.gallery.second.tablet}
+              desktop={product.gallery.second.desktop}
+              alt="Product gallery"
+              className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
+            />
           </div>
-        )}
+          <div className="md:col-span-1 lg:col-span-3">
+            <ResponsiveImage
+              mobile={product.gallery.third.mobile}
+              tablet={product.gallery.third.tablet}
+              desktop={product.gallery.third.desktop}
+              alt="Product gallery"
+              className="w-full h-96 md:h-96 lg:h-[592px] rounded-lg object-cover"
+            />
+          </div>
+        </div>
 
         {/* You May Also Like */}
-        {product.others && product.others.length > 0 && (
-          <div className="text-center mb-16 md:mb-20 lg:mb-40">
-            <h3 className="text-[24px] md:text-[32px] font-bold leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-10 md:mb-16">
-              You may also like
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-6 lg:gap-8">
-              {product.others.map((item, index) => (
-                <div key={index} className="group">
-                  <ResponsiveImage
-                    mobile={item.image.mobile}
-                    tablet={item.image.tablet}
-                    desktop={item.image.desktop}
-                    alt={item.name}
-                    className="w-full h-40 md:h-80 lg:h-80 rounded-lg object-cover mb-8 md:mb-10"
-                  />
-                  <h4 className="text-[24px] font-bold leading-[33px] tracking-[1.71px] uppercase text-black mb-8">
-                    {item.name}
-                  </h4>
-                  <Link
-                    to={`/product/${item.slug}`}
-                    className="bg-[#D87D4A] text-white px-8 py-3 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 inline-block"
-                  >
-                    See Product
-                  </Link>
-                </div>
-              ))}
-            </div>
+        <div className="text-center mb-16 md:mb-20 lg:mb-40">
+          <h3 className="text-[24px] md:text-[32px] font-bold leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-10 md:mb-16">
+            You may also like
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-6 lg:gap-8">
+            {product.others.map((item, index) => (
+              <div key={index} className="group">
+                <ResponsiveImage
+                  mobile={item.image.mobile}
+                  tablet={item.image.tablet}
+                  desktop={item.image.desktop}
+                  alt={item.name}
+                  className="w-full h-40 md:h-80 lg:h-80 rounded-lg object-cover mb-8 md:mb-10"
+                />
+                <h4 className="text-[24px] font-bold leading-[33px] tracking-[1.71px] uppercase text-black mb-8">
+                  {item.name}
+                </h4>
+                <Link
+                  to={`/product/${item.slug}`}
+                  className="bg-[#D87D4A] text-white px-8 py-3 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-[#FBAF85] transition-all duration-300 inline-block"
+                >
+                  See Product
+                </Link>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Categories Section */}

@@ -1,6 +1,5 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product } from '../../types/product';
 
 interface CMSContent {
   hero: {
@@ -35,11 +34,6 @@ interface CMSContextType {
   content: CMSContent;
   updateContent: (section: keyof CMSContent, data: any) => void;
   isLoading: boolean;
-  products: Product[];
-  updateProducts: (products: Product[]) => void;
-  addProduct: (product: Product) => void;
-  updateProduct: (product: Product) => void;
-  deleteProduct: (id: number) => void;
 }
 
 const CMSContext = createContext<CMSContextType | undefined>(undefined);
@@ -107,11 +101,23 @@ const defaultContent: CMSContent = {
 
 export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<CMSContent>(defaultContent);
-  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Load content and products from localStorage on mount
+  const updateContent = (section: keyof CMSContent, data: any) => {
+    setContent(prev => ({
+      ...prev,
+      [section]: data
+    }));
+    
+    // In a real app, this would sync with a backend
+    localStorage.setItem('cms-content', JSON.stringify({
+      ...content,
+      [section]: data
+    }));
+  };
+
   useEffect(() => {
+    // Load content from localStorage on mount
     const savedContent = localStorage.getItem('cms-content');
     if (savedContent) {
       try {
@@ -120,58 +126,10 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         console.error('Failed to parse saved CMS content:', error);
       }
     }
-
-    const savedProducts = localStorage.getItem('cms-products');
-    if (savedProducts) {
-      try {
-        setProducts(JSON.parse(savedProducts));
-      } catch (error) {
-        console.error('Failed to parse saved CMS products:', error);
-      }
-    }
   }, []);
 
-  const updateContent = (section: keyof CMSContent, data: any) => {
-    const newContent = {
-      ...content,
-      [section]: data
-    };
-    setContent(newContent);
-    localStorage.setItem('cms-content', JSON.stringify(newContent));
-  };
-
-  const updateProducts = (newProducts: Product[]) => {
-    setProducts(newProducts);
-    localStorage.setItem('cms-products', JSON.stringify(newProducts));
-  };
-
-  const addProduct = (product: Product) => {
-    const newProduct = { ...product, id: Date.now() };
-    const newProducts = [...products, newProduct];
-    updateProducts(newProducts);
-  };
-
-  const updateProduct = (product: Product) => {
-    const newProducts = products.map(p => p.id === product.id ? product : p);
-    updateProducts(newProducts);
-  };
-
-  const deleteProduct = (id: number) => {
-    const newProducts = products.filter(p => p.id !== id);
-    updateProducts(newProducts);
-  };
-
   return (
-    <CMSContext.Provider value={{ 
-      content, 
-      updateContent, 
-      isLoading, 
-      products, 
-      updateProducts, 
-      addProduct, 
-      updateProduct, 
-      deleteProduct 
-    }}>
+    <CMSContext.Provider value={{ content, updateContent, isLoading }}>
       {children}
     </CMSContext.Provider>
   );
