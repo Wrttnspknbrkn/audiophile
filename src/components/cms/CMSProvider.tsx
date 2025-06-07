@@ -1,7 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '../../types/product';
-import productsData from '../../data/products.json';
 
 interface CMSContent {
   hero: {
@@ -122,35 +121,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     }
 
-    // Load existing products from JSON and merge with CMS products
-    const staticProducts = productsData as Product[];
     const savedProducts = localStorage.getItem('cms-products');
-    let cmsProducts: Product[] = [];
-    
     if (savedProducts) {
       try {
-        cmsProducts = JSON.parse(savedProducts);
+        setProducts(JSON.parse(savedProducts));
       } catch (error) {
         console.error('Failed to parse saved CMS products:', error);
       }
     }
-
-    // Merge static products with CMS products, giving priority to CMS products
-    const mergedProducts = [...staticProducts];
-    
-    // Add CMS products that don't exist in static data
-    cmsProducts.forEach(cmsProduct => {
-      const existingIndex = mergedProducts.findIndex(p => p.id === cmsProduct.id);
-      if (existingIndex >= 0) {
-        // Replace static product with CMS version if it exists
-        mergedProducts[existingIndex] = cmsProduct;
-      } else {
-        // Add new CMS product
-        mergedProducts.push(cmsProduct);
-      }
-    });
-
-    setProducts(mergedProducts);
   }, []);
 
   const updateContent = (section: keyof CMSContent, data: any) => {
@@ -164,16 +142,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateProducts = (newProducts: Product[]) => {
     setProducts(newProducts);
-    
-    // Only save CMS-added/modified products (those not in static data)
-    const staticProducts = productsData as Product[];
-    const cmsOnlyProducts = newProducts.filter(product => {
-      const staticProduct = staticProducts.find(p => p.id === product.id);
-      // Save if it's a new product or if it's been modified
-      return !staticProduct || JSON.stringify(staticProduct) !== JSON.stringify(product);
-    });
-    
-    localStorage.setItem('cms-products', JSON.stringify(cmsOnlyProducts));
+    localStorage.setItem('cms-products', JSON.stringify(newProducts));
   };
 
   const addProduct = (product: Product) => {
