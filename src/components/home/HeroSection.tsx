@@ -15,10 +15,10 @@ const HeroSection: React.FC = () => {
     // Handle the specific case of "XX99 Mark II Headphones"
     if (title.includes('XX99 Mark II Headphones')) {
       return (
-        <div className="flex flex-col">
-          <span>XX99 Mark II</span>
-          <span>Headphones</span>
-        </div>
+        <>
+          <div style={{ display: 'block', width: '100%' }}>XX99 Mark II</div>
+          <div style={{ display: 'block', width: '100%' }}>Headphones</div>
+        </>
       );
     }
     
@@ -29,10 +29,10 @@ const HeroSection: React.FC = () => {
       const headphones = title.substring(headphonesIndex).trim();
       
       return (
-        <div className="flex flex-col">
-          <span>{beforeHeadphones}</span>
-          <span>{headphones}</span>
-        </div>
+        <>
+          <div style={{ display: 'block', width: '100%' }}>{beforeHeadphones}</div>
+          <div style={{ display: 'block', width: '100%' }}>{headphones}</div>
+        </>
       );
     }
     
