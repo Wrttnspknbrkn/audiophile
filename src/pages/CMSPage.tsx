@@ -2,9 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../components/cms/CMSProvider';
-import { Save, ArrowLeft, Edit2, Plus, Trash2, Upload, X, AlertCircle } from 'lucide-react';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+import { Save, ArrowLeft, Edit2, Plus, Trash2, Upload, X, AlertCircle, Home, Info, FolderOpen, Package, Image } from 'lucide-react';
 import { Product } from '../types/product';
 import { toast } from '@/hooks/use-toast';
 
@@ -31,12 +29,16 @@ const CMSPage: React.FC = () => {
   const [editingContent, setEditingContent] = useState(content);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [editingCategory, setEditingCategory] = useState<{ id: string; name: string; image: string; href: string } | null>(null);
+  const [showAddCategory, setShowAddCategory] = useState(false);
+  const [newCategory, setNewCategory] = useState({ id: '', name: '', image: '', href: '' });
   const [images, setImages] = useState<CMSImage[]>(() => {
     const savedImages = localStorage.getItem('cms-images');
     return savedImages ? JSON.parse(savedImages) : [];
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const categoryImageInputRef = useRef<HTMLInputElement>(null);
+  const productImageInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
     try {
@@ -92,10 +94,31 @@ const CMSPage: React.FC = () => {
     }
   };
 
+  const handleAddCategory = () => {
+    if (!newCategory.name.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: "Category name is required"
+      });
+      return;
+    }
+
+    const categoryToAdd = {
+      ...newCategory,
+      id: newCategory.id || newCategory.name.toLowerCase().replace(/\s+/g, '-'),
+      href: newCategory.href || `/category/${newCategory.name.toLowerCase().replace(/\s+/g, '-')}`
+    };
+
+    addCategory(categoryToAdd);
+    setNewCategory({ id: '', name: '', image: '', href: '' });
+    setShowAddCategory(false);
+  };
+
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -132,6 +155,39 @@ const CMSPage: React.FC = () => {
     }
   };
 
+  const handleCategoryImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        setNewCategory(prev => ({ ...prev, image: imageUrl }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleProductImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        if (editingProduct) {
+          setEditingProduct(prev => ({
+            ...prev!,
+            image: {
+              mobile: imageUrl,
+              tablet: imageUrl,
+              desktop: imageUrl
+            }
+          }));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleImageDelete = (id: string) => {
     if (window.confirm('Are you sure you want to delete this image?')) {
       try {
@@ -161,15 +217,12 @@ const CMSPage: React.FC = () => {
     });
   };
 
-  // Update editingContent when content changes
   React.useEffect(() => {
     setEditingContent(content);
   }, [content]);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
         <div className="mb-6">
           <Link 
@@ -190,23 +243,61 @@ const CMSPage: React.FC = () => {
             {/* Sidebar */}
             <div className="lg:w-64 bg-gray-50 border-r">
               <nav className="p-4">
-                {(['hero', 'about', 'categories', 'products', 'images'] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`w-full text-left p-3 rounded mb-2 capitalize transition-colors ${
-                      activeTab === tab
-                        ? 'bg-[#D87D4A] text-white'
-                        : 'hover:bg-gray-200'
-                    }`}
-                  >
-                    {tab === 'hero' && '🏠 Hero Section'}
-                    {tab === 'about' && 'ℹ️ About Section'}
-                    {tab === 'categories' && '📂 Categories'}
-                    {tab === 'products' && '📦 Products'}
-                    {tab === 'images' && '🖼️ Images'}
-                  </button>
-                ))}
+                <button
+                  onClick={() => setActiveTab('hero')}
+                  className={`w-full text-left p-3 rounded mb-2 transition-colors flex items-center gap-3 ${
+                    activeTab === 'hero'
+                      ? 'bg-[#D87D4A] text-white'
+                      : 'hover:bg-gray-200'
+                  }`}
+                >
+                  <Home size={18} />
+                  Hero Section
+                </button>
+                <button
+                  onClick={() => setActiveTab('about')}
+                  className={`w-full text-left p-3 rounded mb-2 transition-colors flex items-center gap-3 ${
+                    activeTab === 'about'
+                      ? 'bg-[#D87D4A] text-white'
+                      : 'hover:bg-gray-200'
+                  }`}
+                >
+                  <Info size={18} />
+                  About Section
+                </button>
+                <button
+                  onClick={() => setActiveTab('categories')}
+                  className={`w-full text-left p-3 rounded mb-2 transition-colors flex items-center gap-3 ${
+                    activeTab === 'categories'
+                      ? 'bg-[#D87D4A] text-white'
+                      : 'hover:bg-gray-200'
+                  }`}
+                >
+                  <FolderOpen size={18} />
+                  Categories
+                </button>
+                <button
+                  onClick={() => setActiveTab('products')}
+                  className={`w-full text-left p-3 rounded mb-2 transition-colors flex items-center gap-3 ${
+                    activeTab === 'products'
+                      ? 'bg-[#D87D4A] text-white'
+                      : 'hover:bg-gray-200'
+                  }`}
+                >
+                  <Package size={18} />
+                  Products
+                </button>
+                <button
+                  onClick={() => setActiveTab('images')}
+                  className={`w-full text-left p-3 rounded mb-2 transition-colors flex items-center gap-3 ${
+                    activeTab === 'images'
+                      ? 'bg-[#D87D4A] text-white'
+                      : 'hover:bg-gray-200'
+                  }`}
+                >
+                  <Image size={18} />
+                  Images
+                </button>
               </nav>
             </div>
 
@@ -309,13 +400,70 @@ const CMSPage: React.FC = () => {
                   <div className="flex justify-between items-center">
                     <h3 className="text-xl font-semibold text-gray-800">Categories Management</h3>
                     <button
-                      onClick={() => setEditingCategory({ id: '', name: '', image: '', href: '' })}
+                      onClick={() => setShowAddCategory(true)}
                       className="bg-[#D87D4A] text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-[#FBAF85] transition-colors"
                     >
                       <Plus size={16} />
                       Add Category
                     </button>
                   </div>
+                  
+                  {showAddCategory && (
+                    <div className="border border-gray-200 p-4 rounded-md bg-gray-50">
+                      <h4 className="font-medium text-gray-800 mb-4">Add New Category</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <label className="block text-sm font-medium mb-2 text-gray-700">Name</label>
+                          <input
+                            type="text"
+                            value={newCategory.name}
+                            onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
+                            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
+                            placeholder="Category name..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium mb-2 text-gray-700">Image</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={newCategory.image}
+                              onChange={(e) => setNewCategory(prev => ({ ...prev, image: e.target.value }))}
+                              className="flex-1 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
+                              placeholder="Image URL..."
+                            />
+                            <label className="bg-gray-200 text-gray-700 px-3 py-2 rounded-md cursor-pointer hover:bg-gray-300 transition-colors flex items-center">
+                              <Upload size={16} />
+                              <input
+                                ref={categoryImageInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleCategoryImageUpload}
+                                className="hidden"
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleAddCategory}
+                          className="bg-[#D87D4A] text-white px-4 py-2 rounded-md hover:bg-[#FBAF85] transition-colors"
+                        >
+                          Add Category
+                        </button>
+                        <button
+                          onClick={() => {
+                            setShowAddCategory(false);
+                            setNewCategory({ id: '', name: '', image: '', href: '' });
+                          }}
+                          className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   
                   <div className="space-y-4">
                     {editingContent.categories.map((category, index) => (
@@ -628,6 +776,19 @@ const CMSPage: React.FC = () => {
               {/* Image URLs */}
               <div className="space-y-4">
                 <h4 className="font-medium text-gray-800">Product Images</h4>
+                <div className="mb-4">
+                  <label className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md cursor-pointer hover:bg-gray-300 transition-colors flex items-center gap-2 w-fit">
+                    <Upload size={16} />
+                    Upload Product Image
+                    <input
+                      ref={productImageInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleProductImageUpload}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2 text-gray-700">Mobile Image</label>
@@ -689,8 +850,6 @@ const CMSPage: React.FC = () => {
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 };
