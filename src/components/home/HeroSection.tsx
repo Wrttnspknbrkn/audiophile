@@ -12,37 +12,37 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // For "XX99 Mark II Headphones", split after "Mark II"
-    const markIIIndex = title.indexOf('Mark II');
-    if (markIIIndex !== -1) {
-      const firstLine = title.substring(0, markIIIndex + 7).trim(); // "XX99 Mark II"
-      const secondLine = title.substring(markIIIndex + 7).trim(); // "Headphones"
-      
+    // Debug: log the title to see what we're working with
+    console.log('Title:', title);
+    
+    // Handle the specific case of "XX99 Mark II Headphones"
+    if (title.includes('XX99 Mark II Headphones')) {
       return (
         <>
-          {firstLine}
+          XX99 Mark II
           <br />
-          {secondLine}
+          Headphones
         </>
       );
     }
     
-    // Fallback: split before "Headphones" if "Mark II" not found
-    const headphonesIndex = title.toLowerCase().indexOf('headphones');
-    if (headphonesIndex === -1) {
-      return title;
+    // Generic fallback: split at the last space before "Headphones"
+    const headphonesIndex = title.toLowerCase().lastIndexOf('headphones');
+    if (headphonesIndex > 0) {
+      const beforeHeadphones = title.substring(0, headphonesIndex).trim();
+      const headphones = title.substring(headphonesIndex).trim();
+      
+      return (
+        <>
+          {beforeHeadphones}
+          <br />
+          {headphones}
+        </>
+      );
     }
     
-    const beforeHeadphones = title.substring(0, headphonesIndex).trim();
-    const headphones = title.substring(headphonesIndex);
-    
-    return (
-      <>
-        {beforeHeadphones}
-        <br />
-        {headphones}
-      </>
-    );
+    // If no "Headphones" found, return as-is
+    return title;
   };
 
   return (
