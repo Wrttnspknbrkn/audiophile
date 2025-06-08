@@ -8,12 +8,19 @@ const FeaturedProductsSection: React.FC = () => {
       <div className="max-w-[1110px] mx-auto px-6 md:px-[39px] lg:px-0 space-y-6 md:space-y-8 lg:space-y-12">
         {/* ZX9 Speaker */}
         <div className="bg-audiophile-orange rounded-lg overflow-hidden relative min-h-[600px] md:min-h-[720px] lg:min-h-[560px]">
-          {/* Background Pattern */}
+          {/* Background Pattern - Now visible on tablet and desktop */}
           <div className="absolute inset-0 overflow-hidden">
+            {/* Desktop Pattern */}
             <img
               src="/assets/home/desktop/pattern-circles.svg"
               alt=""
               className="absolute -top-[40px] -left-[150px] w-[944px] h-[944px] opacity-90 hidden lg:block"
+            />
+            {/* Tablet Pattern - Scaled and repositioned for tablet view */}
+            <img
+              src="/assets/home/desktop/pattern-circles.svg"
+              alt=""
+              className="absolute -top-[100px] -left-[200px] w-[700px] h-[700px] opacity-80 hidden md:block lg:hidden"
             />
           </div>
 
