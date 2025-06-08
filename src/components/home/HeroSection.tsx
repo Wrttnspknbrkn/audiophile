@@ -12,19 +12,22 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Split at "Headphones" for desktop layout
-    const parts = title.split(/(\bHeadphones\b)/i);
-    return parts.map((part, index) => {
-      if (part.toLowerCase() === 'headphones') {
-        return (
-          <React.Fragment key={index}>
-            <br />
-            {part}
-          </React.Fragment>
-        );
-      }
-      return part;
-    });
+    // Split before "Headphones" to keep "Mark II" together
+    const headphonesIndex = title.toLowerCase().indexOf('headphones');
+    if (headphonesIndex === -1) {
+      return title;
+    }
+    
+    const beforeHeadphones = title.substring(0, headphonesIndex).trim();
+    const headphones = title.substring(headphonesIndex);
+    
+    return (
+      <>
+        {beforeHeadphones}
+        <br />
+        {headphones}
+      </>
+    );
   };
 
   return (
