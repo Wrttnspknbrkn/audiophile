@@ -12,17 +12,13 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Debug: log the title to see what we're working with
-    console.log('Title:', title);
-    
     // Handle the specific case of "XX99 Mark II Headphones"
     if (title.includes('XX99 Mark II Headphones')) {
       return (
-        <>
-          XX99 Mark II
-          <br />
-          Headphones
-        </>
+        <span style={{ display: 'block' }}>
+          <span style={{ display: 'block' }}>XX99 Mark II</span>
+          <span style={{ display: 'block' }}>Headphones</span>
+        </span>
       );
     }
     
@@ -33,11 +29,10 @@ const HeroSection: React.FC = () => {
       const headphones = title.substring(headphonesIndex).trim();
       
       return (
-        <>
-          {beforeHeadphones}
-          <br />
-          {headphones}
-        </>
+        <span style={{ display: 'block' }}>
+          <span style={{ display: 'block' }}>{beforeHeadphones}</span>
+          <span style={{ display: 'block' }}>{headphones}</span>
+        </span>
       );
     }
     
@@ -85,7 +80,7 @@ const HeroSection: React.FC = () => {
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">
                 {content.hero.subtitle}
               </p>
-              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]">
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px] whitespace-pre-line">
                 {renderTitle(content.hero.title, true)}
               </h1>
               <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
