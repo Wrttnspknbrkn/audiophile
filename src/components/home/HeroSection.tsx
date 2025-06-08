@@ -12,32 +12,19 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Handle the specific case of "XX99 Mark II Headphones"
-    if (title.includes('XX99 Mark II Headphones')) {
-      return (
-        <>
-          <div style={{ display: 'block', width: '100%' }}>XX99 Mark II</div>
-          <div style={{ display: 'block', width: '100%' }}>Headphones</div>
-        </>
-      );
-    }
-    
-    // Generic fallback: split at the last space before "Headphones"
-    const headphonesIndex = title.toLowerCase().lastIndexOf('headphones');
-    if (headphonesIndex > 0) {
-      const beforeHeadphones = title.substring(0, headphonesIndex).trim();
-      const headphones = title.substring(headphonesIndex).trim();
-      
-      return (
-        <>
-          <div style={{ display: 'block', width: '100%' }}>{beforeHeadphones}</div>
-          <div style={{ display: 'block', width: '100%' }}>{headphones}</div>
-        </>
-      );
-    }
-    
-    // If no "Headphones" found, return as-is
-    return title;
+    // Split at "Headphones" for desktop layout
+    const parts = title.split(/(\bHeadphones\b)/i);
+    return parts.map((part, index) => {
+      if (part.toLowerCase() === 'headphones') {
+        return (
+          <React.Fragment key={index}>
+            <br />
+            {part}
+          </React.Fragment>
+        );
+      }
+      return part;
+    });
   };
 
   return (
@@ -80,7 +67,7 @@ const HeroSection: React.FC = () => {
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">
                 {content.hero.subtitle}
               </p>
-              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]" style={{ display: 'block', whiteSpace: 'normal', overflow: 'visible', height: 'auto' }}>
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6">
                 {renderTitle(content.hero.title, true)}
               </h1>
               <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
