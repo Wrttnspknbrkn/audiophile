@@ -1,306 +1,117 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product } from '../../types/product';
-import productsData from '../../data/products.json';
-import { toast } from '@/hooks/use-toast';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCMS } from '../cms/CMSProvider';
+import { ResponsiveImage } from '../ui/responsive-image';
 
-interface CMSContent {
-  hero: {
-    title: string;
-    subtitle: string;
-    description: string;
-    buttonText: string;
-    backgroundImage: string;
-  };
-  about: {
-    title: string;
-    description: string;
-    image: string;
-  };
-  categories: Array<{
-    id: string;
-    name: string;
-    image: string;
-    href: string;
-  }>;
-  featuredProducts: Array<{
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    link: string;
-    featured: boolean;
-  }>;
-}
-
-interface CMSContextType {
-  content: CMSContent;
-  products: Product[];
-  updateContent: (section: keyof CMSContent, data: any) => void;
-  addProduct: (product: Product) => void;
-  updateProduct: (product: Product) => void;
-  deleteProduct: (id: number) => void;
-  addCategory: (category: { id: string; name: string; image: string; href: string }) => void;
-  updateCategory: (category: { id: string; name: string; image: string; href: string }) => void;
-  deleteCategory: (id: string) => void;
-  isLoading: boolean;
-}
-
-const CMSContext = createContext<CMSContextType | undefined>(undefined);
-
-const defaultContent: CMSContent = {
-  hero: {
-    title: "XX99 Mark II Headphones",
-    subtitle: "New Product",
-    description: "Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.",
-    buttonText: "See Product",
-    backgroundImage: "/assets/home/desktop/image-hero.jpg"
-  },
-  about: {
-    title: "Bringing you the best audio gear",
-    description: "Located at the heart of New York City, Audiophile is the premier store for high end headphones, earphones, speakers, and audio accessories. We have a large showroom and luxury demonstration rooms available for you to browse and experience a wide range of our products. Stop by our store to meet some of the fantastic people who make Audiophile the best place to buy your portable audio equipment.",
-    image: "/assets/shared/desktop/image-best-gear.jpg"
-  },
-  categories: [
-    {
-      id: "headphones",
-      name: "Headphones",
-      image: "/assets/shared/desktop/image-category-thumbnail-headphones.png",
-      href: "/category/headphones"
-    },
-    {
-      id: "speakers",
-      name: "Speakers",
-      image: "/assets/shared/desktop/image-category-thumbnail-speakers.png",
-      href: "/category/speakers"
-    },
-    {
-      id: "earphones",
-      name: "Earphones",
-      image: "/assets/shared/desktop/image-category-thumbnail-earphones.png",
-      href: "/category/earphones"
+const HeroSection: React.FC = () => {
+  const { content } = useCMS();
+  
+  // Function to render title with smart line breaks for desktop
+  const renderTitle = (title: string, isDesktop: boolean = false) => {
+    if (!isDesktop) {
+      return title;
     }
-  ],
-  featuredProducts: [
-    {
-      id: "zx9-speaker",
-      name: "ZX9 Speaker",
-      description: "Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.",
-      image: "/assets/home/desktop/image-speaker-zx9.png",
-      link: "/product/zx9-speaker",
-      featured: true
-    },
-    {
-      id: "zx7-speaker", 
-      name: "ZX7 Speaker",
-      description: "",
-      image: "/assets/home/desktop/image-speaker-zx7.jpg",
-      link: "/product/zx7-speaker",
-      featured: true
-    },
-    {
-      id: "yx1-earphones",
-      name: "YX1 Earphones",
-      description: "",
-      image: "/assets/home/desktop/image-earphones-yx1.jpg",
-      link: "/product/yx1-earphones",
-      featured: true
+    
+    // Debug: log the title to see what we're working with
+    console.log('Title:', title);
+    
+    // Handle the specific case of "XX99 Mark II Headphones"
+    if (title.includes('XX99 Mark II Headphones')) {
+      return (
+        <>
+          XX99 Mark II
+          <br />
+          Headphones
+        </>
+      );
     }
-  ]
-};
-
-export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [content, setContent] = useState<CMSContent>(defaultContent);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Load data on mount
-  useEffect(() => {
-    try {
-      // Load content from localStorage
-      const savedContent = localStorage.getItem('cms-content');
-      if (savedContent) {
-        setContent(JSON.parse(savedContent));
-      }
-
-      // Load and merge products: static + CMS
-      const staticProducts = productsData as Product[];
-      const savedProducts = localStorage.getItem('cms-products');
-      const cmsProducts = savedProducts ? JSON.parse(savedProducts) : [];
+    
+    // Generic fallback: split at the last space before "Headphones"
+    const headphonesIndex = title.toLowerCase().lastIndexOf('headphones');
+    if (headphonesIndex > 0) {
+      const beforeHeadphones = title.substring(0, headphonesIndex).trim();
+      const headphones = title.substring(headphonesIndex).trim();
       
-      // Merge static products with CMS products, ensuring no duplicates
-      const allProducts = [...staticProducts];
-      cmsProducts.forEach((cmsProduct: Product) => {
-        if (!staticProducts.find(p => p.id === cmsProduct.id)) {
-          allProducts.push(cmsProduct);
-        }
-      });
-      
-      setProducts(allProducts);
-      console.log('Loaded products:', allProducts.length, 'total');
-    } catch (error) {
-      console.error('Failed to load CMS data:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to load CMS data"
-      });
+      return (
+        <>
+          {beforeHeadphones}
+          <br />
+          {headphones}
+        </>
+      );
     }
-  }, []);
-
-  const updateContent = (section: keyof CMSContent, data: any) => {
-    try {
-      const newContent = { ...content, [section]: data };
-      setContent(newContent);
-      localStorage.setItem('cms-content', JSON.stringify(newContent));
-      
-      toast({
-        title: "Success",
-        description: `${section} updated successfully`
-      });
-    } catch (error) {
-      console.error('Failed to update content:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update content"
-      });
-    }
-  };
-
-  const addProduct = (product: Product) => {
-    try {
-      const newProduct = { ...product, id: Date.now() };
-      const updatedProducts = [...products, newProduct];
-      setProducts(updatedProducts);
-      
-      // Save only CMS products to localStorage
-      const cmsProducts = updatedProducts.filter(p => !productsData.find(sp => sp.id === p.id));
-      localStorage.setItem('cms-products', JSON.stringify(cmsProducts));
-      
-      toast({
-        title: "Success",
-        description: "Product added successfully"
-      });
-    } catch (error) {
-      console.error('Failed to add product:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to add product"
-      });
-    }
-  };
-
-  const updateProduct = (product: Product) => {
-    try {
-      const updatedProducts = products.map(p => p.id === product.id ? product : p);
-      setProducts(updatedProducts);
-      
-      // Save only CMS products to localStorage
-      const cmsProducts = updatedProducts.filter(p => !productsData.find(sp => sp.id === p.id));
-      localStorage.setItem('cms-products', JSON.stringify(cmsProducts));
-      
-      toast({
-        title: "Success",
-        description: "Product updated successfully"
-      });
-    } catch (error) {
-      console.error('Failed to update product:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update product"
-      });
-    }
-  };
-
-  const deleteProduct = (id: number) => {
-    try {
-      const updatedProducts = products.filter(p => p.id !== id);
-      setProducts(updatedProducts);
-      
-      // Save only CMS products to localStorage
-      const cmsProducts = updatedProducts.filter(p => !productsData.find(sp => sp.id === p.id));
-      localStorage.setItem('cms-products', JSON.stringify(cmsProducts));
-      
-      toast({
-        title: "Success",
-        description: "Product deleted successfully"
-      });
-    } catch (error) {
-      console.error('Failed to delete product:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to delete product"
-      });
-    }
-  };
-
-  const addCategory = (category: { id: string; name: string; image: string; href: string }) => {
-    try {
-      const newCategories = [...content.categories, category];
-      updateContent('categories', newCategories);
-    } catch (error) {
-      console.error('Failed to add category:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to add category"
-      });
-    }
-  };
-
-  const updateCategory = (category: { id: string; name: string; image: string; href: string }) => {
-    try {
-      const updatedCategories = content.categories.map(c => c.id === category.id ? category : c);
-      updateContent('categories', updatedCategories);
-    } catch (error) {
-      console.error('Failed to update category:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update category"
-      });
-    }
-  };
-
-  const deleteCategory = (id: string) => {
-    try {
-      const updatedCategories = content.categories.filter(c => c.id !== id);
-      updateContent('categories', updatedCategories);
-    } catch (error) {
-      console.error('Failed to delete category:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to delete category"
-      });
-    }
+    
+    // If no "Headphones" found, return as-is
+    return title;
   };
 
   return (
-    <CMSContext.Provider value={{ 
-      content, 
-      products,
-      updateContent, 
-      addProduct,
-      updateProduct,
-      deleteProduct,
-      addCategory,
-      updateCategory,
-      deleteCategory,
-      isLoading 
-    }}>
-      {children}
-    </CMSContext.Provider>
+    <section className="bg-audiophile-dark overflow-hidden">
+      <div className="lg:hidden">
+        <div className="relative">
+          <ResponsiveImage
+            mobile="/assets/home/mobile/image-header.jpg"
+            tablet="/assets/home/tablet/image-header.jpg"
+            desktop="/assets/home/desktop/image-hero.jpg"
+            alt={content.hero.title}
+            className="w-full h-[600px] tablet:h-[729px] object-cover object-[center_30%] tablet:object-center"
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center px-6 tablet:px-[197px] mt-12 tablet:mt-12">
+              <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-4 tablet:mb-6 text-audiophile-white opacity-50">
+                {content.hero.subtitle}
+              </p>
+              <h1 className="text-[36px] tablet:text-[56px] font-bold leading-[40px] tablet:leading-[58px] tracking-[1.29px] tablet:tracking-[2px] uppercase text-white mb-6 max-w-[328px] tablet:max-w-[400px] mx-auto">
+                {content.hero.title}
+              </h1>
+              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-[28px] tablet:mb-10 max-w-[328px] tablet:max-w-[349px] mx-auto">
+                {content.hero.description}
+              </p>
+              <Link
+                to="/product/xx99-mark-two-headphones"
+                className="inline-block bg-audiophile-orange text-audiophile-white px-[31px] py-[15px] text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
+              >
+                {content.hero.buttonText}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="hidden lg:block">
+        <div className="max-w-[1110px] mx-auto px-0 relative">
+          <div className="grid grid-cols-12 items-center h-[700px]">
+            <div className="col-span-5 text-left pl-0 pr-[95px]">
+              <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">
+                {content.hero.subtitle}
+              </p>
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]">
+                {renderTitle(content.hero.title, true)}
+              </h1>
+              <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
+                {content.hero.description}
+              </p>
+              <Link
+                to="/product/xx99-mark-two-headphones"
+                className="inline-block bg-audiophile-orange text-audiophile-white px-8 py-4 text-[13px] font-bold leading-[25px] tracking-[1px] uppercase hover:bg-audiophile-light-orange transition-all duration-300"
+              >
+                {content.hero.buttonText}
+              </Link>
+            </div>
+            
+            <div className="col-span-7 relative h-[700px] overflow-hidden">
+              <img
+                src="/assets/home/desktop/image-hero.jpg"
+                alt={content.hero.title}
+                className="absolute right-[-220px] top-[40%] transform -translate-y-1/2 h-[115%] w-auto object-contain"
+                style={{ maxWidth: 'none' }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
-export const useCMS = () => {
-  const context = useContext(CMSContext);
-  if (context === undefined) {
-    throw new Error('useCMS must be used within a CMSProvider');
-  }
-  return context;
-};
+export default HeroSection;
