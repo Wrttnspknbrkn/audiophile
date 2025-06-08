@@ -1,7 +1,6 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Product } from '../types/product';
-import productsData from '../data/products.json';
+import { Product } from '../../types/product';
+import productsData from '../../data/products.json';
 import { toast } from '@/hooks/use-toast';
 
 interface CMSContent {
