@@ -136,50 +136,60 @@ const ProductPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-8 mb-20 md:mb-24 lg:mb-40">
-          <div className="md:col-span-1 lg:col-span-2 space-y-4 lg:space-y-8">
-            <ResponsiveImage
-              mobile={product.gallery.first.mobile}
-              tablet={product.gallery.first.tablet}
-              desktop={product.gallery.first.desktop}
-              alt="Product gallery"
-              className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
-            />
-            <ResponsiveImage
-              mobile={product.gallery.second.mobile}
-              tablet={product.gallery.second.tablet}
-              desktop={product.gallery.second.desktop}
-              alt="Product gallery"
-              className="w-full h-44 md:h-44 lg:h-[280px] rounded-lg object-cover"
-            />
-          </div>
-          <div className="md:col-span-1 lg:col-span-3">
-            <ResponsiveImage
-              mobile={product.gallery.third.mobile}
-              tablet={product.gallery.third.tablet}
-              desktop={product.gallery.third.desktop}
-              alt="Product gallery"
-              className="w-full h-96 md:h-96 lg:h-[592px] rounded-lg object-cover"
-            />
+        {/* Gallery - Fixed responsive layout and image sizing */}
+        <div className="mb-20 md:mb-24 lg:mb-40">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5 lg:gap-8">
+            {/* Left column with two stacked images */}
+            <div className="md:col-span-1 lg:col-span-2 space-y-4 md:space-y-5 lg:space-y-8">
+              <div className="w-full">
+                <ResponsiveImage
+                  mobile={product.gallery.first.mobile}
+                  tablet={product.gallery.first.tablet}
+                  desktop={product.gallery.first.desktop}
+                  alt="Product gallery"
+                  className="w-full h-[180px] sm:h-[200px] md:h-[174px] lg:h-[280px] rounded-lg object-cover"
+                />
+              </div>
+              <div className="w-full">
+                <ResponsiveImage
+                  mobile={product.gallery.second.mobile}
+                  tablet={product.gallery.second.tablet}
+                  desktop={product.gallery.second.desktop}
+                  alt="Product gallery"
+                  className="w-full h-[180px] sm:h-[200px] md:h-[174px] lg:h-[280px] rounded-lg object-cover"
+                />
+              </div>
+            </div>
+            {/* Right column with single large image */}
+            <div className="md:col-span-1 lg:col-span-3">
+              <ResponsiveImage
+                mobile={product.gallery.third.mobile}
+                tablet={product.gallery.third.tablet}
+                desktop={product.gallery.third.desktop}
+                alt="Product gallery"
+                className="w-full h-[300px] sm:h-[350px] md:h-[368px] lg:h-[592px] rounded-lg object-cover"
+              />
+            </div>
           </div>
         </div>
 
-        {/* You May Also Like */}
+        {/* You May Also Like - Fixed image sizing and responsiveness */}
         <div className="text-center mb-16 md:mb-20 lg:mb-40">
           <h3 className="text-[24px] md:text-[32px] font-bold leading-[36px] tracking-[0.86px] md:tracking-[1.14px] uppercase text-black mb-10 md:mb-16">
             You may also like
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 lg:gap-8">
             {product.others.map((item, index) => (
-              <div key={index} className="group">
-                <ResponsiveImage
-                  mobile={item.image.mobile}
-                  tablet={item.image.tablet}
-                  desktop={item.image.desktop}
-                  alt={item.name}
-                  className="w-full h-40 md:h-80 lg:h-80 rounded-lg object-cover mb-8 md:mb-10"
-                />
+              <div key={index} className="group flex flex-col items-center">
+                <div className="w-full mb-8 md:mb-10">
+                  <ResponsiveImage
+                    mobile={item.image.mobile}
+                    tablet={item.image.tablet}
+                    desktop={item.image.desktop}
+                    alt={item.name}
+                    className="w-full h-[200px] sm:h-[250px] md:h-[318px] lg:h-[318px] rounded-lg object-cover"
+                  />
+                </div>
                 <h4 className="text-[24px] font-bold leading-[33px] tracking-[1.71px] uppercase text-black mb-8">
                   {item.name}
                 </h4>
