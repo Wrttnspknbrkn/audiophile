@@ -12,7 +12,22 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Split before "Headphones" to keep "Mark II" together
+    // For "XX99 Mark II Headphones", split after "Mark II"
+    const markIIIndex = title.indexOf('Mark II');
+    if (markIIIndex !== -1) {
+      const firstLine = title.substring(0, markIIIndex + 7).trim(); // "XX99 Mark II"
+      const secondLine = title.substring(markIIIndex + 7).trim(); // "Headphones"
+      
+      return (
+        <>
+          {firstLine}
+          <br />
+          {secondLine}
+        </>
+      );
+    }
+    
+    // Fallback: split before "Headphones" if "Mark II" not found
     const headphonesIndex = title.toLowerCase().indexOf('headphones');
     if (headphonesIndex === -1) {
       return title;
