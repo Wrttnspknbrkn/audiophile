@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { CMSProvider } from './components/cms/CMSProvider';
 import { Toaster } from '@/components/ui/toaster';
-import HomePage from './pages/HomePage';
+import Index from './pages/Index';
 import CategoryPage from './pages/CategoryPage';
 import ProductPage from './pages/ProductPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -17,7 +17,7 @@ function App() {
         <CartProvider>
           <div className="App">
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<Index />} />
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/product/:slug" element={<ProductPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
