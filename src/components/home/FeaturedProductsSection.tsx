@@ -16,11 +16,11 @@ const FeaturedProductsSection: React.FC = () => {
               alt=""
               className="absolute -top-[40px] -left-[150px] w-[944px] h-[944px] opacity-90 hidden lg:block"
             />
-            {/* Tablet Pattern - Scaled and repositioned for tablet view */}
+            {/* Tablet Pattern - Centered for tablet view */}
             <img
               src="/assets/home/desktop/pattern-circles.svg"
               alt=""
-              className="absolute -top-[100px] -left-[200px] w-[700px] h-[700px] opacity-80 hidden md:block lg:hidden"
+              className="absolute -top-[100px] left-1/2 transform -translate-x-1/2 w-[700px] h-[700px] opacity-80 hidden md:block lg:hidden"
             />
           </div>
 
