@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added proper file upload handling with FileReader API
 - Implemented local storage management for persistent data
 
-## [2.1.0] - 2025-01-03
+## [2.1.0] - 2025-06-07
 
 ### Changed
 - Updated all page layouts to use proper Tailwind responsive classes (sm:, md:, lg:) instead of custom breakpoints
@@ -68,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all components to use exact Figma color palette
 - Improved component structure and maintainability
 
-## [2.0.0] - 2025-01-03
+## [2.0.0] - 2025-06-06
 
 ### Added
 - Complete redesign to match Figma specifications exactly
@@ -111,7 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced error handling throughout the application
 - Improved component composition and reusability
 
-## [1.0.0] - 2024-12-15
+## [1.0.0] - 2025-06-05
 
 ### Added
 - Initial project setup with React, TypeScript, and Tailwind CSS
