@@ -12,18 +12,32 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Replace the space before "Headphones" with a special character that we'll style
-    const formattedTitle = title.replace(/\s+(?=Headphones)/i, '\n');
+    // Handle the specific case of "XX99 Mark II Headphones"
+    if (title.includes('XX99 Mark II Headphones')) {
+      return (
+        <div className="flex flex-col">
+          <span>XX99 Mark II</span>
+          <span>Headphones</span>
+        </div>
+      );
+    }
     
-    return (
-      <span style={{ 
-        whiteSpace: 'pre-line',
-        display: 'block',
-        width: '100%'
-      }}>
-        {formattedTitle}
-      </span>
-    );
+    // Generic fallback: split at the last space before "Headphones"
+    const headphonesIndex = title.toLowerCase().lastIndexOf('headphones');
+    if (headphonesIndex > 0) {
+      const beforeHeadphones = title.substring(0, headphonesIndex).trim();
+      const headphones = title.substring(headphonesIndex).trim();
+      
+      return (
+        <div className="flex flex-col">
+          <span>{beforeHeadphones}</span>
+          <span>{headphones}</span>
+        </div>
+      );
+    }
+    
+    // If no "Headphones" found, return as-is
+    return title;
   };
 
   return (
