@@ -24,12 +24,17 @@ const App = () => (
         <CartProvider>
           <BrowserRouter>
             <Routes>
+              {/* Main Website Routes */}
               <Route path="/" element={<Index />} />
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/product/:slug" element={<ProductPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
+              
+              {/* CMS Admin Routes */}
+              <Route path="/admin" element={<CMSPage />} />
               <Route path="/cms" element={<CMSPage />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              
+              {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
