@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../components/cms/CMSProvider';
-import { Save, ArrowLeft, Edit2, Plus, Trash2, Upload, X, AlertCircle, Home, Info, FolderOpen, Package, Image as ImageIcon } from 'lucide-react';
+import { Save, ArrowLeft, Edit2, Plus, Trash2, Upload, X, AlertCircle } from 'lucide-react';
 import { Product } from '../types/product';
 import { toast } from '@/hooks/use-toast';
 
@@ -91,10 +91,14 @@ const CMSPage: React.FC = () => {
     }
 
     try {
-      if (category.id) {
+      if (category.id && content.categories.find(c => c.id === category.id)) {
         updateCategory(category);
       } else {
-        const newCategory = { ...category, id: Date.now().toString() };
+        const newCategory = {
+          ...category,
+          id: category.id || category.name.toLowerCase().replace(/\s+/g, '-'),
+          href: category.href || `/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`
+        };
         addCategory(newCategory);
       }
       setEditingCategory(null);
@@ -118,7 +122,7 @@ const CMSPage: React.FC = () => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -160,7 +164,10 @@ const CMSPage: React.FC = () => {
     if (file && editingCategory) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setEditingCategory(prev => prev ? { ...prev, image: e.target?.result as string } : null);
+        setEditingCategory(prev => ({
+          ...prev!,
+          image: e.target?.result as string
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -171,10 +178,13 @@ const CMSPage: React.FC = () => {
     if (file && editingProduct) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setEditingProduct(prev => prev ? {
-          ...prev,
-          image: { ...prev.image, [imageType]: e.target?.result as string }
-        } : null);
+        setEditingProduct(prev => ({
+          ...prev!,
+          image: {
+            ...prev!.image,
+            [imageType]: e.target?.result as string
+          }
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -214,14 +224,6 @@ const CMSPage: React.FC = () => {
     setEditingContent(content);
   }, [content]);
 
-  const tabIcons = {
-    hero: Home,
-    about: Info,
-    categories: FolderOpen,
-    products: Package,
-    images: ImageIcon
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
@@ -244,27 +246,23 @@ const CMSPage: React.FC = () => {
             {/* Sidebar */}
             <div className="lg:w-64 bg-gray-50 border-r">
               <nav className="p-4">
-                {(['hero', 'about', 'categories', 'products', 'images'] as const).map((tab) => {
-                  const IconComponent = tabIcons[tab];
-                  return (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab)}
-                      className={`w-full text-left p-3 rounded mb-2 capitalize transition-colors flex items-center gap-3 ${
-                        activeTab === tab
-                          ? 'bg-[#D87D4A] text-white'
-                          : 'hover:bg-gray-200'
-                      }`}
-                    >
-                      <IconComponent size={18} />
-                      {tab === 'hero' && 'Hero Section'}
-                      {tab === 'about' && 'About Section'}
-                      {tab === 'categories' && 'Categories'}
-                      {tab === 'products' && 'Products'}
-                      {tab === 'images' && 'Images'}
-                    </button>
-                  );
-                })}
+                {(['hero', 'about', 'categories', 'products', 'images'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`w-full text-left p-3 rounded mb-2 capitalize transition-colors ${
+                      activeTab === tab
+                        ? 'bg-[#D87D4A] text-white'
+                        : 'hover:bg-gray-200'
+                    }`}
+                  >
+                    {tab === 'hero' && '🏠 Hero Section'}
+                    {tab === 'about' && 'ℹ️ About Section'}
+                    {tab === 'categories' && '📂 Categories'}
+                    {tab === 'products' && '📦 Products'}
+                    {tab === 'images' && '🖼️ Images'}
+                  </button>
+                ))}
               </nav>
             </div>
 
@@ -592,7 +590,7 @@ const CMSPage: React.FC = () => {
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b flex justify-between items-center bg-gray-50">
               <h3 className="text-lg font-semibold">
-                {editingCategory.id ? 'Edit Category' : 'Add New Category'}
+                {editingCategory.id && content.categories.find(c => c.id === editingCategory.id) ? 'Edit Category' : 'Add New Category'}
               </h3>
               <button
                 onClick={() => setEditingCategory(null)}
@@ -612,16 +610,7 @@ const CMSPage: React.FC = () => {
                   placeholder="Enter category name..."
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Category Link *</label>
-                <input
-                  type="text"
-                  value={editingCategory.href || ''}
-                  onChange={(e) => setEditingCategory(prev => ({ ...prev!, href: e.target.value }))}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
-                  placeholder="/category/category-name"
-                />
-              </div>
+              
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-700">Category Image</label>
                 <div className="space-y-3">
@@ -630,30 +619,34 @@ const CMSPage: React.FC = () => {
                     value={editingCategory.image || ''}
                     onChange={(e) => setEditingCategory(prev => ({ ...prev!, image: e.target.value }))}
                     className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
-                    placeholder="Enter image URL or upload file below..."
+                    placeholder="Enter image URL or upload below..."
                   />
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">Or upload file:</span>
-                    <label className="bg-gray-100 text-gray-700 px-3 py-1 rounded-md cursor-pointer hover:bg-gray-200 transition-colors flex items-center gap-2">
-                      <Upload size={14} />
-                      Choose File
-                      <input
-                        ref={categoryImageInputRef}
-                        type="file"
-                        accept="image/*"
-                        onChange={handleCategoryImageUpload}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                  {editingCategory.image && (
-                    <img
-                      src={editingCategory.image}
-                      alt="Preview"
-                      className="w-20 h-20 object-cover rounded border"
+                  <label className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-colors">
+                    <Upload size={16} />
+                    Upload Image
+                    <input
+                      ref={categoryImageInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleCategoryImageUpload}
+                      className="hidden"
                     />
+                  </label>
+                  {editingCategory.image && (
+                    <img src={editingCategory.image} alt="Preview" className="w-24 h-24 object-cover rounded border" />
                   )}
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Category Link</label>
+                <input
+                  type="text"
+                  value={editingCategory.href || ''}
+                  onChange={(e) => setEditingCategory(prev => ({ ...prev!, href: e.target.value }))}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
+                  placeholder="/category/category-name"
+                />
               </div>
             </div>
             
@@ -776,40 +769,35 @@ const CMSPage: React.FC = () => {
               <div className="space-y-4">
                 <h4 className="font-medium text-gray-800">Product Images</h4>
                 {(['mobile', 'tablet', 'desktop'] as const).map((imageType) => (
-                  <div key={imageType}>
-                    <label className="block text-sm font-medium mb-2 text-gray-700 capitalize">{imageType} Image</label>
-                    <div className="space-y-2">
+                  <div key={imageType} className="space-y-3">
+                    <label className="block text-sm font-medium text-gray-700 capitalize">{imageType} Image</label>
+                    <input
+                      type="text"
+                      value={editingProduct.image?.[imageType] || ''}
+                      onChange={(e) => setEditingProduct(prev => ({ 
+                        ...prev!, 
+                        image: { ...prev!.image, [imageType]: e.target.value }
+                      }))}
+                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
+                      placeholder={`${imageType} image URL or upload below...`}
+                    />
+                    <label className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-colors">
+                      <Upload size={16} />
+                      Upload {imageType} Image
                       <input
-                        type="text"
-                        value={editingProduct.image?.[imageType] || ''}
-                        onChange={(e) => setEditingProduct(prev => ({ 
-                          ...prev!, 
-                          image: { ...prev!.image, [imageType]: e.target.value }
-                        }))}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#D87D4A] focus:border-transparent"
-                        placeholder={`${imageType} image URL...`}
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleProductImageUpload(e, imageType)}
+                        className="hidden"
                       />
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Or upload file:</span>
-                        <label className="bg-gray-100 text-gray-700 px-3 py-1 rounded-md cursor-pointer hover:bg-gray-200 transition-colors flex items-center gap-2">
-                          <Upload size={14} />
-                          Choose File
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleProductImageUpload(e, imageType)}
-                            className="hidden"
-                          />
-                        </label>
-                      </div>
-                      {editingProduct.image?.[imageType] && (
-                        <img
-                          src={editingProduct.image[imageType]}
-                          alt={`${imageType} preview`}
-                          className="w-20 h-20 object-cover rounded border"
-                        />
-                      )}
-                    </div>
+                    </label>
+                    {editingProduct.image?.[imageType] && (
+                      <img 
+                        src={editingProduct.image[imageType]} 
+                        alt={`${imageType} preview`} 
+                        className="w-24 h-24 object-cover rounded border" 
+                      />
+                    )}
                   </div>
                 ))}
               </div>
