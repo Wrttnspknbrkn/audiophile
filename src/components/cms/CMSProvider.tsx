@@ -49,7 +49,7 @@ const CMSContext = createContext<CMSContextType | undefined>(undefined);
 
 const defaultContent: CMSContent = {
   hero: {
-    title: "XX99 Mark II Headphones",
+    title: "XX99 MarkII Headphones",
     subtitle: "New Product",
     description: "Experience natural, lifelike audio and exceptional build quality made for the passionate music enthusiast.",
     buttonText: "See Product",
