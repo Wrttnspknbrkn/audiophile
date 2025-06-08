@@ -6,44 +6,6 @@ All notable changes to the Audiophile E-commerce Website will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - 2025-06-08
-
-### Added
-- Complete Content Management System (CMS) for managing website content
-- CMS interface at `/admin` and `/cms` routes for content editing
-- Image upload functionality for categories and products in CMS
-- Real-time content synchronization between CMS and main website
-- Category management with add/edit/delete functionality
-- Product management with full CRUD operations
-- Image gallery management with upload and organization features
-- Form validation and error handling throughout CMS
-- Toast notifications for user feedback on CMS operations
-- Proper icons in CMS sidebar using Lucide React icons
-
-### Changed
-- CMS page now displays without main website header and footer for clean admin interface
-- Hero section now dynamically uses content from CMS
-- About section now dynamically uses content from CMS  
-- Categories section now dynamically uses content from CMS
-- Updated sidebar navigation in CMS to use professional icons instead of emojis
-- Enhanced category and product creation with image upload options
-- Improved CMS user interface with better visual hierarchy and spacing
-
-### Enhanced
-- CMSProvider now properly manages content state and persistence
-- Added comprehensive form validation for products and categories
-- Improved error handling and user feedback throughout CMS
-- Better responsive design for CMS interface across all devices
-- Enhanced image handling with upload progress and validation
-
-### Technical
-- Updated CMSProvider with full CRUD operations for all content types
-- Added proper TypeScript interfaces for CMS content management
-- Implemented localStorage persistence for CMS images and products
-- Enhanced toast notification system for better user experience
-- Added proper form validation with real-time error feedback
-- Created focused, maintainable component structure for CMS features
-
 ## [2.1.0] - 2025-01-03
 
 ### Changed

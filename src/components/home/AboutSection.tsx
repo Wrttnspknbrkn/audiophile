@@ -1,11 +1,7 @@
-
 import React from 'react';
 import { ResponsiveImage } from '../ui/responsive-image';
-import { useCMS } from '../cms/CMSProvider';
 
 const AboutSection: React.FC = () => {
-  const { content } = useCMS();
-
   return (
     <section className="pb-20 md:pb-24 lg:pb-48">
       <div className="max-w-[1110px] mx-auto px-6 md:px-10 lg:px-0">
@@ -22,10 +18,14 @@ const AboutSection: React.FC = () => {
           </div>
           <div className="text-center">
             <h2 className="mb-8 text-audiophile-black">
-              {content.about.title}
+              Bringing you the <span className="text-audiophile-orange">best</span> audio gear
             </h2>
             <p className="body">
-              {content.about.description}
+              Located at the heart of New York City, Audiophile is the premier store for high end headphones, 
+              earphones, speakers, and audio accessories. We have a large showroom and luxury demonstration 
+              rooms available for you to browse and experience a wide range of our products. Stop by our store 
+              to meet some of the fantastic people who make Audiophile the best place to buy your portable 
+              audio equipment.
             </p>
           </div>
         </div>
@@ -35,17 +35,21 @@ const AboutSection: React.FC = () => {
           {/* Left column - Text content */}
           <div className="text-left">
             <h2 className="text-[40px] font-bold leading-[44px] tracking-[1.43px] uppercase text-audiophile-black mb-8">
-              {content.about.title}
+              Bringing you the <span className="text-audiophile-orange">best</span> audio gear
             </h2>
             <p className="text-audiophile-black opacity-50 text-[15px] font-medium leading-[25px]">
-              {content.about.description}
+              Located at the heart of New York City, Audiophile is the premier store for high end headphones, 
+              earphones, speakers, and audio accessories. We have a large showroom and luxury demonstration 
+              rooms available for you to browse and experience a wide range of our products. Stop by our store 
+              to meet some of the fantastic people who make Audiophile the best place to buy your portable 
+              audio equipment.
             </p>
           </div>
           
           {/* Right column - Image */}
           <div className="flex justify-center">
             <img
-              src={content.about.image || "/assets/shared/desktop/image-best-gear.jpg"}
+              src="/assets/shared/desktop/image-best-gear.jpg"
               alt="Person listening to music"
               className="w-[540px] h-[588px] object-cover rounded-lg"
             />

@@ -1,23 +1,49 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCMS } from '../cms/CMSProvider';
 
 const CategoriesSection: React.FC = () => {
-  const { content } = useCMS();
+  const categories = [
+    {
+      name: 'HEADPHONES',
+      image: {
+        mobile: '/assets/shared/desktop/image-category-thumbnail-headphones.png',
+        tablet: '/assets/shared/desktop/image-category-thumbnail-headphones.png',
+        desktop: '/assets/shared/desktop/image-category-thumbnail-headphones.png'
+      },
+      href: '/category/headphones'
+    },
+    {
+      name: 'SPEAKERS', 
+      image: {
+        mobile: '/assets/shared/desktop/image-category-thumbnail-speakers.png',
+        tablet: '/assets/shared/desktop/image-category-thumbnail-speakers.png',
+        desktop: '/assets/shared/desktop/image-category-thumbnail-speakers.png'
+      },
+      href: '/category/speakers'
+    },
+    {
+      name: 'EARPHONES',
+      image: {
+        mobile: '/assets/shared/desktop/image-category-thumbnail-earphones.png',
+        tablet: '/assets/shared/desktop/image-category-thumbnail-earphones.png',
+        desktop: '/assets/shared/desktop/image-category-thumbnail-earphones.png'
+      },
+      href: '/category/earphones'
+    }
+  ];
 
   return (
     <section className="py-10 tablet:py-24 desktop:py-40">
       <div className="max-w-[1110px] mx-auto px-6 tablet:px-10 desktop:px-0">
         <div className="grid grid-cols-1 tablet:grid-cols-3 gap-16 tablet:gap-[10px] desktop:gap-[30px]">
-          {content.categories.map((category, index) => (
-            <div key={category.id} className="group">
+          {categories.map((category, index) => (
+            <div key={category.name} className="group">
               {/* Card Container with content inside */}
               <div className="relative bg-gray-100 rounded-lg h-[240px] tablet:h-[220px] desktop:h-[240px] overflow-visible flex flex-col">
                 {/* Product Image - Positioned at top */}
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-[20%]">
                   <img
-                    src={category.image}
+                    src={category.image.desktop}
                     alt={category.name}
                     className="w-[140px] tablet:w-[160px] desktop:w-[180px] h-auto object-contain drop-shadow-lg"
                   />
