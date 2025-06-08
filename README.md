@@ -38,7 +38,7 @@ A modern, responsive e-commerce website for audio equipment built with React, Ty
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd audiophile-ecommerce
+   cd audiophile
    ```
 
 2. **Install dependencies**
@@ -151,23 +151,6 @@ src/
 ├── types/             # TypeScript type definitions
 └── lib/               # Utility functions
 ```
-
-## 🚀 Deployment
-
-The application can be deployed to any static hosting service:
-
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
-
-2. **Deploy the `dist` folder** to your hosting service:
-   - Vercel
-   - Netlify
-   - GitHub Pages
-   - AWS S3
-   - Any static hosting provider
-
 ## 🔄 Data Management
 
 ### Static Data
@@ -185,42 +168,9 @@ The application can be deployed to any static hosting service:
 3. Content updates save to localStorage
 4. Main website components consume CMS data via React Context
 
-## 🎛️ CMS Administration
-
 ### Access Control
-- CMS is openly accessible (add authentication as needed)
+- CMS is openly accessible
 - All changes save locally in browser storage
 
-### Data Backup
-- Export CMS data via browser developer tools
-- Access localStorage keys: `cms-content`, `cms-products`, `cms-images`
 
-### Content Guidelines
-- Use high-quality images (max 5MB)
-- Write descriptive product names and descriptions
-- Maintain consistent brand voice in content
-- Test changes on different screen sizes
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly across devices
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-For support and questions:
-- Check the documentation above
-- Review the code comments
-- Test changes in the CMS interface
-- Ensure responsive design across all breakpoints
-
----
-
-**Note**: This is a frontend-only application. For production use, consider integrating with a backend CMS, database, and authentication system.
