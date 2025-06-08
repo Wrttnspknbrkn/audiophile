@@ -12,32 +12,14 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Handle the specific case of "XX99 Mark II Headphones"
-    if (title.includes('XX99 Mark II Headphones')) {
-      return (
-        <span style={{ display: 'block' }}>
-          <span style={{ display: 'block' }}>XX99 Mark II</span>
-          <span style={{ display: 'block' }}>Headphones</span>
-        </span>
-      );
-    }
+    // Replace the space before "Headphones" with a special character that we'll style
+    const formattedTitle = title.replace(/\s+(?=Headphones)/i, '\n');
     
-    // Generic fallback: split at the last space before "Headphones"
-    const headphonesIndex = title.toLowerCase().lastIndexOf('headphones');
-    if (headphonesIndex > 0) {
-      const beforeHeadphones = title.substring(0, headphonesIndex).trim();
-      const headphones = title.substring(headphonesIndex).trim();
-      
-      return (
-        <span style={{ display: 'block' }}>
-          <span style={{ display: 'block' }}>{beforeHeadphones}</span>
-          <span style={{ display: 'block' }}>{headphones}</span>
-        </span>
-      );
-    }
-    
-    // If no "Headphones" found, return as-is
-    return title;
+    return (
+      <span style={{ whiteSpace: 'pre-line' }}>
+        {formattedTitle}
+      </span>
+    );
   };
 
   return (
@@ -80,7 +62,7 @@ const HeroSection: React.FC = () => {
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">
                 {content.hero.subtitle}
               </p>
-              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px] whitespace-pre-line">
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 max-w-[400px]">
                 {renderTitle(content.hero.title, true)}
               </h1>
               <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
