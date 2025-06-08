@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCMS } from '../cms/CMSProvider';
@@ -6,6 +5,27 @@ import { ResponsiveImage } from '../ui/responsive-image';
 
 const HeroSection: React.FC = () => {
   const { content } = useCMS();
+  
+  // Function to render title with smart line breaks for desktop
+  const renderTitle = (title: string, isDesktop: boolean = false) => {
+    if (!isDesktop) {
+      return title;
+    }
+    
+    // Split at "Headphones" for desktop layout
+    const parts = title.split(/(\bHeadphones\b)/i);
+    return parts.map((part, index) => {
+      if (part.toLowerCase() === 'headphones') {
+        return (
+          <React.Fragment key={index}>
+            <br />
+            {part}
+          </React.Fragment>
+        );
+      }
+      return part;
+    });
+  };
 
   return (
     <section className="bg-audiophile-dark overflow-hidden">
@@ -39,7 +59,7 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
-
+      
       <div className="hidden lg:block">
         <div className="max-w-[1110px] mx-auto px-0 relative">
           <div className="grid grid-cols-12 items-center h-[700px]">
@@ -47,8 +67,8 @@ const HeroSection: React.FC = () => {
               <p className="text-[14px] font-normal leading-[19px] tracking-[10px] uppercase mb-6 text-audiophile-white opacity-50">
                 {content.hero.subtitle}
               </p>
-              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6 whitespace-nowrap">
-                {content.hero.title}
+              <h1 className="text-[56px] font-bold leading-[58px] tracking-[2px] uppercase text-white mb-6">
+                {renderTitle(content.hero.title, true)}
               </h1>
               <p className="text-white opacity-75 text-[15px] font-medium leading-[25px] mb-10 max-w-[349px]">
                 {content.hero.description}
