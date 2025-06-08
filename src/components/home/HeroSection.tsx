@@ -16,7 +16,11 @@ const HeroSection: React.FC = () => {
     const formattedTitle = title.replace(/\s+(?=Headphones)/i, '\n');
     
     return (
-      <span style={{ whiteSpace: 'pre-line' }}>
+      <span style={{ 
+        whiteSpace: 'pre-line',
+        display: 'block',
+        width: '100%'
+      }}>
         {formattedTitle}
       </span>
     );
