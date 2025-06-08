@@ -1,47 +1,35 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
-import { CMSProvider } from "./components/cms/CMSProvider";
-import Index from "./pages/Index";
-import CategoryPage from "./pages/CategoryPage";
-import ProductPage from "./pages/ProductPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import CMSPage from "./pages/CMSPage";
-import NotFound from "./pages/NotFound";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
+import { CMSProvider } from './components/cms/CMSProvider';
+import { Toaster } from '@/components/ui/toaster';
+import HomePage from './pages/HomePage';
+import CategoryPage from './pages/CategoryPage';
+import ProductPage from './pages/ProductPage';
+import CheckoutPage from './pages/CheckoutPage';
+import CMSPage from './pages/CMSPage';
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
+function App() {
+  return (
+    <Router>
       <CMSProvider>
         <CartProvider>
-          <BrowserRouter>
+          <div className="App">
             <Routes>
-              {/* Main Website Routes */}
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/product/:slug" element={<ProductPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-              
-              {/* CMS Admin Routes */}
-              <Route path="/admin" element={<CMSPage />} />
               <Route path="/cms" element={<CMSPage />} />
-              
-              {/* Catch-all route */}
-              <Route path="*" element={<NotFound />} />
+              <Route path="/admin" element={<CMSPage />} />
             </Routes>
-          </BrowserRouter>
+            <Toaster />
+          </div>
         </CartProvider>
       </CMSProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </Router>
+  );
+}
 
 export default App;
