@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
       return title;
     }
     
-    // Split at "Headphones" for desktop layout
+    // Split at "Headphones" for desktop
     const parts = title.split(/(\bHeadphones\b)/i);
     return parts.map((part, index) => {
       if (part.toLowerCase() === 'headphones') {
